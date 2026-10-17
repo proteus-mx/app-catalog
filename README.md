@@ -1,28 +1,22 @@
-# Paul Thornton · App Catalogue
+# Sapphire Studios · App Catalogue
 
-A single-page static catalogue of every app published by **Paul Thornton** on the Apple App Store
-([developer page](https://apps.apple.com/us/developer/paul-thornton/id1203471660)).
+A single-page static showcase of every Sapphire Studios app on the Apple App Store.
 
 **Live site:** https://proteus-mx.github.io/app-catalog/
 
 ## What's here
 
-| File | Purpose |
+| Path | Purpose |
 | --- | --- |
-| `index.html` | The catalogue page: a card for each app with icon, name, genre, short description, price and App Store link |
-| `style.css` | Responsive styles with automatic light/dark mode (`prefers-color-scheme`) |
-| `app.js` | Small script for search and genre filtering |
-| `apps.json` | Raw app data (name, URL, icon, genre, price, platforms, version, dates, ratings, bundle ID) |
+| `index.html` | The catalogue: hero, recently updated apps, and a searchable, filterable grid of every app |
+| `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
+| `app.js` | Search and category filter (press `/` to jump to search) |
+| `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates |
+| `assets/icons/` | App icons (256×256 JPEG) |
 
 ## Data source
 
-App data comes from Apple's public iTunes Lookup API (US storefront):
-
-```
-https://itunes.apple.com/lookup?id=1203471660&entity=software&limit=200
-```
-
-Icons load from Apple's CDN (`mzstatic.com`) using the artwork URLs from that API.
+App details come from Apple's public iTunes Lookup API (US storefront). Every card links to the app's App Store page.
 
 ## Run locally
 
@@ -31,4 +25,4 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-No build step and no dependencies.
+No build step and no dependencies. The Inter font loads from Google Fonts and falls back to the system font.
