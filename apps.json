@@ -1,0 +1,907 @@
+{
+  "developer": {
+    "name": "Paul Thornton",
+    "id": 1203471660,
+    "url": "https://apps.apple.com/us/developer/paul-thornton/id1203471660"
+  },
+  "source": "iTunes Lookup API (US storefront)",
+  "fetched": "2026-10-17",
+  "apps": [
+    {
+      "id": 6810182204,
+      "name": "Powder Days",
+      "url": "https://apps.apple.com/us/app/powder-days/id6810182204",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/ef/8c/af/ef8cafd1-892a-475b-074f-30ef92a539e6/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Find your line in Powder Days, a colourful 3D skiing game packed with mountain scenery, flowing turns and downhill challenges.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Simulation",
+        "Adventure"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.3",
+      "releaseDate": "2026-09-21T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-14T16:32:19Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Powder-Days"
+    },
+    {
+      "id": 6806432874,
+      "name": "Word Bloom +",
+      "url": "https://apps.apple.com/us/app/word-bloom/id6806432874",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/98/39/74/9839747f-9b33-ec9f-4994-44909d4b4ed3/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "WordBloom is a relaxing daily word puzzle where every word you solve helps your garden grow.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Word",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.15",
+      "releaseDate": "2026-09-08T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-14T15:35:46Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Word-Bloom"
+    },
+    {
+      "id": 6807377423,
+      "name": "Squish It",
+      "url": "https://apps.apple.com/us/app/squish-it/id6807377423",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/73/90/15/73901597-6f2c-fcf1-71b0-1cb6511e07b9/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Meet Squish It — a playful, relaxing world of wonderfully squeezable 3D creations.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Simulation",
+        "Casual"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.5",
+      "releaseDate": "2026-09-11T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-13T07:10:14Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Squishy"
+    },
+    {
+      "id": 6809351438,
+      "name": "The Whispering Atlas",
+      "url": "https://apps.apple.com/us/app/the-whispering-atlas/id6809351438",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/74/41/96/7441960d-6421-c2f2-fc8b-9a6e84040684/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/256x256bb.jpg",
+      "description": "Grandfather Himpledink’s atlas is tearing at the folds — and the town of Brambleport is tearing with it. You are the quiet third adventurer.",
+      "genre": "Book",
+      "genres": [
+        "Books",
+        "Entertainment"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2026-09-23T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-12T21:31:07Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.hbfl"
+    },
+    {
+      "id": 6752210028,
+      "name": "Sculpt It",
+      "url": "https://apps.apple.com/us/app/sculpt-it/id6752210028",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/dc/ad/54/dcad547c-7382-5543-5442-2216c81a4f02/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Sculpt It is an intuitive and creative 3D sculpting playground designed for all ages. Shape, mold, and transform a virtual sphere using natural touch gestures or your mouse.",
+      "genre": "Entertainment",
+      "genres": [
+        "Entertainment",
+        "Graphics & Design"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.9",
+      "releaseDate": "2025-11-20T08:00:00Z",
+      "currentVersionReleaseDate": "2026-10-12T18:44:13Z",
+      "rating": 3,
+      "ratingCount": 4,
+      "bundleId": "com.proteusmx.Sculpt-It"
+    },
+    {
+      "id": 6746311515,
+      "name": "Grid Wars",
+      "url": "https://apps.apple.com/us/app/grid-wars/id6746311515",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/4f/af/0c/4faf0c96-ddeb-d42f-6e29-bfbc4bd6820a/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Grid Wars is a fast-paced strategy game where every line matters.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Action",
+        "Entertainment",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.6",
+      "releaseDate": "2025-05-27T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-12T18:09:22Z",
+      "rating": 1,
+      "ratingCount": 3,
+      "bundleId": "com.proteusmx.Grid-Wars"
+    },
+    {
+      "id": 6746024891,
+      "name": "Databricks Quiz",
+      "url": "https://apps.apple.com/us/app/databricks-quiz/id6746024891",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/60/94/09/60940939-e9c8-99c8-c8e5-c8595e5625e8/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Build your Databricks data engineering knowledge with focused practice for every stage of your learning journey.",
+      "genre": "Education",
+      "genres": [
+        "Education",
+        "Developer Tools"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.2",
+      "releaseDate": "2025-05-24T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-05T14:49:43Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.databricks-quiz"
+    },
+    {
+      "id": 6794566268,
+      "name": "Dot Connect",
+      "url": "https://apps.apple.com/us/app/dot-connect/id6794566268",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a1/56/46/a1564647-0bc2-1429-e913-2f768d1accee/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Dice Colour Connect is a fast, colourful strategy game where every turn starts with a roll of the dice.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Family",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.4",
+      "releaseDate": "2026-08-06T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-05T14:49:30Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Dot-Connect"
+    },
+    {
+      "id": 6815631337,
+      "name": "Family Ping",
+      "url": "https://apps.apple.com/us/app/family-ping/id6815631337",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c8/2e/58/c82e5813-b744-bc3f-7cac-91f0526ac8dd/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "FamilyPing is the fast, simple way to get everyone's attention at home.",
+      "genre": "Utilities",
+      "genres": [
+        "Utilities",
+        "Lifestyle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2026-09-30T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-01T20:13:43Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.paulthornton.FamilyPing"
+    },
+    {
+      "id": 6812204421,
+      "name": "Pocket Pong +",
+      "url": "https://apps.apple.com/us/app/pocket-pong/id6812204421",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f2/6f/b1/f26fb115-5e52-47b9-a080-f1929e1d5190/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Pocket Pong is a fast, modern take on the classic paddle game, designed for quick solo matches and multiplayer battles with up to four players.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Action",
+        "Casual"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2026-09-23T07:00:00Z",
+      "currentVersionReleaseDate": "2026-09-23T19:50:12Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.pocket-pong"
+    },
+    {
+      "id": 6802267984,
+      "name": "Global Shield",
+      "url": "https://apps.apple.com/us/app/global-shield/id6802267984",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/27/89/4d/27894d10-dc65-077c-72ed-ace0b4b9c65d/AppIcon-0-0-1x_U007ephone-0-1-P3-85-220.png/256x256bb.jpg",
+      "description": "Global Shield is a cinematic global defence strategy game that puts you in command of an advanced orbital defence network.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Strategy",
+        "Simulation"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2026-09-17T07:00:00Z",
+      "currentVersionReleaseDate": "2026-09-17T09:39:56Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Global-Shield"
+    },
+    {
+      "id": 6800574686,
+      "name": "Say What",
+      "url": "https://apps.apple.com/us/app/say-what/id6800574686",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/8e/b1/87/8eb18702-ff02-78f3-11a5-6d0e0fe63b44/AppIcon-0-0-1x_U007ephone-0-1-P3-85-220.png/256x256bb.jpg",
+      "description": "Say What? is a fast, fun word-guessing game made for family and friends.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Family",
+        "Entertainment",
+        "Word"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2026-08-26T07:00:00Z",
+      "currentVersionReleaseDate": "2026-08-26T20:06:02Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Say-What"
+    },
+    {
+      "id": 6801763407,
+      "name": "Fallacy Quest",
+      "url": "https://apps.apple.com/us/app/fallacy-quest/id6801763407",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/3e/30/46/3e3046d3-b2a9-0129-f593-9568ef4b2ac9/AppIcon-0-0-1x_U007ephone-0-1-P3-85-220.png/256x256bb.jpg",
+      "description": "Learn to spot weak arguments and think more clearly.",
+      "genre": "Education",
+      "genres": [
+        "Education",
+        "Utilities"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2026-08-18T07:00:00Z",
+      "currentVersionReleaseDate": "2026-08-26T20:00:31Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Fallacy-Quest"
+    },
+    {
+      "id": 6799896223,
+      "name": "Beat Burst",
+      "url": "https://apps.apple.com/us/app/beat-burst/id6799896223",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/59/2b/1f/592b1f77-00e5-cb7c-4d5b-817a11ab4672/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/256x256bb.jpg",
+      "description": "Turn up the music and watch Beat Burst come alive!",
+      "genre": "Music",
+      "genres": [
+        "Music",
+        "Music",
+        "Games"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.2",
+      "releaseDate": "2026-08-14T07:00:00Z",
+      "currentVersionReleaseDate": "2026-08-18T07:39:26Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Beat-Burst"
+    },
+    {
+      "id": 6799309680,
+      "name": "Shuffle Puzzle +",
+      "url": "https://apps.apple.com/us/app/shuffle-puzzle/id6799309680",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/26/76/d9/2676d9de-942a-ee1b-284a-ce5b6795f796/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/256x256bb.jpg",
+      "description": "Shuffle, sort and solve!",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Family",
+        "Education",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2026-08-15T07:00:00Z",
+      "currentVersionReleaseDate": "2026-08-16T17:12:23Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Shuffle-Puzzle"
+    },
+    {
+      "id": 6755647575,
+      "name": "Pencil Battle",
+      "url": "https://apps.apple.com/us/app/pencil-battle/id6755647575",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/29/ef/72/29ef7215-6152-b509-6763-d4688e115261/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Pencil Battle is a fast-paced arena shooter where you pilot a living pencil, dodge hostile pencil marks, draw shields with a tap-and-hold trail, and collect power-ups to survive increasingly chaotic waves. Customize your pencil, upgrade…",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Strategy",
+        "Action",
+        "Entertainment"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.2",
+      "releaseDate": "2025-12-01T08:00:00Z",
+      "currentVersionReleaseDate": "2026-02-20T00:20:09Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Pencil-Battle"
+    },
+    {
+      "id": 6749749237,
+      "name": "Memory Magic",
+      "url": "https://apps.apple.com/us/app/memory-magic/id6749749237",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/00/df/e0/00dfe06a-0884-e2d0-f3fe-5a33617d5939/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Memory Magic is a vibrant 3D memory-matching game where players flip tiles to find pairs in a grid that grows up to 7x7. With a dynamic starfield, unique patterns, and a sleek interface, it offers engaging gameplay with Autoplay, a…",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Action",
+        "Entertainment",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.3",
+      "releaseDate": "2025-08-11T07:00:00Z",
+      "currentVersionReleaseDate": "2025-11-30T19:47:27Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Memory-Magic"
+    },
+    {
+      "id": 6745674718,
+      "name": "tronAIx",
+      "url": "https://apps.apple.com/us/app/tronaix/id6745674718",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/3d/11/b0/3d11b0ff-c029-702a-dbf3-63efec9dcc5f/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Navigate the neon grid, outmanoeuvre your opponent, and claim territory by creating walls. Survive longer and cover more ground to win!",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Strategy",
+        "Action"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.4",
+      "releaseDate": "2025-05-14T07:00:00Z",
+      "currentVersionReleaseDate": "2025-11-20T00:07:19Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.tronAIx"
+    },
+    {
+      "id": 6749785283,
+      "name": "Sphere Tronic",
+      "url": "https://apps.apple.com/us/app/sphere-tronic/id6749785283",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/51/19/2d/51192d0f-4b8b-c261-6191-71d4a76bffc5/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "SphereTronic is an electrifying 3D strategy game set on a dynamic, hexagonal-tiled sphere. Control the Red Player with an intuitive joystick to navigate the sphere's surface, claiming territory by visiting hexagonal tiles while avoiding…",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Action",
+        "Strategy",
+        "Entertainment"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2025-08-10T07:00:00Z",
+      "currentVersionReleaseDate": "2025-11-18T22:34:28Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Sphere-Tronic"
+    },
+    {
+      "id": 6751021138,
+      "name": "Gospel Map",
+      "url": "https://apps.apple.com/us/app/gospel-map/id6751021138",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/38/f4/04/38f40468-308a-ba95-7c25-48752f35b991/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Interactive New Testament Bible explorer with 3D mindmap, categorised book summaries, verse reader, timeline, calendar, glossary, and quiz.",
+      "genre": "Education",
+      "genres": [
+        "Education",
+        "Entertainment"
+      ],
+      "price": 0.49,
+      "formattedPrice": "$0.49",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-08-18T07:00:00Z",
+      "currentVersionReleaseDate": "2025-08-18T17:33:06Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Gospel-Map"
+    },
+    {
+      "id": 6749925615,
+      "name": "Block Challenge",
+      "url": "https://apps.apple.com/us/app/block-challenge/id6749925615",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/9d/ec/a2/9deca240-c166-0129-7f04-d83753a95910/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Block Challenge is a 3D puzzle-building game where you recreate cube structures as fast and accurately as possible. Using your creativity and spatial skills, drag and place colorful cubes to match the glowing red wireframe targets.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Action",
+        "Entertainment",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-08-14T07:00:00Z",
+      "currentVersionReleaseDate": "2025-08-14T09:55:49Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Block-Challenge"
+    },
+    {
+      "id": 6745310697,
+      "name": "WordAIly Learn",
+      "url": "https://apps.apple.com/us/app/wordaily-learn/id6745310697",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/9a/c6/4f/9ac64f62-9f4b-a14f-9ac0-a9cc347226a0/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "About the Game",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Puzzle",
+        "Education",
+        "Word"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.2",
+      "releaseDate": "2025-05-02T07:00:00Z",
+      "currentVersionReleaseDate": "2025-08-13T22:22:47Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.WordAIly"
+    },
+    {
+      "id": 6749835004,
+      "name": "Speed Read",
+      "url": "https://apps.apple.com/us/app/speed-read/id6749835004",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/31/84/59/31845916-a995-ea5b-068f-a13b8b36ce97/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Speed Reader is a utility designed to enhance reading speed and comprehension by displaying text in a rapid, customisable sequence. Users can input their own text or select from preloaded samples, such as excerpts from classic…",
+      "genre": "Productivity",
+      "genres": [
+        "Productivity",
+        "Utilities"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-08-12T07:00:00Z",
+      "currentVersionReleaseDate": "2025-08-12T11:37:24Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Speed-Read"
+    },
+    {
+      "id": 6749471540,
+      "name": "Life in Balance",
+      "url": "https://apps.apple.com/us/app/life-in-balance/id6749471540",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/67/1f/6a/671f6a28-5fdf-08df-ef30-db6b1f3abc3a/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Life in Balance is an interactive utility (leveraging a \"Life Radar\") for self-assessing balance across 12 life areas via sliders and radar charts, aiming for scores near 5 (ideal neutrality) on a 0-10 scale, with personalised tips and…",
+      "genre": "Entertainment",
+      "genres": [
+        "Entertainment",
+        "Health & Fitness"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-08-11T07:00:00Z",
+      "currentVersionReleaseDate": "2025-08-11T09:47:18Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Life-Balance"
+    },
+    {
+      "id": 6746716792,
+      "name": "BotWars",
+      "url": "https://apps.apple.com/us/app/botwars/id6746716792",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9f/25/a5/9f25a59b-1ff9-6eb6-5bda-fcbb3388c1a4/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "\"Bot Wars\" is a fast-paced 3D arena game where you control a robot, battle enemies, and collect power-ups. Features dynamic levels, weapon upgrades, and strategic gameplay.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Action",
+        "Simulation"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-08-10T07:00:00Z",
+      "currentVersionReleaseDate": "2025-08-11T06:34:16Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.BotWars"
+    },
+    {
+      "id": 6746739544,
+      "name": "Ultimate Fidget Spinner",
+      "url": "https://apps.apple.com/us/app/ultimate-fidget-spinner/id6746739544",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/ca/f6/67caf6cd-d81a-85f3-0cd0-dd16d7268049/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Spin the fidget spinner by dragging with your finger. Customize with a variety of designs, colors, patterns, and trail effects, or enable auto-play for random spins and dynamic style changes!",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Family",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "2.0",
+      "releaseDate": "2025-06-03T07:00:00Z",
+      "currentVersionReleaseDate": "2025-08-10T08:55:26Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Fidget"
+    },
+    {
+      "id": 6749191610,
+      "name": "Block Race",
+      "url": "https://apps.apple.com/us/app/block-race/id6749191610",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f4/3e/2c/f43e2ce9-8a39-ead3-02fd-29ef222fb06b/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Slide squares into the empty space to match the 3x3 pattern in the centre of the 5x5 grid. Click or tap tiles in the same row or column as the empty space to move them.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Puzzle",
+        "Board",
+        "Entertainment"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-07-29T07:00:00Z",
+      "currentVersionReleaseDate": "2025-07-29T09:54:23Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Block-Race"
+    },
+    {
+      "id": 6746059198,
+      "name": "DNA Simulator",
+      "url": "https://apps.apple.com/us/app/dna-simulator/id6746059198",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/80/9e/2f/809e2f1b-ee67-cda1-447c-31ec037a6748/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Explore and learn about DNA. Control and move around the DNA.",
+      "genre": "Medical",
+      "genres": [
+        "Medical",
+        "Education"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-05-27T07:00:00Z",
+      "currentVersionReleaseDate": "2025-05-27T08:26:13Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.dna-sim"
+    },
+    {
+      "id": 6746138959,
+      "name": "Operation Order",
+      "url": "https://apps.apple.com/us/app/operation-order/id6746138959",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/5b/99/21/5b9921f3-8f25-9e99-8f52-5a562648bc0a/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Learn the order of operations through step-by-step visualisations of mathematical expressions.",
+      "genre": "Education",
+      "genres": [
+        "Education",
+        "Family",
+        "Games",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-05-24T07:00:00Z",
+      "currentVersionReleaseDate": "2025-05-24T08:43:59Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.Operation-Order"
+    },
+    {
+      "id": 6745788334,
+      "name": "BlastarX",
+      "url": "https://apps.apple.com/us/app/blastarx/id6745788334",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/68/06/55/68065580-b654-9006-9978-4552275c4f2a/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Blast your way across the universe, destroy freighters, watch out for bombs and laser beams. Collect power ups - shields, extra fire power, and even a buddy ship.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Education",
+        "Simulation",
+        "Action"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2025-05-15T07:00:00Z",
+      "currentVersionReleaseDate": "2025-05-23T06:05:06Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.BlastarX"
+    },
+    {
+      "id": 6746059639,
+      "name": "IDFA",
+      "url": "https://apps.apple.com/us/app/idfa/id6746059639",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/86/48/54/864854f2-9b5b-31e2-d832-a797748aad0b/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Get your device's Identifier for Advertisers and system info.",
+      "genre": "Developer Tools",
+      "genres": [
+        "Developer Tools",
+        "Utilities"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2025-05-19T07:00:00Z",
+      "currentVersionReleaseDate": "2025-05-23T06:03:20Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.IDFA"
+    },
+    {
+      "id": 6745421812,
+      "name": "SaiMON",
+      "url": "https://apps.apple.com/us/app/saimon/id6745421812",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/8f/02/3b/8f023bcd-49a4-fc56-6c90-05a898e2fbf0/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Watch the sequence of colored shapes and repeat it by clicking them in the correct order. Bonus points for speed.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Action",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.2",
+      "releaseDate": "2025-05-06T07:00:00Z",
+      "currentVersionReleaseDate": "2025-05-23T06:03:04Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.SaiMON"
+    },
+    {
+      "id": 6745460754,
+      "name": "tAc-tIc-toe",
+      "url": "https://apps.apple.com/us/app/tac-tic-toe/id6745460754",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a5/28/14/a528148a-a1f9-810d-1a42-6a9b13a84aef/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
+      "description": "Welcome to tAc-tIc-toe! Play on a 3D 3x3x3 cube.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Action",
+        "Puzzle",
+        "Entertainment"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.2",
+      "releaseDate": "2025-05-08T07:00:00Z",
+      "currentVersionReleaseDate": "2025-05-23T06:02:38Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.tAc-tIc-toe"
+    },
+    {
+      "id": 6746109051,
+      "name": "Wordaily Watch",
+      "url": "https://apps.apple.com/us/app/wordaily-watch/id6746109051",
+      "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/cb/52/8d/cb528d5f-83a3-76e8-4dfc-47be36536ca0/AppIcon-0-0-1x_U007ewatch-0-1-85-220.png/256x256bb.jpg",
+      "description": "WordaiIly Watch is a fast-paced, educational game designed to sharpen your grammar skills while keeping things fun and engaging. Whether you’re a student, teacher, language learner, or just love word games, WordaiIly Watch will…",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Puzzle",
+        "Word",
+        "Education"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad",
+        "Apple Watch"
+      ],
+      "version": "1.0",
+      "releaseDate": "2025-05-21T07:00:00Z",
+      "currentVersionReleaseDate": "2025-05-21T21:26:18Z",
+      "rating": 0,
+      "ratingCount": 0,
+      "bundleId": "com.proteusmx.WordailyWatch"
+    }
+  ]
+}
