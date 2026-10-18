@@ -835,5 +835,25 @@
       "currentVersionReleaseDate": "2025-05-21T21:26:18Z",
       "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/cb/52/8d/cb528d5f-83a3-76e8-4dfc-47be36536ca0/AppIcon-0-0-1x_U007ewatch-0-1-85-220.png/512x512bb.jpg"
     }
+  ],
+  "comingSoon": [
+    {
+      "name": "Melt It",
+      "status": "Coming soon",
+      "icon": "assets/icons/melt-it.jpg",
+      "collection": "It Collection",
+      "description": "Melt away the day with realistic 3D melting, soothing ASMR sounds and hidden gems. Earn XP, unlock unique shapes and materials, or simply relax and melt at your own pace.",
+      "url": null
+    }
+  ],
+  "collections": [
+    {
+      "name": "The It Collection",
+      "apps": [
+        "Sculpt It",
+        "Squish It",
+        "Melt It"
+      ]
+    }
   ]
 }

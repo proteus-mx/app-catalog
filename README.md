@@ -8,11 +8,11 @@ A single-page static showcase of every Sapphire Studios app on the Apple App Sto
 
 | Path | Purpose |
 | --- | --- |
-| `index.html` | The catalogue: hero, recently updated apps, and a searchable, filterable grid of every app |
+| `index.html` | The catalogue: hero, The "It" Collection (Sculpt It, Squish It, Melt It: coming soon), recently updated apps, and a searchable, filterable grid of every app |
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
 | `app.js` | Search and category filter (press `/` to jump to search) |
-| `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates |
-| `assets/icons/` | App icons (256×256 JPEG) |
+| `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates. Upcoming titles live under `comingSoon` and collections under `collections` |
+| `assets/icons/` | App icons (256×256 JPEG; `melt-it.jpg` is 512×512) |
 
 ## Data source
 
