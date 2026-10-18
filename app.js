@@ -69,7 +69,7 @@
       k === i ? p.setAttribute('aria-current', 'true') : p.removeAttribute('aria-current');
     });
     const bar = pills[i].parentElement, p = pills[i];
-    if (bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: p.offsetLeft - (bar.clientWidth - p.offsetWidth) / 2, behavior: reduce.matches ? 'auto' : 'smooth' });
+    if (bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: bar.scrollLeft + p.getBoundingClientRect().left - bar.getBoundingClientRect().left - (bar.clientWidth - p.offsetWidth) / 2, behavior: reduce.matches ? 'auto' : 'smooth' });
     track.setAttribute('aria-live', manual ? 'polite' : 'off');
     restartBar();
     setHeight();
