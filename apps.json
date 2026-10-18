@@ -5,8 +5,56 @@
     "appStoreId": 1203471660
   },
   "source": "iTunes Lookup API (US storefront)",
-  "fetched": "2026-10-17",
+  "fetched": "2026-10-19",
   "apps": [
+    {
+      "id": 6806432874,
+      "name": "Word Bloom +",
+      "url": "https://apps.apple.com/us/app/word-bloom/id6806432874",
+      "icon": "assets/icons/word-bloom.jpg",
+      "description": "WordBloom is a relaxing daily word puzzle where every word you solve helps your garden grow.",
+      "genre": "Games",
+      "genres": [
+        "Games",
+        "Entertainment",
+        "Word",
+        "Puzzle"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.16",
+      "releaseDate": "2026-09-08T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-18T20:27:53Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/86/10/39/861039bb-42f0-e7b8-6d6b-ba0a33d46e05/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+    },
+    {
+      "id": 6746059198,
+      "name": "DNA Simulator",
+      "url": "https://apps.apple.com/us/app/dna-simulator/id6746059198",
+      "icon": "assets/icons/dna-simulator.jpg",
+      "description": "Explore and learn about DNA. Control and move around the DNA.",
+      "genre": "Medical",
+      "genres": [
+        "Medical",
+        "Education"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2025-05-27T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-18T01:11:57Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/6a/01/9c/6a019c71-844d-5547-9329-9b76aaf83781/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+    },
     {
       "id": 6810182204,
       "name": "Powder Days",
@@ -31,31 +79,6 @@
       "releaseDate": "2026-09-21T07:00:00Z",
       "currentVersionReleaseDate": "2026-10-14T16:32:19Z",
       "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/ef/8c/af/ef8cafd1-892a-475b-074f-30ef92a539e6/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
-    },
-    {
-      "id": 6806432874,
-      "name": "Word Bloom +",
-      "url": "https://apps.apple.com/us/app/word-bloom/id6806432874",
-      "icon": "assets/icons/word-bloom.jpg",
-      "description": "WordBloom is a relaxing daily word puzzle where every word you solve helps your garden grow.",
-      "genre": "Games",
-      "genres": [
-        "Games",
-        "Entertainment",
-        "Word",
-        "Puzzle"
-      ],
-      "price": 0.0,
-      "formattedPrice": "Free",
-      "kind": "software",
-      "platforms": [
-        "iPhone",
-        "iPad"
-      ],
-      "version": "1.15",
-      "releaseDate": "2026-09-08T07:00:00Z",
-      "currentVersionReleaseDate": "2026-10-14T15:35:46Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/98/39/74/9839747f-9b33-ec9f-4994-44909d4b4ed3/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6807377423,
@@ -663,29 +686,6 @@
       "releaseDate": "2025-07-29T07:00:00Z",
       "currentVersionReleaseDate": "2025-07-29T09:54:23Z",
       "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f4/3e/2c/f43e2ce9-8a39-ead3-02fd-29ef222fb06b/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
-    },
-    {
-      "id": 6746059198,
-      "name": "DNA Simulator",
-      "url": "https://apps.apple.com/us/app/dna-simulator/id6746059198",
-      "icon": "assets/icons/dna-simulator.jpg",
-      "description": "Explore and learn about DNA. Control and move around the DNA.",
-      "genre": "Medical",
-      "genres": [
-        "Medical",
-        "Education"
-      ],
-      "price": 0.0,
-      "formattedPrice": "Free",
-      "kind": "software",
-      "platforms": [
-        "iPhone",
-        "iPad"
-      ],
-      "version": "1.0",
-      "releaseDate": "2025-05-27T07:00:00Z",
-      "currentVersionReleaseDate": "2025-05-27T08:26:13Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/80/9e/2f/809e2f1b-ee67-cda1-447c-31ec037a6748/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746138959,
