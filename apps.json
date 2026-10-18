@@ -848,11 +848,96 @@
   ],
   "collections": [
     {
-      "name": "The It Collection",
+      "id": "it",
+      "name": "The \"It\" Collection",
+      "tagline": "Shape it. Squish it. Melt it. Three tactile 3D games made for unwinding.",
+      "accent": [
+        "#2f6bff",
+        "#7c3aed"
+      ],
       "apps": [
         "Sculpt It",
         "Squish It",
         "Melt It"
+      ]
+    },
+    {
+      "id": "words",
+      "name": "Word Lovers",
+      "tagline": "Daily word puzzles, grammar sprints and a family guessing game.",
+      "accent": [
+        "#10b981",
+        "#2f6bff"
+      ],
+      "apps": [
+        "Word Bloom +",
+        "WordAIly Learn",
+        "Wordaily Watch",
+        "Say What"
+      ]
+    },
+    {
+      "id": "brain",
+      "name": "Brain Teasers",
+      "tagline": "Sort, slide, build and remember: puzzles for a sharp mind.",
+      "accent": [
+        "#06b6d4",
+        "#6366f1"
+      ],
+      "apps": [
+        "Shuffle Puzzle +",
+        "Block Race",
+        "Block Challenge",
+        "Memory Magic",
+        "SaiMON"
+      ]
+    },
+    {
+      "id": "rivals",
+      "name": "Grid Rivals",
+      "tagline": "Claim the board with dots, hexes and neon trails, against friends or the AI.",
+      "accent": [
+        "#ec4899",
+        "#6366f1"
+      ],
+      "apps": [
+        "Grid Wars",
+        "Dot Connect",
+        "tAc-tIc-toe",
+        "tronAIx",
+        "Sphere Tronic"
+      ]
+    },
+    {
+      "id": "arcade",
+      "name": "Arcade Action",
+      "tagline": "Paddles, power-ups and laser fire for quick, high-energy sessions.",
+      "accent": [
+        "#f97316",
+        "#e11d48"
+      ],
+      "apps": [
+        "Pocket Pong +",
+        "BlastarX",
+        "Pencil Battle",
+        "BotWars",
+        "Global Shield"
+      ]
+    },
+    {
+      "id": "learn",
+      "name": "Learn Something",
+      "tagline": "Quizzes and interactive explainers that make learning stick.",
+      "accent": [
+        "#eab308",
+        "#2f6bff"
+      ],
+      "apps": [
+        "Fallacy Quest",
+        "Operation Order",
+        "DNA Simulator",
+        "Databricks Quiz",
+        "Gospel Map"
       ]
     }
   ]
