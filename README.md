@@ -12,6 +12,7 @@ A single-page static showcase of every Sapphire Studios app on the Apple App Sto
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
 | `app.js` | Search and category filter (press `/` to jump to search), plus the collections carousel |
 | `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates. Upcoming titles live under `comingSoon` and collections under `collections` |
+| `assets/glow/` | Pre-blurred icon glows used behind featured cards (avoids costly CSS blur filters in Safari) |
 | `assets/icons/` | App icons (256×256 JPEG; `melt-it.jpg` is 512×512) |
 
 ## Data source
@@ -41,3 +42,8 @@ The carousel near the top rotates through curated collections defined in `apps.j
 | Learn Something | Fallacy Quest, Operation Order, DNA Simulator, Databricks Quiz, Gospel Map |
 
 The carousel rotates every 6.5 seconds. It pauses on hover, on keyboard focus and while the tab is hidden, and stays still when the system asks for reduced motion. You can also move through it with the arrow buttons, the collection buttons, the left and right arrow keys, or a swipe on touch screens, and there's a pause/play button.
+
+## Browser notes
+
+- `index.html` loads `style.css?v=…` and `app.js?v=…`. GitHub Pages caches files for 10 minutes, so **change the `v` value whenever you edit either file**. Without that, browsers (Safari especially) can pair new HTML with an old cached stylesheet and script.
+- Tested in Safari/WebKit (desktop and iPhone), Chrome and Chromium. The site works back to Safari 15: newer CSS such as `color-mix()` has plain colour fallbacks, `inert` has a tab-order fallback, and `backdrop-filter` is kept to a few large surfaces for performance.

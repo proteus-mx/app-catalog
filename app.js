@@ -50,6 +50,20 @@
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   let i = 0, playing = !reduce.matches, timer = null, start = 0, remaining = DUR;
   const holds = new Set();
+  const hasInert = 'inert' in HTMLElement.prototype;
+  const FOCUSABLE = 'a[href],button,input,select,textarea,[tabindex]';
+  root.classList.add('js');
+  function setInactive(s, off) {
+    if (off) { s.setAttribute('inert', ''); s.setAttribute('aria-hidden', 'true'); }
+    else { s.removeAttribute('inert'); s.removeAttribute('aria-hidden'); }
+    if (!hasInert) {
+      // Safari < 15.5: emulate inert by taking hidden slides' controls out of the tab order
+      s.querySelectorAll(FOCUSABLE).forEach(el => {
+        if (off) { if (!el.hasAttribute('data-tab')) el.setAttribute('data-tab', el.getAttribute('tabindex') || ''); el.setAttribute('tabindex', '-1'); }
+        else if (el.hasAttribute('data-tab')) { const t = el.getAttribute('data-tab'); t ? el.setAttribute('tabindex', t) : el.removeAttribute('tabindex'); el.removeAttribute('data-tab'); }
+      });
+    }
+  }
   root.style.setProperty('--dur', DUR + 'ms');
 
   function setHeight() { viewport.style.height = slides[i].offsetHeight + 'px'; }
@@ -58,18 +72,19 @@
   }
   function go(n, manual) {
     i = (n + slides.length) % slides.length;
-    track.style.transform = `translateX(${-100 * i}%)`;
-    slides.forEach((s, k) => {
-      const on = k === i;
-      s.toggleAttribute('inert', !on);
-      on ? s.removeAttribute('aria-hidden') : s.setAttribute('aria-hidden', 'true');
-    });
+    const tf = 'translateX(' + (-100 * i) + '%)';
+    track.style.webkitTransform = tf;
+    track.style.transform = tf;
+    slides.forEach((s, k) => setInactive(s, k !== i));
     pills.forEach((p, k) => {
       p.classList.toggle('active', k === i);
       k === i ? p.setAttribute('aria-current', 'true') : p.removeAttribute('aria-current');
     });
     const bar = pills[i].parentElement, p = pills[i];
-    if (bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: bar.scrollLeft + p.getBoundingClientRect().left - bar.getBoundingClientRect().left - (bar.clientWidth - p.offsetWidth) / 2, behavior: reduce.matches ? 'auto' : 'smooth' });
+    if (bar.scrollWidth > bar.clientWidth) {
+      const left = bar.scrollLeft + p.getBoundingClientRect().left - bar.getBoundingClientRect().left - (bar.clientWidth - p.offsetWidth) / 2;
+      try { bar.scrollTo({ left, behavior: reduce.matches ? 'auto' : 'smooth' }); } catch (_) { bar.scrollLeft = left; }
+    }
     track.setAttribute('aria-live', manual ? 'polite' : 'off');
     restartBar();
     setHeight();
@@ -104,10 +119,14 @@
 
   root.addEventListener('mouseenter', () => hold('hover', true));
   root.addEventListener('mouseleave', () => hold('hover', false));
-  root.addEventListener('focusin', () => hold('focus', true));
+  // Pause for keyboard focus only; a mouse click focuses buttons in some browsers and would pause forever
+  const kbdFocus = el => { try { return el.matches(':focus-visible'); } catch (_) { return true; } };
+  root.addEventListener('focusin', e => hold('focus', kbdFocus(e.target)));
   root.addEventListener('focusout', e => { if (!root.contains(e.relatedTarget)) hold('focus', false); });
   document.addEventListener('visibilitychange', () => hold('hidden', document.hidden));
-  reduce.addEventListener?.('change', e => { if (e.matches) setPlaying(false); });
+  const onReduce = e => { if (e.matches) setPlaying(false); };
+  if (reduce.addEventListener) reduce.addEventListener('change', onReduce);
+  else if (reduce.addListener) reduce.addListener(onReduce); // Safari < 14
 
   root.addEventListener('keydown', e => {
     if (e.target.closest('input,textarea')) return;
