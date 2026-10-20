@@ -5,8 +5,31 @@
     "appStoreId": 1203471660
   },
   "source": "iTunes Lookup API (US storefront)",
-  "fetched": "2026-10-19",
+  "fetched": "2026-10-21",
   "apps": [
+    {
+      "id": 6751021138,
+      "name": "Gospel Map",
+      "url": "https://apps.apple.com/us/app/gospel-map/id6751021138",
+      "icon": "assets/icons/gospel-map.jpg",
+      "description": "Interactive New Testament Bible explorer with 3D mindmap, categorised book summaries, verse reader, timeline, calendar, glossary, and quiz.",
+      "genre": "Education",
+      "genres": [
+        "Education",
+        "Entertainment"
+      ],
+      "price": 0.49,
+      "formattedPrice": "$0.49",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.1",
+      "releaseDate": "2025-08-18T07:00:00Z",
+      "currentVersionReleaseDate": "2026-10-20T09:11:03Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/6d/50/7b/6d507b60-d3ab-3eb9-649a-72d2babb2005/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+    },
     {
       "id": 6806432874,
       "name": "Word Bloom +",
@@ -27,10 +50,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.16",
+      "version": "1.17",
       "releaseDate": "2026-09-08T07:00:00Z",
-      "currentVersionReleaseDate": "2026-10-18T20:27:53Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/86/10/39/861039bb-42f0-e7b8-6d6b-ba0a33d46e05/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-10-19T22:54:16Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c2/76/4e/c2764e7b-01b6-702a-c17c-9417dd0cd1ba/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746059198,
@@ -492,29 +515,6 @@
       "releaseDate": "2025-08-10T07:00:00Z",
       "currentVersionReleaseDate": "2025-11-18T22:34:28Z",
       "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/51/19/2d/51192d0f-4b8b-c261-6191-71d4a76bffc5/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
-    },
-    {
-      "id": 6751021138,
-      "name": "Gospel Map",
-      "url": "https://apps.apple.com/us/app/gospel-map/id6751021138",
-      "icon": "assets/icons/gospel-map.jpg",
-      "description": "Interactive New Testament Bible explorer with 3D mindmap, categorised book summaries, verse reader, timeline, calendar, glossary, and quiz.",
-      "genre": "Education",
-      "genres": [
-        "Education",
-        "Entertainment"
-      ],
-      "price": 0.49,
-      "formattedPrice": "$0.49",
-      "kind": "software",
-      "platforms": [
-        "iPhone",
-        "iPad"
-      ],
-      "version": "1.0",
-      "releaseDate": "2025-08-18T07:00:00Z",
-      "currentVersionReleaseDate": "2025-08-18T17:33:06Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/38/f4/04/38f40468-308a-ba95-7c25-48752f35b991/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6749925615,
