@@ -5,7 +5,7 @@
     "appStoreId": 1203471660
   },
   "source": "iTunes Lookup API (US storefront)",
-  "fetched": "2026-10-21",
+  "fetched": "2026-10-22",
   "apps": [
     {
       "id": 6751021138,
@@ -18,8 +18,8 @@
         "Education",
         "Entertainment"
       ],
-      "price": 0.49,
-      "formattedPrice": "$0.49",
+      "price": 0.0,
+      "formattedPrice": "Free",
       "kind": "software",
       "platforms": [
         "iPhone",
@@ -50,10 +50,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.17",
+      "version": "1.19",
       "releaseDate": "2026-09-08T07:00:00Z",
-      "currentVersionReleaseDate": "2026-10-19T22:54:16Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c2/76/4e/c2764e7b-01b6-702a-c17c-9417dd0cd1ba/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-10-21T20:36:22Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f9/7c/3a/f97c3a9b-1560-bb29-3eaa-271407accc0a/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746059198,
@@ -169,10 +169,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.9",
+      "version": "1.10",
       "releaseDate": "2025-11-20T08:00:00Z",
-      "currentVersionReleaseDate": "2026-10-12T18:44:13Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/dc/ad/54/dcad547c-7382-5543-5442-2216c81a4f02/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-10-21T20:40:53Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/01/63/84/01638495-5ed4-671f-094f-d2c0a17016d3/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746311515,
@@ -194,10 +194,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.6",
+      "version": "1.7",
       "releaseDate": "2025-05-27T07:00:00Z",
-      "currentVersionReleaseDate": "2026-10-12T18:09:22Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/4f/af/0c/4faf0c96-ddeb-d42f-6e29-bfbc4bd6820a/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-10-21T20:43:09Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/6a/35/ed/6a35ed31-0b9c-7495-4557-d9ef96cce404/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746024891,
