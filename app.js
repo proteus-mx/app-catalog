@@ -35,6 +35,72 @@
   });
   cards.forEach((c, i) => c.style.animationDelay = `${Math.min(i, 12) * 40}ms`);
   apply();
+
+  /* Floating hero icons: jump to the app's card in Every app and highlight it */
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const toolbar = document.querySelector('.toolbar');
+  const nav = document.querySelector('.nav');
+  function jumpOffset() {
+    // Space taken by the sticky nav and the sticky search/filter bar, plus breathing room
+    let top = nav ? nav.offsetHeight : 0;
+    if (toolbar) {
+      const st = parseFloat(getComputedStyle(toolbar).top);
+      top = (isNaN(st) ? top : st) + toolbar.offsetHeight;
+    }
+    return Math.round(top + 16);
+  }
+  function setOffsetVar() { document.documentElement.style.setProperty('--jump-offset', jumpOffset() + 'px'); }
+  setOffsetVar();
+  window.addEventListener('resize', setOffsetVar);
+  let flashTimer = null;
+  function flash(card) {
+    cards.forEach(c => c.classList.remove('flash'));
+    void card.offsetWidth;
+    card.classList.add('flash');
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(() => card.classList.remove('flash'), 1900);
+  }
+  // Content above the grid (e.g. the carousel changing height) can shift while a smooth scroll runs,
+  // so once scrolling stops, nudge the card back to its intended spot.
+  let settleTimer = null;
+  function settle(card, smooth) {
+    clearInterval(settleTimer);
+    let last = -1, still = 0, fixes = 0, ticks = 0;
+    settleTimer = setInterval(() => {
+      const y = window.pageYOffset;
+      still = Math.abs(y - last) < 1 ? still + 1 : 0; last = y;
+      if (++ticks > 40) return clearInterval(settleTimer);
+      if (still < 2) return;
+      const delta = card.getBoundingClientRect().top - jumpOffset();
+      if (Math.abs(delta) <= 4 || fixes >= 3) return clearInterval(settleTimer);
+      fixes++; still = 0;
+      try { window.scrollBy({ top: delta, behavior: smooth ? 'smooth' : 'auto' }); } catch (_) { window.scrollBy(0, delta); }
+    }, 100);
+  }
+  ['wheel', 'touchstart', 'keydown'].forEach(ev => window.addEventListener(ev, () => clearInterval(settleTimer), { passive: true }));
+  function jumpTo(id) {
+    const card = document.getElementById(id);
+    if (!card || !card.classList.contains('card')) return false;
+    if (card.hidden) { q.value = ''; setGenre('all'); apply(); }
+    setOffsetVar();
+    const smooth = !reduceMotion.matches;
+    const y = card.getBoundingClientRect().top + window.pageYOffset - jumpOffset();
+    try { window.scrollTo({ top: Math.max(0, y), behavior: smooth ? 'smooth' : 'auto' }); } catch (_) { window.scrollTo(0, Math.max(0, y)); }
+    try { card.focus({ preventScroll: true }); } catch (_) {}
+    // Start the glow once the scroll has (roughly) arrived
+    const dist = Math.abs(card.getBoundingClientRect().top - jumpOffset());
+    setTimeout(() => flash(card), smooth ? Math.min(900, 250 + dist / 4) : 0);
+    settle(card, smooth);
+    return true;
+  }
+  document.querySelectorAll('a.tile[data-target]').forEach(t => t.addEventListener('click', e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+    if (jumpTo(t.dataset.target)) e.preventDefault();
+  }));
+  if (/^#app-/.test(location.hash)) {
+    const id = decodeURIComponent(location.hash.slice(1));
+    window.addEventListener('load', () => jumpTo(id));
+  }
 })();
 
 /* Featured collections carousel */

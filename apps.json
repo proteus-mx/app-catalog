@@ -8,29 +8,6 @@
   "fetched": "2026-10-22",
   "apps": [
     {
-      "id": 6751021138,
-      "name": "Gospel Map",
-      "url": "https://apps.apple.com/us/app/gospel-map/id6751021138",
-      "icon": "assets/icons/gospel-map.jpg",
-      "description": "Interactive New Testament Bible explorer with 3D mindmap, categorised book summaries, verse reader, timeline, calendar, glossary, and quiz.",
-      "genre": "Education",
-      "genres": [
-        "Education",
-        "Entertainment"
-      ],
-      "price": 0.0,
-      "formattedPrice": "Free",
-      "kind": "software",
-      "platforms": [
-        "iPhone",
-        "iPad"
-      ],
-      "version": "1.1",
-      "releaseDate": "2025-08-18T07:00:00Z",
-      "currentVersionReleaseDate": "2026-10-20T09:11:03Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/6d/50/7b/6d507b60-d3ab-3eb9-649a-72d2babb2005/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
-    },
-    {
       "id": 6806432874,
       "name": "Word Bloom +",
       "url": "https://apps.apple.com/us/app/word-bloom/id6806432874",
@@ -936,8 +913,7 @@
         "Fallacy Quest",
         "Operation Order",
         "DNA Simulator",
-        "Databricks Quiz",
-        "Gospel Map"
+        "Databricks Quiz"
       ]
     }
   ]

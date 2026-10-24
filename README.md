@@ -39,7 +39,7 @@ The carousel near the top rotates through curated collections defined in `apps.j
 | Brain Teasers | Shuffle Puzzle +, Block Race, Block Challenge, Memory Magic, SaiMON |
 | Grid Rivals | Grid Wars, Dot Connect, tAc-tIc-toe, tronAIx, Sphere Tronic |
 | Arcade Action | Pocket Pong +, BlastarX, Pencil Battle, BotWars, Global Shield |
-| Learn Something | Fallacy Quest, Operation Order, DNA Simulator, Databricks Quiz, Gospel Map |
+| Learn Something | Fallacy Quest, Operation Order, DNA Simulator, Databricks Quiz |
 
 The carousel rotates every 6.5 seconds. It pauses on hover, on keyboard focus and while the tab is hidden, and stays still when the system asks for reduced motion. You can also move through it with the arrow buttons, the collection buttons, the left and right arrow keys, or a swipe on touch screens, and there's a pause/play button.
 
