@@ -65,7 +65,11 @@ h1{margin:0;font-size:clamp(2.6rem,5.6vw,4.6rem);line-height:1.02;letter-spacing
 .stats{display:flex;gap:36px;margin:44px 0 0;padding:0}
 .stats div{display:flex;flex-direction:column-reverse}
 .stats dt{color:var(--faint);font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;font-weight:600}
-.stats dd{margin:0;font-size:2rem;font-weight:700;letter-spacing:-.03em}
+.stats dd{margin:0;font-size:2rem;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;-webkit-font-feature-settings:"tnum";font-feature-settings:"tnum";white-space:nowrap}
+.count-up{display:inline-block}
+/* Owner-supplied download milestones */
+.dl-badge{display:inline-flex;align-items:center;gap:.35em;color:#a7f3d0;background:rgba(16,185,129,.12);border:1px solid rgba(52,211,153,.32);padding:.15em .62em .15em .5em;border-radius:999px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.dl-badge svg{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 
 .collage{position:relative;height:460px;perspective:1200px}
 .halo{position:absolute;inset:12% 10%;border-radius:50%;background:radial-gradient(circle,rgba(47,107,255,.55),transparent 65%);filter:blur(40px)}
@@ -182,7 +186,7 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
   .nav nav a:not(.btn){display:none}
   .nav .btn-sm{font-size:.78rem;padding:.55em .9em}
   .hero{padding:52px 0 32px}
-  .stats{gap:24px}.stats dd{font-size:1.6rem}
+  .stats{display:grid;grid-template-columns:repeat(4,auto);justify-content:start;gap:14px 20px}.stats dd{font-size:1.6rem}.stats dt{font-size:.68rem;letter-spacing:.08em}
   .feature{flex-direction:column}
   .grid{grid-template-columns:1fr}
   .toolbar{top:76px;padding:12px}
@@ -192,6 +196,7 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
   .search kbd{display:none}
 }
 @media (max-width:420px){.nav .btn-sm{display:none}}
+@media (max-width:370px){.stats{grid-template-columns:repeat(2,auto);gap:14px 32px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media (prefers-reduced-motion:reduce){.card.flash{box-shadow:0 0 0 3px rgba(91,141,255,.9),0 0 28px rgba(47,107,255,.5)}}
 

@@ -216,3 +216,35 @@
   setPlaying(playing);
   go(0, false);
 })();
+
+/* Hero stats: count up quickly from 0 once they scroll into view (final values are already in the HTML) */
+(() => {
+  const els = [...document.querySelectorAll('.stats .count-up')];
+  if (!els.length) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduce.matches || !('requestAnimationFrame' in window)) return;
+  const DUR = 1300;
+  const items = els.map(el => {
+    const m = el.textContent.trim().match(/^(\d+(?:\.\d+)?)(.*)$/);
+    return m && { el, to: parseFloat(m[1]), dp: (m[1].split('.')[1] || '').length, suffix: m[2], final: el.textContent };
+  }).filter(Boolean);
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  function run() {
+    // Lock each number's width to its final value so neighbours don't shift while counting
+    items.forEach(it => { it.el.style.minWidth = it.el.getBoundingClientRect().width + 'px'; it.el.textContent = '0' + it.suffix; });
+    const t0 = performance.now();
+    function frame(now) {
+      const t = Math.min(1, (now - t0) / DUR), k = ease(t);
+      items.forEach(it => { it.el.textContent = (t >= 1 ? it.final : (it.to * k).toFixed(it.dp) + it.suffix); });
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  const box = document.querySelector('.stats');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { io.disconnect(); run(); }
+    }, { threshold: 0.4 });
+    io.observe(box);
+  } else run();
+})();

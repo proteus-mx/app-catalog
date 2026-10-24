@@ -10,7 +10,7 @@ A single-page static showcase of every Sapphire Studios app on the Apple App Sto
 | --- | --- |
 | `index.html` | The catalogue: hero, a carousel of featured collections, recently updated apps, and a searchable, filterable grid of every app |
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
-| `app.js` | Search and category filter (press `/` to jump to search), plus the collections carousel |
+| `app.js` | Search and category filter (press `/` to jump to search), the collections carousel, floating-icon jumps and the hero stats count-up |
 | `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates. Upcoming titles live under `comingSoon` and collections under `collections` |
 | `assets/glow/` | Pre-blurred icon glows used behind featured cards (avoids costly CSS blur filters in Safari) |
 | `assets/icons/` | App icons (256×256 JPEG; `melt-it.jpg` is 512×512) |
@@ -47,3 +47,7 @@ The carousel rotates every 6.5 seconds. It pauses on hover, on keyboard focus an
 
 - `index.html` loads `style.css?v=…` and `app.js?v=…`. GitHub Pages caches files for 10 minutes, so **change the `v` value whenever you edit either file**. Without that, browsers (Safari especially) can pair new HTML with an old cached stylesheet and script.
 - Tested in Safari/WebKit (desktop and iPhone), Chrome and Chromium. The site works back to Safari 15: newer CSS such as `color-mix()` has plain colour fallbacks, `inert` has a tab-order fallback, and `backdrop-filter` is kept to a few large surfaces for performance.
+
+## Manual figures
+
+Download numbers (the hero "Downloads" stat and the per-app download badges) don't come from Apple. They're set by hand in the site generator (`MANUAL_STATS` and `DOWNLOADS`), so the daily App Store sync keeps them.
