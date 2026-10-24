@@ -248,3 +248,206 @@
     io.observe(box);
   } else run();
 })();
+
+/* Floating hero icons: drag, fling and bounce for fun. A quick tap still jumps to the app's card. */
+(() => {
+  const collage = document.querySelector('.collage');
+  const hero = document.querySelector('.hero');
+  if (!collage || !hero || !window.PointerEvent || !window.requestAnimationFrame) return;
+  const grid = hero.querySelector('.hero-grid') || hero;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const TAP_MOVE = 6, TAP_TIME = 250, IDLE_MS = 2600, MAX_V = 3.2;
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const tiles = [...collage.querySelectorAll('a.tile')].map(el => {
+    el.setAttribute('draggable', 'false');
+    const img = el.querySelector('img'); if (img) img.setAttribute('draggable', 'false');
+    return { el, mode: 'idle', x: 0, y: 0, vx: 0, vy: 0, tilt: 0, s: 1, sq: 0, sqAxis: 'x', restAt: 0, base: null };
+  });
+  let raf = 0, last = 0, suppressUntil = 0, drag = null, bounds = null;
+
+  function baseAngle(t) {
+    if (t.base != null) return t.base;
+    const m = getComputedStyle(t.el).transform;
+    const v = m && m !== 'none' ? m.match(/matrix\(([^)]+)\)/) : null;
+    if (v) { const [a, b] = v[1].split(',').map(parseFloat); t.base = Math.atan2(b, a) * 180 / Math.PI; } else t.base = 0;
+    return t.base;
+  }
+  function measure() {
+    // Everything is relative to the collage box; bounds are the hero (vertically) by the content column (horizontally)
+    const c = collage.getBoundingClientRect(), h = hero.getBoundingClientRect(), g = grid.getBoundingClientRect();
+    bounds = { l: Math.min(g.left, c.left) - c.left, r: Math.max(g.right, c.right) - c.left, t: h.top - c.top + 8, b: h.bottom - c.top - 8 };
+    tiles.forEach(t => {
+      t.w = t.el.offsetWidth; t.r = t.w * 0.46;
+      t.hx = t.el.offsetLeft + t.w / 2; t.hy = t.el.offsetTop + t.el.offsetHeight / 2;
+      t.visible = !!t.el.offsetParent;
+    });
+  }
+  function floatOffset(el) {
+    // Current CSS float offset, so stopping the animation doesn't make the icon jump
+    const tr = getComputedStyle(el).translate;
+    if (!tr || tr === 'none') return [0, 0];
+    const p = tr.split(/\s+/).map(parseFloat);
+    return [p[0] || 0, p[1] || 0];
+  }
+  function wake(t) {
+    if (t.mode !== 'idle') return;
+    baseAngle(t);
+    const [fx, fy] = floatOffset(t.el);
+    t.x = fx; t.y = fy; t.vx = t.vy = 0; t.tilt = 0; t.s = 1; t.sq = 0;
+    t.el.classList.add('is-live');
+    render(t);
+  }
+  function sleep(t) {
+    t.mode = 'idle'; t.x = t.y = t.vx = t.vy = 0;
+    t.el.classList.remove('is-live', 'is-grabbed');
+    t.el.style.transform = '';
+    t.el.style.animationDelay = '0s'; // restart the float from its home position: no jump
+  }
+  function render(t) {
+    const sx = t.sqAxis === 'x' ? 1 - t.sq : 1 + t.sq, sy = t.sqAxis === 'x' ? 1 + t.sq : 1 - t.sq;
+    t.el.style.transform = `translate3d(${t.x.toFixed(2)}px,${t.y.toFixed(2)}px,0) rotate(${(t.base + t.tilt).toFixed(2)}deg) scale(${(t.s * sx).toFixed(3)},${(t.s * sy).toFixed(3)})`;
+  }
+  function walls(t) {
+    if (!bounds) return;
+    const cx = t.hx + t.x, cy = t.hy + t.y, r = t.w / 2;
+    const minX = bounds.l + r, maxX = bounds.r - r, minY = bounds.t + r, maxY = bounds.b - r;
+    if (cx < minX || cx > maxX) {
+      t.x = clamp(cx, minX, maxX) - t.hx;
+      if (t.mode === 'fling') { const sp = Math.abs(t.vx); t.vx = -t.vx * 0.6; t.sq = Math.min(0.16, sp * 0.07); t.sqAxis = 'x'; }
+    }
+    if (cy < minY || cy > maxY) {
+      t.y = clamp(cy, minY, maxY) - t.hy;
+      if (t.mode === 'fling') { const sp = Math.abs(t.vy); t.vy = -t.vy * 0.6; t.sq = Math.min(0.16, sp * 0.07); t.sqAxis = 'y'; }
+    }
+  }
+  function collide() {
+    if (reduce.matches) return;
+    for (let i = 0; i < tiles.length; i++) for (let j = i + 1; j < tiles.length; j++) {
+      const a = tiles[i], b = tiles[j];
+      if (!a.visible || !b.visible) continue;
+      const aOn = a.mode === 'drag' || a.mode === 'fling', bOn = b.mode === 'drag' || b.mode === 'fling';
+      if (!aOn && !bOn) continue;
+      let dx = (b.hx + b.x) - (a.hx + a.x), dy = (b.hy + b.y) - (a.hy + a.y);
+      const min = a.r + b.r, d = Math.hypot(dx, dy) || 0.01;
+      if (d >= min) continue;
+      const nx = dx / d, ny = dy / d, over = min - d;
+      [a, b].forEach(t => { if (t.mode === 'idle' || t.mode === 'rest' || t.mode === 'return') { wake(t); t.mode = 'fling'; } });
+      const aFixed = a.mode === 'drag', bFixed = b.mode === 'drag';
+      if (aFixed && bFixed) continue;
+      const wa = aFixed ? 0 : bFixed ? 1 : 0.5, wb = 1 - wa;
+      a.x -= nx * over * wa; a.y -= ny * over * wa; b.x += nx * over * wb; b.y += ny * over * wb;
+      const rel = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+      if (rel < 0) {
+        const imp = -(1 + 0.5) * rel;
+        if (!aFixed) { a.vx -= nx * imp * wa; a.vy -= ny * imp * wa; }
+        if (!bFixed) { b.vx += nx * imp * wb; b.vy += ny * imp * wb; }
+      }
+    }
+  }
+  function step(now) {
+    const dt = Math.min(34, now - (last || now)); last = now;
+    let busy = false;
+    for (const t of tiles) {
+      if (t.mode === 'idle') continue;
+      busy = true;
+      const lift = t.mode === 'drag' ? 1.1 : 1;
+      t.s += (lift - t.s) * Math.min(1, dt / 90);
+      if (t.mode === 'fling') {
+        const f = Math.pow(0.9935, dt);
+        t.vx *= f; t.vy *= f;
+        t.x += t.vx * dt; t.y += t.vy * dt;
+        walls(t);
+        if (Math.hypot(t.vx, t.vy) < 0.03) { t.mode = 'rest'; t.restAt = now; t.vx = t.vy = 0; }
+      } else if (t.mode === 'rest') {
+        if (now - t.restAt > IDLE_MS && !(drag && drag.t === t)) t.mode = 'return';
+      } else if (t.mode === 'return') {
+        if (reduce.matches) {
+          const k = 1 - Math.pow(0.992, dt);
+          t.x -= t.x * k; t.y -= t.y * k;
+          if (Math.hypot(t.x, t.y) < 0.6) { sleep(t); continue; }
+        } else {
+          // Gentle spring home with a touch of overshoot
+          const w = 0.011, z = 0.62;
+          t.vx += (-w * w * t.x - 2 * z * w * t.vx) * dt; t.vy += (-w * w * t.y - 2 * z * w * t.vy) * dt;
+          t.x += t.vx * dt; t.y += t.vy * dt;
+          if (Math.hypot(t.x, t.y) < 0.5 && Math.hypot(t.vx, t.vy) < 0.01) { sleep(t); continue; }
+        }
+      }
+      const targetTilt = reduce.matches || t.mode === 'return' ? 0 : clamp(t.vx * 9, -14, 14);
+      t.tilt += (targetTilt - t.tilt) * Math.min(1, dt / 110);
+      t.sq *= Math.pow(0.986, dt);
+    }
+    collide();
+    tiles.forEach(t => { if (t.mode !== 'idle') render(t); });
+    raf = busy ? requestAnimationFrame(step) : 0;
+    if (!busy) last = 0;
+  }
+  function kick() { if (!raf) { last = 0; raf = requestAnimationFrame(step); } }
+
+  tiles.forEach(t => {
+    const el = t.el;
+    el.addEventListener('dragstart', e => e.preventDefault());
+    el.addEventListener('pointerdown', e => {
+      if (drag || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      measure();
+      drag = { t, id: e.pointerId, sx: e.clientX, sy: e.clientY, t0: performance.now(), active: false, ox: 0, oy: 0, samples: [] };
+      try { el.setPointerCapture(e.pointerId); } catch (_) {}
+      drag.hold = setTimeout(() => { if (drag && drag.t === t && !drag.active) begin(); }, TAP_TIME);
+    });
+    function begin() {
+      drag.active = true;
+      clearTimeout(drag.hold);
+      wake(t);
+      t.mode = 'drag'; t.vx = t.vy = 0;
+      t.el.classList.add('is-grabbed');
+      drag.ox = t.x - (drag.lx != null ? drag.lx - drag.sx : 0); drag.oy = t.y - (drag.ly != null ? drag.ly - drag.sy : 0);
+      kick();
+    }
+    el.addEventListener('pointermove', e => {
+      if (!drag || drag.t !== t || e.pointerId !== drag.id) return;
+      drag.lx = e.clientX; drag.ly = e.clientY;
+      const now = performance.now();
+      if (!drag.active && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > TAP_MOVE) begin();
+      if (!drag.active) return;
+      e.preventDefault();
+      t.x = drag.ox + (e.clientX - drag.sx); t.y = drag.oy + (e.clientY - drag.sy);
+      walls(t);
+      drag.samples.push([now, e.clientX, e.clientY]);
+      while (drag.samples.length > 2 && now - drag.samples[0][0] > 90) drag.samples.shift();
+      const s0 = drag.samples[0], dtS = now - s0[0];
+      if (dtS > 0) { t.vx = (e.clientX - s0[1]) / dtS; t.vy = (e.clientY - s0[2]) / dtS; }
+    });
+    function end(e, cancelled) {
+      if (!drag || drag.t !== t || e.pointerId !== drag.id) return;
+      clearTimeout(drag.hold);
+      const tap = !drag.active && !cancelled && performance.now() - drag.t0 < TAP_TIME;
+      if (!tap) suppressUntil = performance.now() + 500;
+      if (drag.active) {
+        t.el.classList.remove('is-grabbed');
+        const s0 = drag.samples[0];
+        const stale = !s0 || performance.now() - drag.samples[drag.samples.length - 1][0] > 80;
+        if (reduce.matches || stale) { t.vx = t.vy = 0; t.mode = 'rest'; t.restAt = performance.now(); }
+        else {
+          const sp = Math.hypot(t.vx, t.vy);
+          if (sp > MAX_V) { t.vx *= MAX_V / sp; t.vy *= MAX_V / sp; }
+          t.mode = 'fling';
+        }
+        kick();
+      }
+      try { t.el.releasePointerCapture(e.pointerId); } catch (_) {}
+      drag = null;
+    }
+    el.addEventListener('pointerup', e => end(e, false));
+    el.addEventListener('pointercancel', e => end(e, true));
+    el.addEventListener('lostpointercapture', e => { if (drag && drag.t === t && e.pointerId === drag.id) end(e, false); });
+  });
+  // A drag (or a long press) must not also follow the link; runs before the jump-to-card handler
+  document.addEventListener('click', e => {
+    if (performance.now() < suppressUntil && e.target.closest && e.target.closest('a.tile')) {
+      e.preventDefault(); e.stopImmediatePropagation(); suppressUntil = 0;
+    }
+  }, true);
+  window.addEventListener('resize', () => { tiles.forEach(t => { if (t.mode !== 'idle' && t.mode !== 'drag') sleep(t); }); });
+  // Test/debug hook
+  window.__tiles = { state: () => tiles.map(t => ({ mode: t.mode, x: Math.round(t.x), y: Math.round(t.y) })) };
+})();

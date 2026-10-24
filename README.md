@@ -10,7 +10,7 @@ A single-page static showcase of every Sapphire Studios app on the Apple App Sto
 | --- | --- |
 | `index.html` | The catalogue: hero, a carousel of featured collections, recently updated apps, and a searchable, filterable grid of every app |
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
-| `app.js` | Search and category filter (press `/` to jump to search), the collections carousel, floating-icon jumps and the hero stats count-up |
+| `app.js` | Search and category filter (press `/` to jump to search), the collections carousel, floating icons (tap to jump to an app, or drag and fling them) and the hero stats count-up |
 | `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates. Upcoming titles live under `comingSoon` and collections under `collections` |
 | `assets/glow/` | Pre-blurred icon glows used behind featured cards (avoids costly CSS blur filters in Safari) |
 | `assets/icons/` | App icons (256×256 JPEG; `melt-it.jpg` is 512×512) |
