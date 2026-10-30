@@ -1,6 +1,6 @@
 # Sapphire Studios · App Catalogue
 
-A single-page static showcase of every Sapphire Studios app on the Apple App Store.
+A static showcase of every Sapphire Studios app on the Apple App Store.
 
 **Live site:** https://proteus-mx.github.io/app-catalog/
 
@@ -9,6 +9,7 @@ A single-page static showcase of every Sapphire Studios app on the Apple App Sto
 | Path | Purpose |
 | --- | --- |
 | `index.html` | The catalogue: hero, a carousel of featured collections, recently updated apps, and a searchable, filterable grid of every app |
+| `about.html` | About & Team: the studio, what we make, our approach, numbers and the team. Linked from the catalogue nav and footer |
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
 | `app.js` | Search and category filter (press `/` to jump to search), the collections carousel, floating icons (tap to jump to an app, or drag and fling them) and the hero stats count-up |
 | `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates. Upcoming titles live under `comingSoon` and collections under `collections` |
@@ -51,3 +52,7 @@ The carousel rotates every 6.5 seconds. It pauses on hover, on keyboard focus an
 ## Manual figures
 
 Download numbers (the hero "Downloads" stat and the per-app download badges) don't come from Apple. They're set by hand in the site generator (`MANUAL_STATS` and `DOWNLOADS`), so the daily App Store sync keeps them.
+
+## Generator
+
+`index.html` and `about.html` are both written by the site generator (`build_catalog.py`, run by the daily App Store sync), so the About & Team link and page survive rebuilds. Team details live in its `TEAM` list.
