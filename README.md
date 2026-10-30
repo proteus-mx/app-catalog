@@ -46,6 +46,10 @@ The carousel near the top rotates through curated collections defined in `apps.j
 
 The carousel rotates every 6.5 seconds. It pauses on hover, on keyboard focus and while the tab is hidden, and stays still when the system asks for reduced motion. You can also move through it with the arrow buttons, the collection buttons, the left and right arrow keys, or a swipe on touch screens, and there's a pause/play button.
 
+## Navigation
+
+Every page shares one header and footer from the generator. Below 720px the header shows the logo plus a menu button that opens a panel (Apps, About, Team, View on App Store); it closes on a link tap, an outside tap, Esc or scrolling. Between 720px and 1000px the in-page Collections and Latest links are hidden so nothing collides.
+
 ## Browser notes
 
 - `index.html` loads `style.css?v=…` and `app.js?v=…`. GitHub Pages caches files for 10 minutes, so **change the `v` value whenever you edit either file**. Without that, browsers (Safari especially) can pair new HTML with an old cached stylesheet and script.

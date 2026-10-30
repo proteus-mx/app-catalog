@@ -452,3 +452,42 @@
   // Test/debug hook
   window.__tiles = { state: () => tiles.map(t => ({ mode: t.mode, x: Math.round(t.x), y: Math.round(t.y) })) };
 })();
+
+/* Phone menu: one button in the header opens a panel with Apps, About, Team and the App Store link */
+(() => {
+  const nav = document.querySelector('header.nav');
+  const btn = nav && nav.querySelector('.menu-btn');
+  const panel = btn && document.getElementById(btn.getAttribute('aria-controls'));
+  if (!panel) return;
+  let open = false, y0 = 0;
+  const items = () => [...panel.querySelectorAll('a')];
+  function set(o, focusBtn) {
+    if (o === open) return;
+    open = o;
+    nav.classList.toggle('menu-open', o);
+    btn.setAttribute('aria-expanded', String(o));
+    btn.setAttribute('aria-label', o ? 'Close menu' : 'Open menu');
+    if (o) y0 = window.pageYOffset;
+    if (!o && focusBtn) btn.focus();
+  }
+  btn.addEventListener('click', e => {
+    const was = open;
+    set(!open);
+    if (!was && e.detail === 0) { const f = items()[0]; if (f) f.focus(); } // opened from the keyboard
+  });
+  panel.addEventListener('click', e => { if (e.target.closest('a')) set(false); });
+  document.addEventListener('pointerdown', e => { if (open && !panel.contains(e.target) && !btn.contains(e.target)) set(false); }, true);
+  document.addEventListener('keydown', e => {
+    if (!open) return;
+    if (e.key === 'Escape') { e.preventDefault(); set(false, true); return; }
+    if (e.key === 'Tab') {
+      const list = [btn, ...items()], i = list.indexOf(document.activeElement);
+      if (e.shiftKey && i <= 0) { e.preventDefault(); list[list.length - 1].focus(); }
+      else if (!e.shiftKey && i === list.length - 1) { e.preventDefault(); list[0].focus(); }
+    }
+  });
+  window.addEventListener('scroll', () => { if (open && Math.abs(window.pageYOffset - y0) > 12) set(false); }, { passive: true });
+  const mq = window.matchMedia('(max-width: 720px)');
+  const onMq = () => { if (!mq.matches) set(false); };
+  if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
+})();

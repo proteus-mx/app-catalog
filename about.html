@@ -14,7 +14,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=ad6de1b057">
+  <link rel="stylesheet" href="style.css?v=62f0e26652">
+  <script>document.documentElement.className+=' js'</script>
 </head>
 <body class="about-page">
   <a class="skip" href="#story">Skip to content</a>
@@ -30,13 +31,20 @@
   <path d="M14 6l-10 12h40L34 6z" fill="url(#g2)" opacity=".9"/>
   <path d="M14 6l4 12h12l4-12M4 18l20 24 20-24M18 18l6 24 6-24" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.2" stroke-linejoin="round"/>
 </svg><span class="wordmark">Sapphire<span>Studios</span></span></a>
-      <nav aria-label="Primary">
-        <a href="index.html#collections">Collections</a>
-        <a href="index.html#latest">Latest</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-sec" href="index.html#collections">Collections</a>
+        <a class="nav-sec" href="index.html#latest">Latest</a>
         <a href="index.html#catalogue">All apps</a>
         <a class="nav-keep" href="about.html" aria-current="page">About</a>
         <a class="nav-keep" href="team.html">Team</a>
         <a class="btn btn-glass btn-sm" href="https://apps.apple.com/us/developer/paul-thornton/id1203471660" target="_blank" rel="noopener">View on App Store</a>
+      </nav>
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span class="bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
+      <nav class="menu-panel" id="site-menu" aria-label="Menu">
+        <a class="menu-link" href="index.html"><span>Apps</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="menu-link" href="about.html" aria-current="page"><span>About</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="menu-link" href="team.html"><span>Team</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-primary menu-cta" href="https://apps.apple.com/us/developer/paul-thornton/id1203471660" target="_blank" rel="noopener">View on App Store <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -209,6 +217,6 @@
       <p>© 2026 Sapphire Studios <span class="abn">· ABN 66 481 618 329</span>. App details from the App Store (US), retrieved 2026-10-28. Apple, iPhone, iPad, Apple Watch and App Store are trademarks of Apple Inc.</p>
     </div>
   </footer>
-  <script src="app.js?v=36782f2c54"></script>
+  <script src="app.js?v=438420546b"></script>
 </body>
 </html>
