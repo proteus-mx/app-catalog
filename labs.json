@@ -1,0 +1,131 @@
+{
+  "_readme": "Edit this file to update the Labs page, then rebuild with build_catalog.py. See README > Labs board.",
+  "in_play": "100–200",
+  "updated": "2026-10-30",
+  "stages": [
+    {
+      "id": "ideation",
+      "name": "Ideation",
+      "blurb": "Spark, capture, quick score"
+    },
+    {
+      "id": "poc",
+      "name": "Proof of concept",
+      "blurb": "Does the core work, and is it fun?"
+    },
+    {
+      "id": "prototype",
+      "name": "Prototype",
+      "blurb": "Playable, in real hands"
+    }
+  ],
+  "themes": [
+    "Arcade",
+    "Puzzles",
+    "Words",
+    "Learning",
+    "Relaxing toys",
+    "Utilities"
+  ],
+  "experiments": [
+    {
+      "title": "Melt It",
+      "stage": "prototype",
+      "theme": "Relaxing toys",
+      "public": true,
+      "status": "Up next",
+      "collection": "it",
+      "note": "Realistic 3D melting with soothing ASMR sounds. Joining Sculpt It and Squish It in the “It” Collection."
+    },
+    {
+      "title": null,
+      "stage": "ideation",
+      "theme": "Arcade",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "ideation",
+      "theme": "Puzzles",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "ideation",
+      "theme": "Words",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "ideation",
+      "theme": "Learning",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "ideation",
+      "theme": "Utilities",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "ideation",
+      "theme": "Relaxing toys",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "ideation",
+      "theme": "Puzzles",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "poc",
+      "theme": "Arcade",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "poc",
+      "theme": "Learning",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "poc",
+      "theme": "Words",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "poc",
+      "theme": "Puzzles",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "poc",
+      "theme": "Relaxing toys",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "prototype",
+      "theme": "Arcade",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "prototype",
+      "theme": "Puzzles",
+      "public": false
+    },
+    {
+      "title": null,
+      "stage": "prototype",
+      "theme": "Learning",
+      "public": false
+    }
+  ]
+}

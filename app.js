@@ -487,7 +487,7 @@
     }
   });
   window.addEventListener('scroll', () => { if (open && Math.abs(window.pageYOffset - y0) > 12) set(false); }, { passive: true });
-  const mq = window.matchMedia('(max-width: 720px)');
+  const mq = window.matchMedia('(max-width: 860px)');
   const onMq = () => { if (!mq.matches) set(false); };
   if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
 })();
@@ -702,4 +702,44 @@
     });
     show(0);
   }
+})();
+
+/* ===== Labs page: experiments board filters ===== */
+(function () {
+  const board = document.querySelector('.lab-board');
+  if (!board) return;
+  const tiles = [...board.querySelectorAll('.lab-tile')];
+  const chips = [...document.querySelectorAll('.lab-filters .chip')];
+  const shown = document.querySelector('.lab-shown span');
+  const empty = document.querySelector('.lab-empty');
+  const f = { stage: '', theme: '' };
+  const apply = () => {
+    let n = 0;
+    tiles.forEach(t => { const ok = (!f.stage || t.dataset.stage === f.stage) && (!f.theme || t.dataset.theme === f.theme); t.hidden = !ok; if (ok) n++; });
+    if (shown) shown.textContent = n;
+    if (empty) empty.hidden = n > 0;
+  };
+  chips.forEach(c => c.addEventListener('click', () => {
+    f[c.dataset.f] = c.dataset.v;
+    chips.filter(x => x.dataset.f === c.dataset.f).forEach(x => { const on = x === c; x.classList.toggle('active', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    apply();
+  }));
+  // Classified tiles: tap shows the playful "access denied" on touch screens
+  board.querySelectorAll('.classified').forEach(t => t.addEventListener('click', () => {
+    t.classList.add('tapped'); clearTimeout(t._tm); t._tm = setTimeout(() => t.classList.remove('tapped'), 1600);
+  }));
+  apply();
+})();
+
+/* ===== Support page: filter the app list ===== */
+(function () {
+  const q = document.getElementById('sup-q');
+  if (!q) return;
+  const items = [...document.querySelectorAll('.sup-apps li')];
+  const none = document.querySelector('.sup-none');
+  q.addEventListener('input', () => {
+    const v = q.value.trim().toLowerCase(); let n = 0;
+    items.forEach(li => { const ok = !v || li.dataset.name.includes(v); li.hidden = !ok; if (ok) n++; });
+    if (none) none.hidden = n > 0;
+  });
 })();
