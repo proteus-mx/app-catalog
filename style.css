@@ -462,7 +462,7 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
 .flip{position:relative;perspective:1600px;-webkit-perspective:1600px;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;border-radius:28px;outline:none;cursor:grab}
 .flip:focus-visible{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ice)}
 .flip.dragging{cursor:grabbing}
-.flip-inner{display:grid;height:100%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.45,.45,1);will-change:transform}
+.flip-inner{display:grid;height:100%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;will-change:transform}
 .flip.dragging .flip-inner{transition:none}
 .flip .face{grid-area:1/1;min-width:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:28px}
 .flip .front{transform:rotateY(0deg) translateZ(1px)}
@@ -515,7 +515,7 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
 /* reduced motion: cross-fade instead of rotating */
 .flip.rm .front,.flip.rm .back,.flip.rm .member,.flip.rm .member:hover{transform:none}
 .flip.rm .flip-inner{transform:none!important}
-.flip.rm:not(.is-flipped) .back,.flip.rm.is-flipped .front{visibility:hidden}
+
 .flip .face{position:relative}
 .bc-word{text-transform:uppercase}
 .bc-shards path:nth-of-type(3){opacity:.35}
@@ -529,3 +529,29 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
 @media (max-width:640px){.bc-foot{display:grid}.bc-cats{flex-wrap:wrap;row-gap:10px}}
 @media (max-width:380px){.bc-cats li{padding:0 6px;letter-spacing:.06em}}
 .bc-qr span{white-space:nowrap}
+
+.js .flip .back{visibility:hidden}
+/* Business card footer: categories get their own full-width row (4 equal columns, never wrap); URL + QR below */
+.bc-foot{grid-template-columns:1fr auto;grid-template-rows:auto auto;row-gap:14px}
+.bc-cats{grid-column:1/-1;grid-row:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;flex-wrap:nowrap}
+.bc-cats li{min-width:0;padding:0 4px;gap:5px;font-size:clamp(9px,2.6vw,11px);letter-spacing:clamp(.04em,.6vw,.12em);white-space:nowrap;border-left:1px solid rgba(156,196,255,.14)}
+.bc-cats li:first-child{padding-left:4px}
+.bc-cats svg{width:clamp(18px,4.8vw,22px);height:clamp(18px,4.8vw,22px)}
+.bc-url{grid-column:1;grid-row:2;align-self:center}
+.bc-qr{grid-column:2;grid-row:2;flex-direction:row;align-items:center;gap:10px}
+.bc-qr span{order:-1;text-align:right}
+@media (max-width:640px){.bc-cats{flex-wrap:nowrap}.bc-foot{display:grid}}
+@media (max-width:360px){.bc-url{font-size:.66rem}.bc-qr img{width:64px;height:64px}}
+.bc-cats{grid-template-columns:auto auto auto auto;justify-content:space-between}
+.bc-cats li{padding:0 clamp(6px,2.4vw,16px)}
+.bc-cats li:first-child{padding-left:0}
+.bc-cats li:last-child{padding-right:0}
+@media (max-width:360px){.bc-cats li{padding:0 5px;letter-spacing:.03em}}
+.bc-url span{display:inline-block;white-space:nowrap}
+@media (max-width:480px){
+ .bc-foot{column-gap:12px}
+ .bc-url{font-size:clamp(10px,3vw,12px);line-height:1.5}
+ .bc-qr{flex-direction:column;align-items:center;gap:6px}
+ .bc-qr span{order:0;text-align:center;font-size:clamp(8px,2.3vw,9.5px);letter-spacing:.14em}
+ .bc-qr img{width:clamp(60px,18vw,72px);height:clamp(60px,18vw,72px)}
+}

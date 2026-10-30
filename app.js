@@ -492,7 +492,9 @@
   if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
 })();
 
-/* Team: leadership flip cards (drag/swipe horizontally, tap, or Enter/Space) */
+/* Team: leadership flip cards (drag/swipe horizontally, tap, or Enter/Space).
+   Motion is driven from JS (spring) and the visible face is chosen from the angle, so it stays correct
+   even where a browser flattens 3D or ignores backface-visibility. */
 (() => {
   const cards = [...document.querySelectorAll('.flip')];
   if (!cards.length) return;
@@ -500,46 +502,61 @@
   cards.forEach(card => {
     const inner = card.querySelector('.flip-inner');
     const front = card.querySelector('.front'), back = card.querySelector('.back');
-    let angle = 0, tiltX = 0, tiltY = 0, drag = null, suppressClick = false;
-    const flipped = () => (((Math.round(angle / 180) % 2) + 2) % 2) === 1;
+    let angle = 0, target = 0, vel = 0, tiltX = 0, tiltY = 0, tX = 0, tY = 0, drag = null, suppressClick = false, raf = 0, last = 0;
+    const faceOf = a => (((Math.round(a / 180) % 2) + 2) % 2) === 1;
     function paint() {
-      if (reduce.matches) { inner.style.transform = ''; return; }
-      inner.style.transform = `rotateX(${tiltX.toFixed(2)}deg) rotateY(${(angle + tiltY).toFixed(2)}deg)`;
+      const norm = ((angle % 360) + 360) % 360, showBack = norm > 90 && norm < 270;
+      front.style.visibility = showBack ? 'hidden' : 'visible';
+      back.style.visibility = showBack ? 'visible' : 'hidden';
+      inner.style.transform = reduce.matches ? '' : `rotateX(${tiltX.toFixed(2)}deg) rotateY(${(angle + tiltY).toFixed(2)}deg)`;
     }
     function sync() {
-      const f = flipped();
+      const f = faceOf(target);
       card.classList.toggle('is-flipped', f);
       front.setAttribute('aria-hidden', String(f));
       back.setAttribute('aria-hidden', String(!f));
       card.setAttribute('aria-label', `Flip ${card.dataset.name}’s card` + (f ? ' back to the profile' : ''));
     }
-    function setRM() { card.classList.toggle('rm', reduce.matches); paint(); }
-    function settle(target) {
-      angle = target;
-      if (reduce.matches) {
-        const was = card.classList.contains('is-flipped');
-        sync();
-        const shown = flipped() ? back : front;
-        if (was !== flipped() && shown.animate) shown.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: 'ease-out' });
-      } else sync();
+    function step(now) {
+      const dt = Math.min(32, now - (last || now)); last = now;
+      if (!drag || !drag.on) {
+        const w = 0.0125, z = 0.5; // springy, slight overshoot
+        vel += (w * w * (target - angle) - 2 * z * w * vel) * dt;
+        angle += vel * dt;
+      }
+      tiltX += (tX - tiltX) * Math.min(1, dt / 120); tiltY += (tY - tiltY) * Math.min(1, dt / 120);
       paint();
+      const busy = (drag && drag.on) || Math.abs(target - angle) > 0.08 || Math.abs(vel) > 0.002 || Math.abs(tX - tiltX) > 0.02 || Math.abs(tY - tiltY) > 0.02;
+      if (busy) raf = requestAnimationFrame(step); else { if (!(drag && drag.on)) { angle = target; vel = 0; } paint(); raf = 0; last = 0; }
     }
-    const flip = dir => settle((Math.round(angle / 180) + (dir || 1)) * 180);
-    setRM();
+    const kick = () => { if (!raf) { last = 0; raf = requestAnimationFrame(step); } };
+    function settle(t) {
+      const was = faceOf(target);
+      target = t; sync();
+      if (reduce.matches) {
+        angle = target; vel = 0; paint();
+        const shown = faceOf(target) ? back : front;
+        if (was !== faceOf(target) && shown.animate) shown.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: 'ease-out' });
+      } else kick();
+    }
+    const flip = dir => settle((Math.round(target / 180) + (dir || 1)) * 180);
+    function setRM() { card.classList.toggle('rm', reduce.matches); angle = target; vel = 0; tX = tY = tiltX = tiltY = 0; paint(); }
+    setRM(); sync();
     if (reduce.addEventListener) reduce.addEventListener('change', setRM); else if (reduce.addListener) reduce.addListener(setRM);
-    sync();
 
     card.addEventListener('pointerdown', e => {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
-      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), base: angle, on: false, w: card.offsetWidth, samples: [[performance.now(), e.clientX]] };
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, base: angle, on: false, w: card.offsetWidth, samples: [[performance.now(), e.clientX]] };
     });
     card.addEventListener('pointermove', e => {
       if (drag && drag.id === e.pointerId) {
         const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
         if (!drag.on) {
           if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-            drag.on = true; card.classList.add('dragging');
+            drag.on = true; drag.base = angle; drag.x = e.clientX - Math.sign(dx) * 8; vel = 0; tX = tY = 0;
+            card.classList.add('dragging');
             try { card.setPointerCapture(e.pointerId); } catch (_) {}
+            kick();
           } else if (Math.abs(dy) > 10) { drag = null; return; } // vertical: leave it to page scrolling
           else return;
         }
@@ -547,47 +564,41 @@
         const now = performance.now();
         drag.samples.push([now, e.clientX]);
         while (drag.samples.length > 2 && now - drag.samples[0][0] > 100) drag.samples.shift();
-        if (!reduce.matches) { angle = drag.base + dx * (180 / Math.max(240, drag.w * 0.85)); tiltX = tiltY = 0; paint(); }
+        if (!reduce.matches) angle = drag.base + (e.clientX - drag.x) * (180 / Math.max(240, drag.w * 0.85));
         return;
       }
-      // desktop hover: gentle tilt and sheen
-      if (e.pointerType === 'mouse' && !reduce.matches) {
+      if (e.pointerType === 'mouse' && !reduce.matches) { // desktop hover: gentle tilt and sheen
         const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        tiltY = (px - .5) * 6; tiltX = (.5 - py) * 5;
-        card.style.setProperty('--mx', (flipped() ? 100 - px * 100 : px * 100).toFixed(1) + '%');
+        tY = (px - .5) * 6; tX = (.5 - py) * 5;
+        card.style.setProperty('--mx', (faceOf(target) ? 100 - px * 100 : px * 100).toFixed(1) + '%');
         card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
-        inner.style.transition = 'transform .2s ease-out'; paint();
+        kick();
       }
     });
-    card.addEventListener('pointerleave', e => {
-      if (e.pointerType !== 'mouse' || drag) return;
-      tiltX = tiltY = 0; inner.style.transition = ''; paint();
-    });
+    card.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse' && !drag) { tX = tY = 0; kick(); } });
     function end(e, cancelled) {
       if (!drag || drag.id !== e.pointerId) return;
       const d = drag; drag = null;
-      card.classList.remove('dragging'); inner.style.transition = '';
+      card.classList.remove('dragging');
       try { card.releasePointerCapture(e.pointerId); } catch (_) {}
       if (!d.on) return; // a tap: the click handler flips
       suppressClick = true; setTimeout(() => { suppressClick = false; }, 400);
       const dx = e.clientX - d.x, s0 = d.samples[0], dt = performance.now() - s0[0];
       const v = dt > 0 ? (e.clientX - s0[1]) / dt : 0;
-      if (cancelled) return settle(d.base);
-      if (Math.abs(v) > 0.45) return flip(v > 0 ? 1 : -1);      // fast flick
-      if (reduce.matches) return Math.abs(dx) > 40 ? flip(dx > 0 ? 1 : -1) : settle(d.base);
-      settle(Math.round(angle / 180) * 180);                       // nearest face
+      if (cancelled) return settle(Math.round(d.base / 180) * 180);
+      if (reduce.matches) return Math.abs(dx) > 40 ? flip(dx > 0 ? 1 : -1) : settle(target);
+      if (Math.abs(v) > 0.45) { vel = v * 0.25; return settle((v > 0 ? Math.floor(angle / 180) + 1 : Math.ceil(angle / 180) - 1) * 180); } // fast flick
+      settle(Math.round(angle / 180) * 180); // nearest face
     }
     card.addEventListener('pointerup', e => end(e, false));
     card.addEventListener('pointercancel', e => end(e, true));
     card.addEventListener('click', e => {
       if (suppressClick) { suppressClick = false; e.preventDefault(); return; }
-      if (window.getSelection && String(window.getSelection())) return;
       flip(1);
     });
     card.addEventListener('keydown', e => {
       if (e.target !== card) return;
-      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); flip(1); }
-      else if (e.key === 'ArrowRight') { e.preventDefault(); flip(1); }
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar' || e.key === 'ArrowRight') { e.preventDefault(); flip(1); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); flip(-1); }
     });
     card.addEventListener('dragstart', e => e.preventDefault());
