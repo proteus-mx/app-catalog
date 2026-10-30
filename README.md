@@ -10,7 +10,7 @@ A static showcase of every Sapphire Studios app on the Apple App Store.
 | --- | --- |
 | `index.html` | The catalogue: hero, a carousel of featured collections, recently updated apps, and a searchable, filterable grid of every app |
 | `about.html` | About: the studio's story and mission, numbers (same count-up as the catalogue), what we make, featured collections, what's coming next and our approach |
-| `team.html` | Team: Paul Thornton (Founder & Chief Technology Officer) and Sophie Thornton (Junior Brand, Digital Marketing & AI Coordinator) |
+| `team.html` | Team: Paul Thornton (Founder & Chief Technology Officer) and Sophie Thornton (Junior Brand, Digital Marketing & AI Coordinator), plus the AI team (Engineering, Marketing, Design and QA Lead agents; `AI_TEAM` in the generator) |
 | `assets/team/` | Team photos (`<slug>.jpg` plus `<slug>.webp`; 800×800, sRGB, metadata stripped). Paul and Sophie both have photos; a member without one gets a monogram tile |
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
 | `app.js` | Search and category filter (press `/` to jump to search), the collections carousel, floating icons (tap to jump to an app, or drag and fling them) and the hero stats count-up |
