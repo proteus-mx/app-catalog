@@ -11,6 +11,7 @@ A static showcase of every Sapphire Studios app on the Apple App Store.
 | `index.html` | The catalogue: hero, a carousel of featured collections, recently updated apps, and a searchable, filterable grid of every app |
 | `about.html` | About: the studio's story and mission, numbers (same count-up as the catalogue), what we make, featured collections, what's coming next and our approach |
 | `team.html` | Team: Paul Thornton (Founder & Chief Technology Officer) and Sophie Thornton (Junior Brand, Digital Marketing & AI Coordinator), plus the AI team (Engineering, Marketing, Design and QA Lead agents; `AI_TEAM` in the generator) |
+| `workflow.html` | Workflow: how ideas become apps (Discover, Design, Develop, Deliver), with the AI agent leading each stage, the Human-in-the-Loop (HITL) checkpoints, the feedback loop and a "Who does what?" stage slider (`STAGES` in the generator) |
 | `assets/team/` | Team photos (`<slug>.jpg` plus `<slug>.webp`; 800×800, sRGB, metadata stripped). Paul and Sophie both have photos; a member without one gets a monogram tile |
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
 | `app.js` | Search and category filter (press `/` to jump to search), the collections carousel, floating icons (tap to jump to an app, or drag and fling them) and the hero stats count-up |
@@ -59,6 +60,10 @@ Every page shares one header and footer from the generator. Below 720px the head
 - `index.html` loads `style.css?v=…` and `app.js?v=…`. GitHub Pages caches files for 10 minutes, so **change the `v` value whenever you edit either file**. Without that, browsers (Safari especially) can pair new HTML with an old cached stylesheet and script.
 - Tested in Safari/WebKit (desktop and iPhone), Chrome and Chromium. The site works back to Safari 15: newer CSS such as `color-mix()` has plain colour fallbacks, `inert` has a tab-order fallback, and `backdrop-filter` is kept to a few large surfaces for performance.
 
+## Workflow page
+
+Stage owners follow the Team page's AI agents and reporting lines: Marketing and Design Leads (Sophie) lead Discover and Design, the Engineering Lead (Paul) leads Develop, and the QA and Marketing Leads lead Deliver. The journey gem follows the wavy path on desktop and a vertical rail on phones as you scroll; with reduced motion everything is shown complete and static. Keep the copy factual: no invented metrics, percentages or timelines.
+
 ## Business details
 
 The ABN (66 481 618 329) is set once as `ABN` in the generator and appears in every page footer and in the About page's Business details.
@@ -69,4 +74,4 @@ Download numbers (the hero "Downloads" stat and the per-app download badges) don
 
 ## Generator
 
-`index.html`, `about.html` and `team.html` are all written by the site generator (`build_catalog.py`, run by the daily App Store sync), from shared nav and footer templates, so the About and Team links and pages survive rebuilds. Team details live in its `TEAM` list; to swap a monogram for a photo, add `assets/team/<slug>.jpg` and rebuild.
+`index.html`, `about.html`, `team.html` and `workflow.html` are all written by the site generator (`build_catalog.py`, run by the daily App Store sync), from shared nav and footer templates, so the About, Workflow and Team links and pages survive rebuilds. Team details live in its `TEAM` list; to swap a monogram for a photo, add `assets/team/<slug>.jpg` and rebuild.

@@ -604,3 +604,102 @@
     card.addEventListener('dragstart', e => e.preventDefault());
   });
 })();
+
+/* ===== Workflow page: rotating headline, scroll-driven journey, who-does-what mixer, reveals ===== */
+(function () {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Rotating headline
+  const pairs = [...document.querySelectorAll('.rot-pairs .pair')];
+  if (pairs.length > 1) {
+    let i = 0;
+    setInterval(() => {
+      if (document.hidden) return;
+      const cur = pairs[i]; i = (i + 1) % pairs.length; const nxt = pairs[i];
+      cur.classList.remove('is-on'); cur.classList.add('is-out');
+      nxt.classList.remove('is-out'); nxt.classList.add('is-on');
+      setTimeout(() => cur.classList.remove('is-out'), 650);
+    }, reduce.matches ? 4200 : 2800);
+  }
+
+  // Scroll reveals
+  const rv = [...document.querySelectorAll('.rv')];
+  if (rv.length) {
+    if (reduce.matches || !('IntersectionObserver' in window)) rv.forEach(e => e.classList.add('in'));
+    else {
+      const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -6% 0px', threshold: 0 });
+      rv.forEach(e => io.observe(e));
+      // Safety net: anything already above the fold (fast flings, WebKit skipping an IO tick) is revealed too
+      let pend = false;
+      const sweep = () => { pend = false; const vh = window.innerHeight; rv.forEach(e => { if (!e.classList.contains('in') && e.getBoundingClientRect().top < vh * 0.94) { e.classList.add('in'); io.unobserve(e); } }); };
+      window.addEventListener('scroll', () => { if (!pend) { pend = true; setTimeout(sweep, 120); } }, { passive: true });
+    }
+  }
+
+  // Journey: a gem travels along the path (desktop) or down the rail (phone) as you scroll
+  const pipe = document.querySelector('[data-pipe]');
+  if (pipe) {
+    const path = pipe.querySelector('.pipe-fg');
+    const gem = pipe.querySelector('.pipe-gem');
+    const nodes = [...pipe.querySelectorAll('.pipe-node')];
+    const stages = [...pipe.querySelectorAll('.stage')];
+    const rail = pipe.querySelector('.rail');
+    const len = path ? path.getTotalLength() : 0;
+    if (path) { path.style.strokeDasharray = len + ' ' + len; }
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = pipe.getBoundingClientRect(), vh = window.innerHeight || 800;
+      const vertical = rail && getComputedStyle(rail).display !== 'none';
+      let p;
+      if (reduce.matches) p = 1;
+      else if (vertical) { const rr = rail.getBoundingClientRect(); p = (vh * 0.62 - rr.top) / Math.max(1, rr.height); }
+      else { const track = pipe.querySelector('.pipe-track').getBoundingClientRect(); p = (vh * 0.88 - track.top) / Math.max(1, r.bottom - track.top - vh * 0.12); }
+      if (window.scrollY + vh >= document.documentElement.scrollHeight - 4) p = 1;
+      p = Math.max(0, Math.min(1, p));
+      pipe.style.setProperty('--p', p.toFixed(4));
+      if (!vertical && path && gem) {
+        path.style.strokeDashoffset = (len * (1 - p)).toFixed(2);
+        const pt = path.getPointAtLength(len * p);
+        gem.style.left = (pt.x / 10) + '%';
+        gem.style.top = (pt.y / 1.2) + '%';
+        nodes.forEach((n, i) => n.classList.toggle('lit', p >= i / 3 - 0.001));
+        stages.forEach((s, i) => s.classList.toggle('lit', p >= i / 3 - 0.001));
+      } else if (vertical) {
+        const rr = rail.getBoundingClientRect(), y = rr.top + p * rr.height;
+        stages.forEach(s => { const d = s.querySelector('.stage-dot').getBoundingClientRect(); s.classList.toggle('lit', y >= d.top + d.height / 2 - 2); });
+      }
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+
+  // Who does what: slider + tabs
+  const mix = document.querySelector('[data-mix]');
+  if (mix) {
+    const range = mix.querySelector('.mix-range');
+    const tabs = [...mix.querySelectorAll('[role="tab"]')];
+    const panels = [...mix.querySelectorAll('.mix-panel')];
+    const show = (i, focus) => {
+      i = Math.max(0, Math.min(panels.length - 1, i));
+      panels.forEach((p, k) => { p.classList.toggle('on', k === i); p.hidden = k !== i; });
+      tabs.forEach((t, k) => { t.setAttribute('aria-selected', k === i ? 'true' : 'false'); t.tabIndex = k === i ? 0 : -1; });
+      if (+range.value !== i) range.value = i;
+      range.setAttribute('aria-valuetext', tabs[i].textContent);
+      if (focus) tabs[i].focus();
+    };
+    range.addEventListener('input', () => show(+range.value));
+    tabs.forEach((t, k) => {
+      t.addEventListener('click', () => show(k));
+      t.addEventListener('keydown', e => {
+        const m = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+        if (m) { e.preventDefault(); show((k + m + tabs.length) % tabs.length, true); }
+        else if (e.key === 'Home') { e.preventDefault(); show(0, true); }
+        else if (e.key === 'End') { e.preventDefault(); show(tabs.length - 1, true); }
+      });
+    });
+    show(0);
+  }
+})();
