@@ -46,6 +46,10 @@ The carousel near the top rotates through curated collections defined in `apps.j
 
 The carousel rotates every 6.5 seconds. It pauses on hover, on keyboard focus and while the tab is hidden, and stays still when the system asks for reduced motion. You can also move through it with the arrow buttons, the collection buttons, the left and right arrow keys, or a swipe on touch screens, and there's a pause/play button.
 
+## Team flip cards
+
+On the Team page, Paul's and Sophie's panels are 3D flip cards: the front is the profile, the back is a Sapphire Studios business card (name and title, gem wordmark, tagline, four real App Store categories and a QR code to the catalogue, `assets/qr-app-catalog.svg`). Drag or swipe sideways to turn them, or tap/click, or press Enter/Space. Vertical page scrolling still works over them, and with reduced motion they cross-fade instead of rotating.
+
 ## Navigation
 
 Every page shares one header and footer from the generator. Below 720px the header shows the logo plus a menu button that opens a panel (Apps, About, Team, View on App Store); it closes on a link tap, an outside tap, Esc or scrolling. Between 720px and 1000px the in-page Collections and Latest links are hidden so nothing collides.
