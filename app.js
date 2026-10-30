@@ -1,5 +1,6 @@
 (() => {
   const q = document.getElementById('q');
+  if (!q) return; // About and Team pages have no catalogue grid
   const cards = [...document.querySelectorAll('.card')];
   const chips = [...document.querySelectorAll('.chip')];
   const count = document.getElementById('count');

@@ -9,7 +9,9 @@ A static showcase of every Sapphire Studios app on the Apple App Store.
 | Path | Purpose |
 | --- | --- |
 | `index.html` | The catalogue: hero, a carousel of featured collections, recently updated apps, and a searchable, filterable grid of every app |
-| `about.html` | About & Team: the studio, what we make, our approach, numbers and the team. Linked from the catalogue nav and footer |
+| `about.html` | About: the studio's story and mission, numbers (same count-up as the catalogue), what we make, featured collections, what's coming next and our approach |
+| `team.html` | Team: Paul Thornton (Founder & Chief Technology Officer) and Sophie Thornton (Junior Brand, Digital Marketing & AI Coordinator) |
+| `assets/team/` | Team photos (`<slug>.jpg` plus `<slug>.webp`; 800×800, sRGB, metadata stripped). Paul and Sophie both have photos; a member without one gets a monogram tile |
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
 | `app.js` | Search and category filter (press `/` to jump to search), the collections carousel, floating icons (tap to jump to an app, or drag and fling them) and the hero stats count-up |
 | `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates. Upcoming titles live under `comingSoon` and collections under `collections` |
@@ -49,10 +51,14 @@ The carousel rotates every 6.5 seconds. It pauses on hover, on keyboard focus an
 - `index.html` loads `style.css?v=…` and `app.js?v=…`. GitHub Pages caches files for 10 minutes, so **change the `v` value whenever you edit either file**. Without that, browsers (Safari especially) can pair new HTML with an old cached stylesheet and script.
 - Tested in Safari/WebKit (desktop and iPhone), Chrome and Chromium. The site works back to Safari 15: newer CSS such as `color-mix()` has plain colour fallbacks, `inert` has a tab-order fallback, and `backdrop-filter` is kept to a few large surfaces for performance.
 
+## Business details
+
+The ABN (66 481 618 329) is set once as `ABN` in the generator and appears in every page footer and in the About page's Business details.
+
 ## Manual figures
 
 Download numbers (the hero "Downloads" stat and the per-app download badges) don't come from Apple. They're set by hand in the site generator (`MANUAL_STATS` and `DOWNLOADS`), so the daily App Store sync keeps them.
 
 ## Generator
 
-`index.html` and `about.html` are both written by the site generator (`build_catalog.py`, run by the daily App Store sync), so the About & Team link and page survive rebuilds. Team details live in its `TEAM` list.
+`index.html`, `about.html` and `team.html` are all written by the site generator (`build_catalog.py`, run by the daily App Store sync), from shared nav and footer templates, so the About and Team links and pages survive rebuilds. Team details live in its `TEAM` list; to swap a monogram for a photo, add `assets/team/<slug>.jpg` and rebuild.
