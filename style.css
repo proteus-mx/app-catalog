@@ -934,8 +934,8 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
 .cc-badge svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .cc-body-txt{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;flex:1;align-self:stretch}
 .cc-pill{color:var(--h1)}.cc-pill .ai-dot{background:var(--h1);box-shadow:0 0 8px var(--h1)}
-.cc-card h3{font-size:1.1rem;letter-spacing:-.015em;margin:0}
-.cc-anon{margin:-4px 0 0;font-size:.84rem;color:var(--muted);font-style:italic}
+.cc-card h3.cc-name{font-size:1.35rem;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin:2px 0 0}
+.cc-title{margin:-4px 0 0;color:var(--h1);font-weight:600;font-size:.95rem;line-height:1.35}
 .cc-desc{margin:0;color:var(--muted);font-size:.95rem;line-height:1.5}
 .cc-card .cc-tags{margin:2px 0 6px;gap:6px}
 .cc-card .genre{white-space:nowrap;color:var(--h1);border-color:color-mix(in srgb,var(--h2) 45%,transparent);background:color-mix(in srgb,var(--h2) 16%,transparent)}
