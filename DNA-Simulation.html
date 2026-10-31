@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA 3D Simulation - V1.0.17</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0GXQFMX3WV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0GXQFMX3WV');
+    </script>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
+        canvas { display: block; }
+        #quizButton, #unravelButton, #autoTourButton {
+            position: absolute;
+            bottom: 10px;
+            padding: 12px;
+            background: #222;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 8px;
+            touch-action: manipulation;
+        }
+        #quizButton { left: 10px; bottom: 60px; }
+        #unravelButton { left: 10px; }
+        #autoTourButton { right: 10px; }
+        #autoTourButton.throb {
+            animation: throb 1.5s ease-in-out infinite;
+        }
+        @keyframes throb {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        #header, #info, #sequencePanel, #focusPanel, #factsPanel, #baseInfo, #controlsPanel, #tourPanel, #scalePanel {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 8px;
+            border-radius: 8px;
+            transition: height 0.3s ease, top 0.3s ease, bottom 0.3s ease;
+        }
+        #header { top: 10px; left: 50%; transform: translateX(-50%); max-width: 90%; text-align: center; }
+        #info, #sequencePanel, #focusPanel, #baseInfo, #controlsPanel, #scalePanel { max-width: 100px; width: 100px; }
+        #info { top: 100px; right: 10px; }
+        #info.collapsed { top: 60px; }
+        #sequencePanel { top: 300px; right: 10px; }
+        #sequencePanel.collapsed { top: 260px; }
+        #focusPanel { top: 100px; left: 10px; text-align: left; }
+        #focusPanel.collapsed { top: 60px; }
+        #factsPanel { bottom: 30px; left: 50%; transform: translateX(-50%); max-width: 90%; text-align: center; }
+        #factsPanel.collapsed { bottom: 70px; }
+        #tourPanel { bottom: 30px; left: 50%; transform: translateX(-50%); max-width: 90%; text-align: center; display: none; }
+        #tourPanel.collapsed { bottom: 70px; }
+        #baseInfo { top: 250px; left: 10px; text-align: left; }
+        #baseInfo.collapsed { top: 210px; }
+        #controlsPanel { top: 350px; left: 10px; text-align: left; }
+        #controlsPanel.collapsed { top: 310px; }
+        #scalePanel { top: 450px; left: 10px; text-align: left; }
+        #scalePanel.collapsed { top: 410px; }
+        #header h1 { font-size: 18px; margin: 0 0 8px; }
+        #header p { font-size: 10px; margin: 3px 0; }
+        #sequencePanel h2, #focusPanel h2, #factsPanel h2, #baseInfo h2, #controlsPanel h2, #tourPanel h2, #scalePanel h2, #info h2 { font-size: 12px; margin: 0 0 6px; }
+        #info p, #info ul, #sequencePanel p, #focusPanel p, #baseInfo p, #controlsPanel p, #tourPanel p, #scalePanel p { font-size: 8px; margin: 3px 0; }
+        #factsPanel p, #tourPanel p { font-size: 10px; margin: 3px 0; }
+        #tourPanel label { font-size: 8px; }
+        #info ul { list-style: none; padding: 0; }
+        #info li { display: flex; justify-content: flex-end; align-items: center; margin: 3px 0; }
+        .color-box { width: 10px; height: 10px; margin-left: 4px; display: inline-block; }
+        #sequenceList, #focusList { display: flex; flex-direction: column; align-items: flex-end; font-family: monospace; font-size: 10px; margin: 0; padding: 0; list-style: none; }
+        #focusList { align-items: flex-start; }
+        #sequenceList li, #focusList li { margin: 2px 0; }
+        .base-A { color: #ff3333; }
+        .base-T { color: #33ff33; }
+        .base-G { color: #3333ff; }
+        .base-C { color: #ffff33; }
+        #factText, #tourText { opacity: 1; }
+        #prevFact, #nextFact, #pauseFact {
+            padding: 6px;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            border-radius: 4px;
+            margin: 5px 2px;
+            touch-action: manipulation;
+        }
+        #prevFact { float: left; }
+        #nextFact { float: right; }
+        #pauseFact { display: inline-block; }
+        #pauseFact.active { background: #555; }
+        #tourSpeed { width: 100px; margin: 5px 0; }
+        .toggle-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+            touch-action: manipulation;
+            padding: 8px;
+        }
+        .panel-content { display: block; }
+        .panel-content.collapsed { display: none; }
+        .panel.collapsed { height: 30px; overflow: hidden; }
+        .panel h2 { display: block; }
+        #factsPanel div.button-container { display: flex; justify-content: space-between; align-items: center; }
+        #quizModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 95%;
+            max-height: 80%;
+            overflow-y: auto;
+            z-index: 1000;
+            text-align: left;
+        }
+        #quizModal.active {
+            display: block;
+        }
+        #quizModal h2 { font-size: 16px; margin: 0 0 10px; }
+        #quizModal p { font-size: 12px; margin: 5px 0; }
+        #quizModal button {
+            padding: 6px 12px;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 4px;
+            margin: 5px;
+            touch-action: manipulation;
+        }
+        #quizModal button:hover { background: #555; }
+        #quizModal input[type="radio"] { margin-right: 5px; }
+        #quizModal label { font-size: 12px; cursor: pointer; }
+        #quizModal .question { margin: 10px 0; }
+        #quizModal .closeQuiz { float: right; }
+        #quizModal .score, #quizModal .timer { font-size: 12px; margin: 5px 0; }
+        #quizModal .summary { display: none; }
+        #quizModal .feedback { font-size: 12px; margin: 10px 0; }
+        #nextQuestion { display: none; }
+        #quizProgress { width: 100%; height: 10px; background: #333; border-radius: 5px; margin: 10px 0; }
+        #quizProgressBar { height: 100%; background: #33ff33; border-radius: 5px; width: 0%; transition: width 0.3s ease; }
+        #submitMessage {
+            display: none;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #33ff33;
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 1001;
+            animation: flash 0.5s alternate infinite;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        #overlay.active {
+            display: block;
+        }
+        @keyframes flash {
+            0% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        @media (max-width: 600px) {
+            #quizButton, #unravelButton, #autoTourButton {
+                padding: 10px;
+                font-size: 14px;
+            }
+            #prevFact, #nextFact, #pauseFact {
+                padding: 6px;
+                font-size: 10px;
+            }
+            .toggle-icon {
+                font-size: 12px;
+                padding: 8px;
+            }
+            #header h1 { font-size: 18px; }
+            #header p { font-size: 10px; }
+            #sequencePanel h2, #focusPanel h2, #factsPanel h2, #baseInfo h2, #controlsPanel h2, #tourPanel h2, #scalePanel h2, #info h2 { font-size: 12px; }
+            #info p, #info ul, #sequencePanel p, #focusPanel p, #baseInfo p, #controlsPanel p, #tourPanel p, #scalePanel p { font-size: 8px; }
+            #factsPanel p, #tourPanel p { font-size: 10px; }
+            #tourPanel label { font-size: 8px; }
+            #quizModal h2 { font-size: 16px; }
+            #quizModal p { font-size: 12px; }
+            #quizModal button { font-size: 12px; padding: 6px 12px; }
+            #quizModal label { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay"></div>
+    <button id="quizButton">Quiz</button>
+    <button id="unravelButton">Unravel DNA</button>
+    <button id="autoTourButton" class="throb">Start Tour</button>
+    <div id="header" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('header')" ontouchstart="togglePanel('header')">▼</span>
+        <h1>DNA 3D Simulation</h1>
+        <div class="panel-content">
+            <p>Explore a dynamic 3D model of DNA</p>
+        </div>
+    </div>
+    <div id="info" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('info')" ontouchstart="togglePanel('info')">▼</span>
+        <h2>Key</h2>
+        <div class="panel-content">
+            <ul>
+                <li>Adenine (A)<span class="color-box" style="background: #ff3333;"></span></li>
+                <li>Thymine (T)<span class="color-box" style="background: #33ff33;"></span></li>
+                <li>Guanine (G)<span class="color-box" style="background: #3333ff;"></span></li>
+                <li>Cytosine (C)<span class="color-box" style="background: #ffff33;"></span></li>
+                <li>Backbone<span class="color-box" style="background: #aaaaaa;"></span></li>
+                <li>Bonds<span class="color-box" style="background: #cccccc;"></span></li>
+            </ul>
+        </div>
+    </div>
+    <div id="sequencePanel" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('sequencePanel')" ontouchstart="togglePanel('sequencePanel')">▼</span>
+        <h2>DNA Sequence (5' to 3')</h2>
+        <div class="panel-content">
+            <ul id="sequenceList"></ul>
+        </div>
+    </div>
+    <div id="focusPanel" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('focusPanel')" ontouchstart="togglePanel('focusPanel')">▼</span>
+        <h2>Focus Sequence</h2>
+        <div class="panel-content">
+            <ul id="focusList"></ul>
+        </div>
+    </div>
+    <div id="factsPanel" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('factsPanel')" ontouchstart="togglePanel('factsPanel')">▼</span>
+        <h2>DNA Facts</h2>
+        <div class="panel-content">
+            <p id="factText"></p>
+            <div class="button-container">
+                <button id="prevFact" ontouchstart="handleFactNavigation(event, 'prev')">Previous</button>
+                <button id="pauseFact" ontouchstart="handleFactNavigation(event, 'pause')">Pause</button>
+                <button id="nextFact" ontouchstart="handleFactNavigation(event, 'next')">Next</button>
+            </div>
+            <div id="factProgress">
+                <div id="factProgressBar"></div>
+            </div>
+        </div>
+    </div>
+    <div id="tourPanel" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('tourPanel')" ontouchstart="togglePanel('tourPanel')">▼</span>
+        <h2>DNA Tour</h2>
+        <div class="panel-content">
+            <p id="tourText"></p>
+            <div>
+                <label for="tourSpeed">Tour Speed:</label>
+                <input type="range" id="tourSpeed" min="0" max="0.05" step="0.005" value="0.0025">
+            </div>
+        </div>
+    </div>
+    <div id="baseInfo" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('baseInfo')" ontouchstart="togglePanel('baseInfo')">▼</span>
+        <h2>Base Pair</h2>
+        <div class="panel-content">
+            <p id="baseInfoText">Click or tap a base to view details</p>
+        </div>
+    </div>
+    <div id="controlsPanel" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('controlsPanel')" ontouchstart="togglePanel('controlsPanel')">▼</span>
+        <h2>Controls</h2>
+        <div class="panel-content">
+            <p>
+                Tap: Select base<br>
+                Pinch: Zoom<br>
+                Drag: Rotate<br>
+                Two-finger drag: Pan
+            </p>
+        </div>
+    </div>
+    <div id="scalePanel" class="panel">
+        <span class="toggle-icon" onclick="togglePanel('scalePanel')" ontouchstart="togglePanel('scalePanel')">▼</span>
+        <h2>Scale</h2>
+        <div class="panel-content">
+            <p>
+                Strand Width: 2 nm<br>
+                Base Pair: 0.34 nm<br>
+                Bond Length: 1 nm<br>
+                Backbone Diameter: 0.2 nm<br>
+                Zoom: 500,000,000x
+            </p>
+        </div>
+    </div>
+    <div id="quizModal">
+        <button class="closeQuiz" ontouchstart="closeQuiz(event)">Close</button>
+        <h2>DNA Quiz</h2>
+        <div class="score">Score: <span id="quizScore">0</span>/12</div>
+        <div class="timer">Time: <span id="quizTimer">0:00</span></div>
+        <div id="quizProgress"><div id="quizProgressBar"></div></div>
+        <div id="quizQuestions"></div>
+        <div id="quizFeedback" class="feedback"></div>
+        <button id="nextQuestion" ontouchstart="handleNextQuestion(event)">Next</button>
+        <div class="summary" id="quizSummary"></div>
+        <div id="submitMessage">Submitting Score</div>
+    </div>
+    <script>
+        // Scene setup
+        const scene = new THREE.Scene();
+        const gradientTexture = new THREE.CanvasTexture(generateGradientCanvas());
+        scene.background = gradientTexture;
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.body.appendChild(renderer.domElement);
+
+        // Gradient background
+        function generateGradientCanvas() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const context = canvas.getContext('2d');
+            const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#1a1a1a');
+            gradient.addColorStop(1, '#333333');
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            return canvas;
+        }
+
+        // Orbit controls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = true;
+        controls.minDistance = 5;
+        controls.maxDistance = 50;
+        controls.enableZoom = true;
+        controls.enablePan = true;
+        controls.enableRotate = true;
+
+        // Camera position
+        camera.position.set(0, 5, 15);
+        controls.update();
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(50, 50, 50);
+        directionalLight.castShadow = true;
+        scene.add(directionalLight);
+        const pointLight = new THREE.PointLight(0xffffff, 0.5, 100);
+        pointLight.position.set(0, 10, 10);
+        scene.add(pointLight);
+
+        // Raycaster for base pair interaction
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let selectedBase = null;
+        let pairedBase = null;
+        let originalCameraPosition = new THREE.Vector3();
+        let targetCameraPosition = new THREE.Vector3();
+        let zoomProgress = 0;
+        let isZoomingOut = false;
+
+        // DNA parameters
+        const radius = 1.2;
+        const height = 20;
+        const segments = 100;
+        const basePairs = 60;
+        const twist = 10;
+
+        // Materials for base pairs
+        const materials = {
+            A: new THREE.MeshStandardMaterial({ color: 0xff3333, roughness: 0.4, metalness: 0.2 }),
+            T: new THREE.MeshStandardMaterial({ color: 0x33ff33, roughness: 0.4, metalness: 0.2 }),
+            G: new THREE.MeshStandardMaterial({ color: 0x3333ff, roughness: 0.4, metalness: 0.2 }),
+            C: new THREE.MeshStandardMaterial({ color: 0xffff33, roughness: 0.4, metalness: 0.2 })
+        };
+        const backboneMaterial = new THREE.MeshStandardMaterial({ color: 0xaaaaaa, roughness: 0.6, metalness: 0.1 });
+        const bondMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc, roughness: 0.5, metalness: 0.3 });
+
+        // Base pair information
+        const baseInfo = {
+            A: { name: "Adenine", pair: "Thymine", molecularWeight: "135.13 g/mol" },
+            T: { name: "Thymine", pair: "Adenine", molecularWeight: "126.11 g/mol" },
+            G: { name: "Guanine", pair: "Cytosine", molecularWeight: "151.13 g/mol" },
+            C: { name: "Cytosine", pair: "Guanine", molecularWeight: "111.10 g/mol" }
+        };
+
+        // DNA state
+        let isUnraveled = false;
+        let unravelProgress = 0;
+        let dnaSequence = [];
+        let isAutoTour = false;
+        let tourProgress = 0;
+        let tourSpeed = 0.0025;
+        let currentPosition = new THREE.Vector3(0, 5, 15);
+        let targetPosition = new THREE.Vector3();
+        let currentTarget = new THREE.Vector3(0, 0, 0);
+        let targetLookAt = new THREE.Vector3();
+        let isFactPaused = false;
+
+        // DNA facts
+        const dnaFacts = [
+            "DNA stands for Deoxyribonucleic Acid [Source: NHGRI]",
+            "A human DNA strand contains about 3 billion base pairs. [Source: NHGRI]",
+            "DNA is stored in the nucleus of cells. [Source: Genetics Home Reference]",
+            "Adenine pairs with Thymine, Guanine with Cytosine. [Source: NHGRI]",
+            "DNA replicates before cell division. [Source: Learn Genetics (U of Utah)]",
+            "The double helix structure was discovered in 1953. [Source: Watson and Crick, Nature]",
+            "Genes are segments of DNA that code for proteins. [Source: NHGRI]",
+            "DNA is about 2 nanometers wide. [Source: NHGRI]",
+            "Humans share about 98-99% of their DNA with chimpanzees.[Source: NIH Genome Research]",
+            "Mitochondrial DNA is inherited only from the mother. [Source: Genetics Home Reference]",
+            "Only about 1-2% of human DNA codes for proteins; the rest is non-coding. [Source: Nature Reviews Genetics]",
+            "Each human cell contains about 6 feet (2 meters) of DNA.[Source: NHGRI]",
+            "The order of DNA bases determines genetic instructions. [Source: Learn Genetics (U of Utah)]",
+            "DNA can be used to identify individuals through forensic analysis.[Source: FBI Forensics, NIH]",
+            "DNA profiling is used in ancestry and genealogy testing. [Source: 23andMe, AncestryDNA]",
+            "DNA can be damaged by UV light, chemicals, and radiation. [Source: American Cancer Society]",
+            "DNA is composed of two strands that coil around each other to form a double helix. [Source: NHGRI]",
+            "DNA is made of four chemical bases: adenine, thymine, guanine, and cytosine. [Source: NHGRI]",
+            "The human genome contains around 20,000-25,000 protein-coding genes. [Source: Ensembl, GENCODE]",
+            "DNA can be extracted from various sources, including blood, saliva, and hair. [Source: NCBI]",
+            "DNA damage can lead to mutations, which may cause cancer. [Source: American Cancer Society]",
+            "DNA can be artificially synthesized in the lab. [Source: Synthetic Biology, Nature]",
+            "CRISPR technology allows for precise editing of DNA sequences. [Source: Science, Nature]",
+            "DNA can be stored in synthetic DNA data storage systems, allowing for high-density data storage. [Source: Nature, Science]"
+        ];
+        let factIndex = 0;
+        const factText = document.getElementById('factText');
+        function updateFact(transition = true) {
+            if (transition) {
+                factText.textContent = '';
+                typeWriter(dnaFacts[factIndex], factText, 50);
+            } else {
+                factText.textContent = dnaFacts[factIndex];
+            }
+        }
+        updateFact(false);
+
+        // Typewriter animation
+        function typeWriter(text, element, speed) {
+            let i = 0;
+            element.textContent = '';
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Fact navigation and progress bar
+        const prevFactButton = document.getElementById('prevFact');
+        const nextFactButton = document.getElementById('nextFact');
+        const pauseFactButton = document.getElementById('pauseFact');
+        const factProgressBar = document.getElementById('factProgressBar');
+        let factTimer = 0;
+        const factInterval = 7000; // 7 seconds
+        function handleFactNavigation(event, action) {
+            event.preventDefault();
+            if (action === 'prev') {
+                factIndex = (factIndex - 1 + dnaFacts.length) % dnaFacts.length;
+                updateFact();
+                factTimer = 0;
+            } else if (action === 'next') {
+                factIndex = (factIndex + 1) % dnaFacts.length;
+                updateFact();
+                factTimer = 0;
+            } else if (action === 'pause') {
+                isFactPaused = !isFactPaused;
+                pauseFactButton.classList.toggle('active', isFactPaused);
+                pauseFactButton.textContent = isFactPaused ? 'Resume' : 'Pause';
+                if (!isFactPaused) factTimer = 0;
+            }
+        }
+        prevFactButton.addEventListener('click', () => handleFactNavigation(event, 'prev'));
+        nextFactButton.addEventListener('click', () => handleFactNavigation(event, 'next'));
+        pauseFactButton.addEventListener('click', () => handleFactNavigation(event, 'pause'));
+
+        // Tour commentary
+        const tourCommentary = [
+            "Side view: Observing the DNA double helix structure.",
+            "Angled view: Highlighting base pair connections.",
+            "Top-down view: Showing the spiral arrangement.",
+            "Diagonal view: Exploring the DNA's 3D geometry."
+        ];
+        let tourIndex = 0;
+        const tourText = document.getElementById('tourText');
+        function updateTourCommentary(transition = true) {
+            if (transition) {
+                tourText.textContent = '';
+                typeWriter(tourCommentary[tourIndex], tourText, 50);
+            } else {
+                tourText.textContent = tourCommentary[tourIndex];
+            }
+        }
+
+        // Tour speed control
+        const tourSpeedSlider = document.getElementById('tourSpeed');
+        tourSpeedSlider.addEventListener('input', () => {
+            tourSpeed = parseFloat(tourSpeedSlider.value);
+        });
+
+        // Toggle panel collapse/expand
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            const content = panel.querySelector('.panel-content');
+            const icon = panel.querySelector('.toggle-icon');
+            panel.classList.toggle('collapsed');
+            content.classList.toggle('collapsed');
+            icon.textContent = panel.classList.contains('collapsed') ? '▶' : '▼';
+        }
+
+        // Quiz functionality
+        const quizQuestions = [
+            {
+                question: "What does DNA stand for?",
+                options: ["Deoxyribonucleic Acid", "Dioxyribonucleic Acid", "Deoxynucleic Acid", "Dinucleic Acid"],
+                answer: "Deoxyribonucleic Acid",
+                feedback: "DNA, or Deoxyribonucleic Acid, is the molecule that carries genetic information in living organisms. The incorrect options are similar-sounding but not accurate terms."
+            },
+            {
+                question: "How many base pairs are in a human DNA strand?",
+                options: ["3 million", "3 billion", "30 million", "300 billion"],
+                answer: "3 billion",
+                feedback: "The human genome contains approximately 3 billion base pairs, forming the DNA in each cell. Other options are either too low or excessively high."
+            },
+            {
+                question: "Where is DNA stored in cells?",
+                options: ["Cytoplasm", "Mitochondria", "Nucleus", "Endoplasmic Reticulum"],
+                answer: "Nucleus",
+                feedback: "DNA is primarily stored in the nucleus of eukaryotic cells, where it is organized into chromosomes. Mitochondria contain a small amount of DNA, but the nucleus is the main storage site."
+            },
+            {
+                question: "Which base pairs with Adenine?",
+                options: ["Guanine", "Cytosine", "Thymine", "Uracil"],
+                answer: "Thymine",
+                feedback: "In DNA, Adenine pairs with Thymine via two hydrogen bonds. Guanine pairs with Cytosine, and Uracil is found in RNA, not DNA."
+            },
+            {
+                question: "When was the DNA double helix structure discovered?",
+                options: ["1943", "1953", "1963", "1973"],
+                answer: "1953",
+                feedback: "The double helix structure of DNA was discovered in 1953 by Watson and Crick, a landmark in molecular biology. The other years are incorrect."
+            },
+            {
+                question: "What is the width of a DNA strand?",
+                options: ["2 nanometers", "2 micrometers", "2 millimeters", "2 centimeters"],
+                answer: "2 nanometers",
+                feedback: "A DNA strand is about 2 nanometers wide, making it incredibly small. The other options represent much larger scales."
+            },
+            {
+                question: "What percentage of human DNA is shared with chimpanzees?",
+                options: ["50-60%", "70-80%", "98-99%", "90-95%"],
+                answer: "98-99%",
+                feedback: "Humans share 98-99% of their DNA with chimpanzees, reflecting our close evolutionary relationship. The other percentages are too low."
+            },
+            {
+                question: "What is mitochondrial DNA inherited from?",
+                options: ["Father", "Mother", "Both parents", "Neither parent"],
+                answer: "Mother",
+                feedback: "Mitochondrial DNA is inherited solely from the mother, as mitochondria are passed through the egg. The father's mitochondria are not typically inherited."
+            },
+            {
+                question: "What percentage of human DNA codes for proteins?",
+                options: ["1-2%", "10-20%", "50-60%", "80-90%"],
+                answer: "1-2%",
+                feedback: "Only about 1-2% of human DNA codes for proteins; the rest includes regulatory and non-coding regions. The higher percentages are incorrect."
+            },
+            {
+                question: "What technology allows precise DNA editing?",
+                options: ["PCR", "CRISPR", "Gel Electrophoresis", "DNA Sequencing"],
+                answer: "CRISPR",
+                feedback: "CRISPR is a precise gene-editing technology. PCR amplifies DNA, gel electrophoresis separates DNA, and DNA sequencing reads DNA sequences."
+            }
+        ];
+
+        let quizScore = 0;
+        let quizTimer = 0;
+        let quizInterval;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let questionStartTime = 0;
+        const quizModal = document.getElementById('quizModal');
+        const quizQuestionsDiv = document.getElementById('quizQuestions');
+        const quizFeedbackDiv = document.getElementById('quizFeedback');
+        const quizScoreSpan = document.getElementById('quizScore');
+        const quizTimerSpan = document.getElementById('quizTimer');
+        const nextQuestionButton = document.getElementById('nextQuestion');
+        const quizSummaryDiv = document.getElementById('quizSummary');
+        const quizProgressBar = document.getElementById('quizProgressBar');
+        const submitMessage = document.getElementById('submitMessage');
+        const overlay = document.getElementById('overlay');
+
+        function showQuestion(index) {
+            const q = quizQuestions[index];
+            quizQuestionsDiv.innerHTML = `
+                <div class="question">
+                    <p>${index + 1}. ${q.question}</p>
+                    ${q.options.map((option, i) => `
+                        <label>
+                            <input type="radio" name="q${index}" value="${option}">
+                            ${option}
+                        </label><br>
+                    `).join('')}
+                </div>
+            `;
+            quizFeedbackDiv.innerHTML = '';
+            nextQuestionButton.style.display = 'none';
+            quizProgressBar.style.width = `${((index + 1) / quizQuestions.length) * 100}%`;
+            questionStartTime = quizTimer;
+
+            const radioInputs = quizQuestionsDiv.querySelectorAll('input[type="radio"]');
+            radioInputs.forEach(input => {
+                input.parentElement.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    input.checked = true;
+                    showFeedback(index);
+                }, { passive: false });
+                input.parentElement.addEventListener('click', () => {
+                    showFeedback(index);
+                });
+            });
+        }
+
+        function showFeedback(index) {
+            const q = quizQuestions[index];
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            if (!selected) return;
+
+            const isCorrect = selected.value === q.answer;
+            const timeTaken = quizTimer - questionStartTime;
+            const bonusPoint = (timeTaken <= 5 && isCorrect) ? 1 : 0;
+            userAnswers[index] = { answer: selected.value, bonus: bonusPoint };
+            if (isCorrect) quizScore += 1 + bonusPoint;
+            quizScoreSpan.textContent = quizScore;
+
+            quizFeedbackDiv.innerHTML = `
+                <p>Your answer: ${selected.value}</p>
+                <p>Correct answer: ${q.answer}</p>
+                <p style="color: ${isCorrect ? '#33ff33' : '#ff3333'}">${isCorrect ? 'Correct!' : 'Incorrect'}</p>
+                <p>${q.feedback}</p>
+                ${isCorrect && bonusPoint ? '<p style="color: #33ff33">+1 Bonus Point for answering in ' + timeTaken + ' seconds!</p>' : ''}
+            `;
+            nextQuestionButton.style.display = 'block';
+            const radioInputs = quizQuestionsDiv.querySelectorAll('input[type="radio"]');
+            radioInputs.forEach(input => input.disabled = true);
+        }
+
+        function startQuiz(event) {
+            event.preventDefault();
+            quizScore = 0;
+            quizTimer = 0;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            quizScoreSpan.textContent = quizScore;
+            quizTimerSpan.textContent = "0:00";
+            quizSummaryDiv.style.display = 'none';
+            nextQuestionButton.style.display = 'none';
+            quizProgressBar.style.width = '10%';
+            submitMessage.style.display = 'none';
+            showQuestion(currentQuestionIndex);
+            overlay.classList.add('active');
+            quizModal.classList.add('active');
+            isFactPaused = true;
+            pauseFactButton.classList.add('active');
+            pauseFactButton.textContent = 'Resume';
+            factTimer = 0;
+
+            quizInterval = setInterval(() => {
+                quizTimer++;
+                const minutes = Math.floor(quizTimer / 60);
+                const seconds = quizTimer % 60;
+                quizTimerSpan.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function endQuiz() {
+            clearInterval(quizInterval);
+            quizQuestionsDiv.style.display = 'none';
+            quizFeedbackDiv.style.display = 'none';
+            nextQuestionButton.style.display = 'none';
+            quizSummaryDiv.style.display = 'block';
+            quizProgressBar.style.width = '100%';
+            overlay.classList.remove('active');
+            quizModal.classList.remove('active');
+            isFactPaused = false;
+            pauseFactButton.classList.remove('active');
+            pauseFactButton.textContent = 'Pause';
+            factTimer = 0;
+
+            const percentage = ((quizScore / 12) * 100).toFixed(2);
+            let summaryHTML = `
+                <h3>Quiz Summary</h3>
+                <p>Score: ${quizScore}/12 (${percentage}%)</p>
+                <p>Time: ${quizTimerSpan.textContent}</p>
+                <button id="submitScoreButton">Submit Score to Leaderboard</button>
+            `;
+            quizQuestions.forEach((q, index) => {
+                const userAnswer = userAnswers[index] || { answer: 'None', bonus: 0 };
+                const isCorrect = userAnswer.answer === q.answer;
+                summaryHTML += `
+                    <p>${index + 1}. ${q.question}<br>
+                    Your answer: ${userAnswer.answer}<br>
+                    Correct answer: ${q.answer}<br>
+                    ${isCorrect ? '<span style="color: #33ff33;">Correct' + (userAnswer.bonus ? ' (+1 Bonus)' : '') + '</span>' : '<span style="color: #ff3333;">Incorrect</span>'}</p>
+                `;
+            });
+            quizSummaryDiv.innerHTML = summaryHTML;
+
+            const submitScoreButton = document.getElementById('submitScoreButton');
+            submitScoreButton.addEventListener('click', submitScore);
+            submitScoreButton.addEventListener('touchstart', submitScore, { passive: false });
+        }
+
+        function submitScoreToGameCenter(score, leaderboardId) {
+            window.webkit?.messageHandlers.gridWarsHandler.postMessage({
+                action: "submitScore",
+                score: score,
+                leaderboardId: leaderboardId
+            });
+        }
+
+        function submitScore(event) {
+            event.preventDefault();
+            submitMessage.style.display = 'block';
+
+            submitScoreToGameCenter(quizScore, "dnasimLeaderboard1");
+
+            setTimeout(() => {
+                submitMessage.style.display = 'none';
+                console.log(`Score ${quizScore}/12 submitted to leaderboard at ${quizTimerSpan.textContent}`);
+            }, 2000);
+        }
+
+        function closeQuiz(event) {
+            event.preventDefault();
+            clearInterval(quizInterval);
+            quizModal.classList.remove('active');
+            overlay.classList.remove('active');
+            quizQuestionsDiv.style.display = 'block';
+            quizFeedbackDiv.style.display = 'block';
+            quizSummaryDiv.style.display = 'none';
+            nextQuestionButton.style.display = 'none';
+            quizProgressBar.style.width = '0%';
+            submitMessage.style.display = 'none';
+            isFactPaused = false;
+            pauseFactButton.classList.remove('active');
+            pauseFactButton.textContent = 'Pause';
+            factTimer = 0;
+        }
+
+        const quizButton = document.getElementById('quizButton');
+        quizButton.addEventListener('click', startQuiz);
+        quizButton.addEventListener('touchstart', startQuiz, { passive: false });
+
+        document.querySelector('.closeQuiz').addEventListener('click', closeQuiz);
+        document.querySelector('.closeQuiz').addEventListener('touchstart', closeQuiz, { passive: false });
+
+        function handleNextQuestion(event) {
+            event.preventDefault();
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                showQuestion(currentQuestionIndex);
+            } else {
+                endQuiz();
+            }
+        }
+        nextQuestionButton.addEventListener('click', handleNextQuestion);
+        nextQuestionButton.addEventListener('touchstart', handleNextQuestion, { passive: false });
+
+        // Generate DNA double helix
+        function createDNAStrand() {
+            const group = new THREE.Group();
+            const bases = ['A', 'T', 'G', 'C'];
+            const meshes = { bases: [], bonds: [], backbones: [] };
+            const initialPositions = [];
+
+            for (let i = 0; i < basePairs; i++) {
+                const theta = (i / basePairs) * Math.PI * twist;
+                const y = (i / basePairs) * height - height / 2;
+
+                const base1 = bases[Math.floor(Math.random() * 4)];
+                const base2 = base1 === 'A' ? 'T' : base1 === 'T' ? 'A' : base1 === 'G' ? 'C' : 'G';
+                dnaSequence.push(base1);
+
+                const sphere1 = new THREE.SphereGeometry(0.25, 16, 16);
+                const mesh1 = new THREE.Mesh(sphere1, materials[base1]);
+                mesh1.position.set(radius * Math.cos(theta), y, radius * Math.sin(theta));
+                mesh1.castShadow = true;
+                mesh1.receiveShadow = true;
+                mesh1.userData = { base: base1, index: i * 2, pairIndex: i * 2 + 1 };
+                group.add(mesh1);
+                meshes.bases.push(mesh1);
+                initialPositions.push({ x: radius * Math.cos(theta), y, z: radius * Math.sin(theta) });
+
+                const sphere2 = new THREE.SphereGeometry(0.25, 16, 16);
+                const mesh2 = new THREE.Mesh(sphere2, materials[base2]);
+                mesh2.position.set(-radius * Math.cos(theta), y, -radius * Math.sin(theta));
+                mesh2.castShadow = true;
+                mesh2.receiveShadow = true;
+                mesh2.userData = { base: base2, index: i * 2 + 1, pairIndex: i * 2 };
+                group.add(mesh2);
+                meshes.bases.push(mesh2);
+                initialPositions.push({ x: -radius * Math.cos(theta), y, z: -radius * Math.sin(theta) });
+
+                const curve = new THREE.CatmullRomCurve3([mesh1.position, mesh2.position]);
+                const tubeGeometry = new THREE.TubeGeometry(curve, 10, 0.06, 8, false);
+                const tube = new THREE.Mesh(tubeGeometry, bondMaterial);
+                tube.castShadow = true;
+                group.add(tube);
+                meshes.bonds.push(tube);
+            }
+
+            const points1 = [];
+            const points2 = [];
+            for (let i = 0; i <= segments; i++) {
+                const t = i / segments;
+                const theta = t * Math.PI * twist;
+                const y = t * height - height / 2;
+                points1.push(new THREE.Vector3(radius * Math.cos(theta), y, radius * Math.sin(theta)));
+                points2.push(new THREE.Vector3(-radius * Math.cos(theta), y, -radius * Math.sin(theta)));
+            }
+
+            const curve1 = new THREE.CatmullRomCurve3(points1);
+            const curve2 = new THREE.CatmullRomCurve3(points2);
+            const tubeGeometry1 = new THREE.TubeGeometry(curve1, segments, 0.12, 16, false);
+            const tubeGeometry2 = new THREE.TubeGeometry(curve2, segments, 0.12, 16, false);
+            const backbone1 = new THREE.Mesh(tubeGeometry1, backboneMaterial);
+            const backbone2 = new THREE.Mesh(tubeGeometry2, backboneMaterial);
+            backbone1.castShadow = true;
+            backbone2.castShadow = true;
+            group.add(backbone1, backbone2);
+            meshes.backbones.push(backbone1, backbone2);
+
+            return { group, meshes, initialPositions };
+        }
+
+        const { group: dna, meshes, initialPositions } = createDNAStrand();
+        scene.add(dna);
+
+        // Update sequence display
+        function updateSequenceDisplay() {
+            const sequenceList = document.getElementById('sequenceList');
+            sequenceList.innerHTML = '';
+            for (let i = 0; i < dnaSequence.length; i += 4) {
+                const group = dnaSequence.slice(i, i + 4);
+                const li = document.createElement('li');
+                li.innerHTML = group.map(base => `<span class="base-${base}">${base}</span>`).join(' ');
+                sequenceList.appendChild(li);
+            }
+        }
+        updateSequenceDisplay();
+
+        // Update focus sequence display
+        function updateFocusDisplay() {
+            const focusList = document.getElementById('focusList');
+            focusList.innerHTML = '';
+
+            const yPos = camera.position.y;
+            const dnaHeight = height;
+            const normalizedY = (yPos + dnaHeight / 2) / dnaHeight;
+            const focusIndex = Math.floor(normalizedY * basePairs);
+            const startIndex = Math.max(0, focusIndex - 8);
+            const endIndex = Math.min(basePairs, focusIndex + 8);
+            const focusSequence = dnaSequence.slice(startIndex, endIndex);
+
+            for (let i = 0; i < focusSequence.length; i += 4) {
+                const group = focusSequence.slice(i, i + 4);
+                const li = document.createElement('li');
+                li.innerHTML = group.map(base => `<span class="base-${base}">${base}</span>`).join(' ');
+                focusList.appendChild(li);
+            }
+        }
+        updateFocusDisplay();
+
+        // Handle base pair selection (mouse and touch)
+        function onSelect(event) {
+            event.preventDefault();
+            let clientX, clientY;
+            if (event.type === 'touchstart') {
+                clientX = event.touches[0].clientX;
+                clientY = event.touches[0].clientY;
+            } else {
+                clientX = event.clientX;
+                clientY = event.clientY;
+            }
+            mouse.x = (clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(meshes.bases);
+
+            const baseInfoText = document.getElementById('baseInfoText');
+            if (intersects.length > 0) {
+                const mesh = intersects[0].object;
+                const base = mesh.userData.base;
+                const info = baseInfo[base];
+                baseInfoText.innerHTML = `
+                    <strong>Base:</strong> ${info.name}<br>
+                    <strong>Pairs with:</strong> ${info.pair}<br>
+                    <strong>Molecular Weight:</strong> ${info.molecularWeight}
+                `;
+                if (selectedBase) selectedBase.scale.set(1, 1, 1);
+                if (pairedBase) pairedBase.scale.set(1, 1, 1);
+                mesh.scale.set(1.5, 1.5, 1.5);
+                selectedBase = mesh;
+                pairedBase = meshes.bases[mesh.userData.pairIndex];
+                pairedBase.scale.set(1.5, 1.5, 1.5);
+                originalCameraPosition.copy(camera.position);
+                targetCameraPosition.copy(mesh.position).add(new THREE.Vector3(0, 0, 5));
+                zoomProgress = 0;
+                controls.enabled = false;
+                isZoomingOut = false;
+            } else {
+                baseInfoText.textContent = "Click or tap a base to view details";
+                if (selectedBase) {
+                    selectedBase.scale.set(1, 1, 1);
+                    pairedBase.scale.set(1, 1, 1);
+                    selectedBase = null;
+                    pairedBase = null;
+                }
+                originalCameraPosition.copy(camera.position);
+                targetCameraPosition.set(0, 0, 25);
+                zoomProgress = 0;
+                controls.enabled = true;
+                isZoomingOut = true;
+            }
+        }
+        window.addEventListener('click', onSelect);
+        window.addEventListener('touchstart', onSelect, { passive: false });
+
+        // Unravel button
+        const unravelButton = document.getElementById('unravelButton');
+        function handleUnravel(event) {
+            event.preventDefault();
+            isUnraveled = !isUnraveled;
+            unravelButton.textContent = isUnraveled ? 'Reform DNA' : 'Unravel DNA';
+            updateSequenceDisplay();
+            updateFocusDisplay();
+        }
+        unravelButton.addEventListener('click', handleUnravel);
+        unravelButton.addEventListener('touchstart', handleUnravel, { passive: false });
+
+        // Auto tour button
+        const autoTourButton = document.getElementById('autoTourButton');
+        function handleAutoTour(event) {
+            event.preventDefault();
+            isAutoTour = !isAutoTour;
+            autoTourButton.textContent = isAutoTour ? 'Stop Tour' : 'Start Tour';
+            autoTourButton.classList.toggle('throb', !isAutoTour);
+            controls.enabled = !isAutoTour;
+            if (isAutoTour) {
+                currentPosition.copy(camera.position);
+                currentTarget.set(0, 0, 0);
+                document.getElementById('factsPanel').style.display = 'none';
+                document.getElementById('tourPanel').style.display = 'block';
+                tourIndex = 0;
+                updateTourCommentary(false);
+            } else {
+                document.getElementById('factsPanel').style.display = 'block';
+                document.getElementById('tourPanel').style.display = 'none';
+                isUnraveled = false;
+                unravelButton.textContent = 'Unravel DNA';
+            }
+        }
+        autoTourButton.addEventListener('click', handleAutoTour);
+        autoTourButton.addEventListener('touchstart', handleAutoTour, { passive: false });
+
+        function updateDNA() {
+            try {
+                for (let i = 0; i < basePairs; i++) {
+                    const y = (i / basePairs) * height - height / 2;
+                    const initPos1 = initialPositions[i * 2];
+                    const initPos2 = initialPositions[i * 2 + 1];
+
+                    const mesh1 = meshes.bases[i * 2];
+                    const mesh2 = meshes.bases[i * 2 + 1];
+                    const x1 = THREE.MathUtils.lerp(initPos1.x, 2, unravelProgress);
+                    const x2 = THREE.MathUtils.lerp(initPos2.x, -2, unravelProgress);
+                    const z1 = THREE.MathUtils.lerp(initPos1.z, 0, unravelProgress);
+                    const z2 = THREE.MathUtils.lerp(initPos2.z, 0, unravelProgress);
+                    mesh1.position.set(x1, y, z1);
+                    mesh2.position.set(x2, y, z2);
+
+                    const bond = meshes.bonds[i];
+                    const oldGeometry = bond.geometry;
+                    const curve = new THREE.CatmullRomCurve3([mesh1.position, mesh2.position]);
+                    bond.geometry = new THREE.TubeGeometry(curve, 10, 0.06, 8, false);
+                    oldGeometry.dispose();
+                }
+
+                const points1 = [];
+                const points2 = [];
+                for (let i = 0; i <= segments; i++) {
+                    const t = i / segments;
+                    const y = t * height - height / 2;
+                    const initTheta = t * Math.PI * twist;
+                    const x1 = THREE.MathUtils.lerp(radius * Math.cos(initTheta), 2, unravelProgress);
+                    const x2 = THREE.MathUtils.lerp(-radius * Math.cos(initTheta), -2, unravelProgress);
+                    const z1 = THREE.MathUtils.lerp(radius * Math.sin(initTheta), 0, unravelProgress);
+                    const z2 = THREE.MathUtils.lerp(-radius * Math.sin(initTheta), 0, unravelProgress);
+                    points1.push(new THREE.Vector3(x1, y, z1));
+                    points2.push(new THREE.Vector3(x2, y, z2));
+                }
+
+                const oldBackbone1Geometry = meshes.backbones[0].geometry;
+                const oldBackbone2Geometry = meshes.backbones[1].geometry;
+                const curve1 = new THREE.CatmullRomCurve3(points1);
+                const curve2 = new THREE.CatmullRomCurve3(points2);
+                meshes.backbones[0].geometry = new THREE.TubeGeometry(curve1, segments, 0.12, 16, false);
+                meshes.backbones[1].geometry = new THREE.TubeGeometry(curve2, segments, 0.12, 16, false);
+                oldBackbone1Geometry.dispose();
+                oldBackbone2Geometry.dispose();
+            } catch (error) {
+                console.error('Error updating DNA:', error);
+            }
+        }
+
+        function animate() {
+            try {
+                requestAnimationFrame(animate);
+
+                if (isUnraveled && unravelProgress < 1) {
+                    unravelProgress = Math.min(unravelProgress + 0.005, 1);
+                    updateDNA();
+                } else if (!isUnraveled && unravelProgress > 0) {
+                    unravelProgress = Math.max(unravelProgress - 0.005, 0);
+                    updateDNA();
+                }
+
+                dna.rotation.y += 0.004;
+
+                if (selectedBase && pairedBase) {
+                    const throbScale = 1.5 + 0.2 * Math.sin(performance.now() * 0.005);
+                    selectedBase.scale.set(throbScale, throbScale, throbScale);
+                    pairedBase.scale.set(throbScale, throbScale, throbScale);
+                }
+
+                if ((selectedBase || isZoomingOut) && zoomProgress < 1) {
+                    zoomProgress = Math.min(zoomProgress + 0.05, 1);
+                    camera.position.lerpVectors(originalCameraPosition, targetCameraPosition, zoomProgress);
+                    camera.lookAt(selectedBase ? selectedBase.position : new THREE.Vector3(0, 0, 0));
+                } else if (!selectedBase && isZoomingOut && zoomProgress >= 1) {
+                    isZoomingOut = false;
+                }
+
+                if (isAutoTour) {
+                    tourProgress += tourSpeed;
+                    const cycle = tourProgress % (2 * Math.PI);
+
+                    if (cycle < Math.PI / 2 && !isUnraveled) {
+                        isUnraveled = true;
+                        unravelButton.textContent = 'Reform DNA';
+                        tourIndex = 0;
+                        updateTourCommentary();
+                    } else if (cycle < Math.PI && tourIndex !== 1) {
+                        tourIndex = 1;
+                        updateTourCommentary();
+                    } else if (cycle < 3 * Math.PI / 2 && isUnraveled) {
+                        isUnraveled = false;
+                        unravelButton.textContent = 'Unravel DNA';
+                        tourIndex = 2;
+                        updateTourCommentary();
+                    } else if (cycle >= 3 * Math.PI / 2 && tourIndex !== 3) {
+                        tourIndex = 3;
+                        updateTourCommentary();
+                    }
+
+                    if (cycle < Math.PI / 2) {
+                        const zoomRadius = 10 + 5 * Math.sin(tourProgress * 0.5);
+                        targetPosition.set(
+                            zoomRadius * Math.sin(tourProgress),
+                            5 + 3 * Math.sin(tourProgress * 0.3),
+                            zoomRadius * Math.cos(tourProgress)
+                        );
+                        targetLookAt.set(0, 0, 0);
+                    } else if (cycle < Math.PI) {
+                        const zoomRadius = 8 + 4 * Math.cos(tourProgress * 0.4);
+                        targetPosition.set(
+                            zoomRadius * Math.cos(tourProgress * 0.7),
+                            10 + 2 * Math.sin(tourProgress * 0.2),
+                            zoomRadius * Math.sin(tourProgress * 0.7)
+                        );
+                        targetLookAt.set(0, 0, 0);
+                    } else if (cycle < 3 * Math.PI / 2) {
+                        targetPosition.set(
+                            2 * Math.sin(tourProgress * 0.5),
+                            15 + 3 * Math.sin(tourProgress * 0.3),
+                            2 * Math.cos(tourProgress * 0.5)
+                        );
+                        targetLookAt.set(0, 0, 0);
+                    } else {
+                        const zoomRadius = 12 + 3 * Math.sin(tourProgress * 0.6);
+                        targetPosition.set(
+                            zoomRadius * Math.sin(tourProgress * 0.8),
+                            3 + 4 * Math.cos(tourProgress * 0.4),
+                            zoomRadius * Math.cos(tourProgress * 0.8)
+                        );
+                        targetLookAt.set(0, 0, 0);
+                    }
+
+                    currentPosition.lerp(targetPosition, 0.05);
+                    currentTarget.lerp(targetLookAt, 0.05);
+                    camera.position.copy(currentPosition);
+                    camera.lookAt(currentTarget);
+                } else {
+                    controls.update();
+                }
+
+                if (!isFactPaused && !isAutoTour) {
+                    factTimer += 16.67;
+                    if (factTimer >= factInterval) {
+                        factIndex = (factIndex + 1) % dnaFacts.length;
+                        updateFact();
+                        factTimer = 0;
+                    }
+                    factProgressBar.style.width = `${(factTimer / factInterval) * 100}%`;
+                } else {
+                    factProgressBar.style.width = '0%';
+                }
+
+                updateFocusDisplay();
+                renderer.render(scene, camera);
+            } catch (error) {
+                console.error('Animation error:', error);
+            }
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            try {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            } catch (error) {
+                console.error('Resize error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
