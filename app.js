@@ -744,7 +744,7 @@
   });
 })();
 
-/* ===== Tech page: landscape process flow (interactive, animated) ===== */
+/* ===== Tech page: landscape process flow (interactive, animated, follow-the-ball) ===== */
 (function () {
   const fl = document.querySelector('[data-flow]');
   if (!fl) return;
@@ -754,12 +754,14 @@
   const nodes = [...fl.querySelectorAll('.fl-node')];
   const edges = [...fl.querySelectorAll('.fl-edge')];
   const details = [...document.querySelectorAll('.fl-detail')];
+  const balls = [...fl.querySelectorAll('.fl-ball')];
+  const legend = [...sec.querySelectorAll('.fl-lg')];
   const play = sec.querySelector('.fl-play'), playL = sec.querySelector('.fl-play-l');
-  const route = fl.querySelector('.fl-route'), pulse = fl.querySelector('.fl-pulse'), halo = fl.querySelector('.fl-halo');
+  const chip = sec.querySelector('.fl-following'), chipName = sec.querySelector('.fl-fname'), stopBtn = sec.querySelector('.fl-stop');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let scale = 1, cur = 0, visible = false, timer = null;
+  const keyIdx = {}; nodes.forEach((n, i) => { keyIdx[n.dataset.k] = i; });
+  let scale = 1, cur = 0, visible = false, timer = null, follow = -1, expected = null, routeOn = -1;
 
-  // Fit on wide screens; otherwise scroll sideways at full size
   function fit() {
     const avail = fl.clientWidth;
     scale = avail / W >= 0.8 ? Math.min(1, avail / W) : 1;
@@ -772,7 +774,6 @@
     fl.classList.toggle('at-start', sc.scrollLeft <= 4);
     fl.classList.toggle('at-end', sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 4);
   }
-  sc.addEventListener('scroll', edgesFade, { passive: true });
   window.addEventListener('resize', fit);
   fit();
 
@@ -785,6 +786,7 @@
   }
   function select(i, opts) {
     opts = opts || {};
+    if (i === cur && opts.quiet && fl.classList.contains('has-sel')) return;
     cur = i;
     nodes.forEach((n, k) => n.setAttribute('aria-pressed', k === i ? 'true' : 'false'));
     fl.classList.add('has-sel');
@@ -796,72 +798,147 @@
     nodes.forEach((n, k) => n.classList.toggle('near', near.has(k) && k !== i));
     details.forEach(d => {
       const on = +d.dataset.i === i; d.hidden = !on;
-      if (on && !reduce.matches) { d.classList.remove('show'); void d.offsetWidth; d.classList.add('show'); }
+      if (on && !reduce.matches && !opts.quiet) { d.classList.remove('show'); void d.offsetWidth; d.classList.add('show'); }
     });
     if (opts.scroll) reveal(i, true);
   }
   nodes.forEach((n, i) => {
-    n.addEventListener('click', () => { stopRun(); select(i); });
+    n.addEventListener('click', () => { stopRun(); stopFollow(); select(i); });
     n.addEventListener('keydown', e => {
       let j = null;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = Math.min(nodes.length - 1, i + 1);
       else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') j = Math.max(0, i - 1);
       else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = nodes.length - 1;
       if (j === null) return;
-      e.preventDefault(); nodes[j].focus({ preventScroll: true }); reveal(j, true);
+      e.preventDefault(); stopFollow(); nodes[j].focus({ preventScroll: true }); reveal(j, true);
     });
   });
+
+  // Routes: precomputed points (every ~4px) with the step each point passes through
+  const routes = balls.map((b, bi) => {
+    const p = document.getElementById('fl-route-' + bi);
+    let len = 0; try { len = p.getTotalLength(); } catch (e) { len = 0; }
+    const n = Math.max(2, Math.round(len / 4)), pts = [];
+    for (let k = 0; k <= n; k++) {
+      const q = p.getPointAtLength(len * k / n); let near = -1, best = 1e9;
+      nodes.forEach((nd, ni) => {
+        const dx = q.x - parseFloat(nd.style.left), dy = q.y - parseFloat(nd.style.top), d = dx * dx + dy * dy;
+        if (d < best) { best = d; near = ni; }
+      });
+      pts.push([q.x, q.y, best < 32 * 32 ? near : -1]);
+    }
+    return { pts, len, off: parseFloat(b.dataset.o) || 0, last: -2, edgeKeys: null };
+  });
+  // edges each ball's route uses (for route highlighting)
+  const routeSteps = balls.map((b, bi) => {
+    const seq = (b.dataset.r || '').split(' ').map(k => keyIdx[k]);
+    const set = new Set(); for (let k = 0; k + 1 < seq.length; k++) set.add(seq[k] + '>' + seq[k + 1]);
+    return set;
+  });
+  function highlightRoute(bi) {
+    routeOn = bi;
+    const set = bi >= 0 ? routeSteps[bi] : null, c = bi >= 0 ? getComputedStyle(balls[bi]).getPropertyValue('--c') : '';
+    edges.forEach(e => {
+      const on = !!set && set.has(e.dataset.a + '>' + e.dataset.b);
+      e.classList.toggle('rt', on); if (on) e.style.setProperty('--rc', c); else e.style.removeProperty('--rc');
+    });
+    legend.forEach((l, k) => l.setAttribute('aria-pressed', k === bi ? 'true' : 'false'));
+  }
+  const SPEED = 0.13; // canvas px per ms
+  let raf = null, tPrev = null, clock = 0;
+  function place(bi, t) {
+    const r = routes[bi]; if (!r.len) return -1;
+    const dur = r.len / SPEED, f = ((t / dur) + r.off) % 1, idx = Math.min(r.pts.length - 1, Math.round(f * (r.pts.length - 1)));
+    const p = r.pts[idx];
+    balls[bi].style.transform = 'translate3d(' + p[0].toFixed(1) + 'px,' + p[1].toFixed(1) + 'px,0)';
+    balls[bi]._x = p[0];
+    return p[2];
+  }
+  function frame(ts) {
+    raf = null;
+    if (!visible || reduce.matches) { tPrev = null; return; }
+    if (tPrev !== null) clock += Math.min(64, ts - tPrev);
+    tPrev = ts;
+    balls.forEach((b, bi) => {
+      const n = place(bi, clock), r = routes[bi];
+      if (n !== r.last) {
+        if (n >= 0) {
+          const nd = nodes[n]; nd.classList.remove('ping'); void nd.offsetWidth; nd.classList.add('ping');
+          if (bi === follow) select(n, { quiet: true });
+        }
+        r.last = n;
+      }
+    });
+    if (follow >= 0 && sc.scrollWidth > sc.clientWidth + 1) {
+      const max = sc.scrollWidth - sc.clientWidth;
+      const target = Math.max(0, Math.min(max, balls[follow]._x * scale - sc.clientWidth / 2));
+      const now = sc.scrollLeft, next = now + (target - now) * 0.12;
+      if (Math.abs(target - now) > 0.5) { sc.scrollLeft = next; expected = sc.scrollLeft; }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function startAnim() { if (!raf && visible && !reduce.matches) { tPrev = null; raf = requestAnimationFrame(frame); } }
+  function stopAnim() { if (raf) { cancelAnimationFrame(raf); raf = null; } tPrev = null; }
+  balls.forEach((b, bi) => place(bi, 0));
+
+  // Follow mode
+  function startFollow(bi) {
+    stopRun();
+    follow = bi; expected = null;
+    balls.forEach((b, k) => b.classList.toggle('on', k === bi));
+    const c = getComputedStyle(balls[bi]).getPropertyValue('--c');
+    chip.style.setProperty('--fc', c); chipName.textContent = balls[bi].getAttribute('aria-label').match(/the (\w+) ball/)[1];
+    chip.hidden = false; sec.classList.add('following');
+    highlightRoute(bi);
+    const n = routes[bi].last; if (n >= 0) select(n, { quiet: true });
+    startAnim();
+  }
+  function stopFollow() {
+    if (follow < 0) return;
+    follow = -1; expected = null;
+    balls.forEach(b => b.classList.remove('on'));
+    chip.hidden = true; sec.classList.remove('following');
+    highlightRoute(-1);
+  }
+  balls.forEach((b, bi) => b.addEventListener('click', e => { e.stopPropagation(); follow === bi ? stopFollow() : startFollow(bi); }));
+  legend.forEach((l, bi) => l.addEventListener('click', () => {
+    if (reduce.matches) {           // static diagram: just show the route
+      stopFollow(); if (routeOn === bi) highlightRoute(-1); else { highlightRoute(bi); select(routes[bi].pts.find(p => p[2] >= 0)[2], { scroll: true }); }
+      return;
+    }
+    if (follow === bi) stopFollow(); else { startFollow(bi); if (fl.getBoundingClientRect().top < 0 || fl.getBoundingClientRect().top > innerHeight * 0.6) fl.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+  }));
+  stopBtn.addEventListener('click', stopFollow);
+  // Manual scrolling or swiping exits follow mode
+  sc.addEventListener('scroll', () => {
+    edgesFade();
+    if (follow >= 0 && expected !== null && Math.abs(sc.scrollLeft - expected) > 2) stopFollow();
+  }, { passive: true });
+  const userInput = e => { if (follow >= 0 && !(e.target.closest && e.target.closest('.fl-ball'))) stopFollow(); };
+  sc.addEventListener('wheel', e => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) userInput(e); }, { passive: true });
+  sc.addEventListener('touchstart', userInput, { passive: true });
+  sc.addEventListener('keydown', e => { if (e.target === sc && /Arrow|Page|Home|End/.test(e.key)) userInput(e); });
 
   // Run the flow: step through every node
   function setPlay(on) { play.setAttribute('aria-pressed', on ? 'true' : 'false'); playL.textContent = on ? 'Pause' : 'Run the flow'; }
   function stopRun() { if (timer) { clearInterval(timer); timer = null; } setPlay(false); }
   function startRun() {
-    stopRun(); setPlay(true);
+    stopFollow(); stopRun(); setPlay(true);
     select(fl.classList.contains('has-sel') ? (cur + 1) % nodes.length : 0, { scroll: true });
-    timer = setInterval(() => { if (visible && !document.hidden) select((cur + 1) % nodes.length, { scroll: true }); }, 2600);
+    timer = setInterval(() => { if (visible && !document.hidden) select((cur + 1) % nodes.length, { scroll: true }); }, 2400);
   }
   play.addEventListener('click', () => (timer ? stopRun() : startRun()));
-
-  // Pulse travelling the main route; nodes ping as it passes
-  let len = 0, marks = [], t0 = null, last = -1, raf = null;
-  try {
-    len = route.getTotalLength();
-    const N = 600, pts = [];
-    for (let k = 0; k <= N; k++) pts.push(route.getPointAtLength(len * k / N));
-    marks = nodes.map(n => {
-      const x = parseFloat(n.style.left), y = parseFloat(n.style.top); let best = 1e9, at = -1;
-      pts.forEach((p, k) => { const d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < best) { best = d; at = len * k / N; } });
-      return best < 400 ? at : -1;
-    });
-  } catch (e) { len = 0; }
-  const DUR = 16000;
-  function frame(ts) {
-    raf = null;
-    if (!visible || reduce.matches || !len) return;
-    if (t0 === null) t0 = ts - (last >= 0 ? last / len * DUR : 0);
-    const pos = ((ts - t0) % DUR) / DUR * len;
-    const p = route.getPointAtLength(pos);
-    pulse.setAttribute('cx', p.x); pulse.setAttribute('cy', p.y); halo.setAttribute('cx', p.x); halo.setAttribute('cy', p.y);
-    marks.forEach((m, k) => {
-      if (m < 0) return;
-      const passed = last >= 0 && ((last < m && pos >= m) || (pos < last && (m > last || m <= pos)));
-      if (passed) { const n = nodes[k]; n.classList.remove('ping'); void n.offsetWidth; n.classList.add('ping'); }
-    });
-    last = pos; raf = requestAnimationFrame(frame);
-  }
-  function startAnim() { if (!raf && visible && !reduce.matches && len) { t0 = null; raf = requestAnimationFrame(frame); } }
-  function stopAnim() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
 
   // Entrance on scroll into view; pause everything offscreen
   function setVisible(v) {
     visible = v; fl.classList.toggle('paused', !v);
-    if (v) { if (!fl.classList.contains('in')) { fl.classList.add('in'); setTimeout(() => fl.classList.add('settled'), 1400); } startAnim(); }
+    if (v) { if (!fl.classList.contains('in')) { fl.classList.add('in'); setTimeout(() => fl.classList.add('settled'), 1600); } startAnim(); }
     else stopAnim();
   }
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(es => es.forEach(e => setVisible(e.isIntersecting)), { threshold: 0.05 }).observe(fl);
   } else setVisible(true);
   document.addEventListener('visibilitychange', () => { if (document.hidden) stopAnim(); else startAnim(); });
-  const onReduce = () => { if (reduce.matches) stopAnim(); else startAnim(); };
+  const onReduce = () => { if (reduce.matches) { stopFollow(); stopAnim(); } else startAnim(); };
   if (reduce.addEventListener) reduce.addEventListener('change', onReduce); else if (reduce.addListener) reduce.addListener(onReduce);
 })();
