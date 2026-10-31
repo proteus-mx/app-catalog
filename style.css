@@ -1154,3 +1154,25 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
 @media (max-width:900px){.fl-legend ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.fl-legend ul{grid-template-columns:1fr}.fl-following{font-size:.78rem}}
 @media (prefers-reduced-motion:reduce){.fl-ball{display:none}.m-move{display:none}.m-still{display:inline}.fl-lp.ping{animation:none}}
+
+/* Personal AI assistant badge on a team card (Sophie: Iris) */
+.member.has-asst{position:relative}
+.asst-badge{position:absolute;top:14px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:.35em;padding:.2em .62em .2em .5em;border-radius:999px;font-size:.7rem;font-weight:600;letter-spacing:.04em;line-height:1.4;color:var(--ice);background:linear-gradient(135deg,rgba(91,141,255,.2),rgba(47,107,255,.08));border:1px solid var(--stroke-2);box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 6px 16px -8px rgba(47,107,255,.8);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);cursor:help}
+.asst-badge svg{width:12px;height:12px;flex:none;fill:#9cc4ff;stroke:none;filter:drop-shadow(0 0 3px rgba(156,196,255,.8))}
+.member.has-asst .member-body h3{padding-right:64px}
+@media (max-width:640px){.asst-badge{top:12px;right:12px}}
+/* ---- fl v3: zoom, ramping ideas ---- */
+.fl-ball:not(.live){display:none}
+.fl-legend li:not(.live){display:none}
+.fl-legend ul{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.fl-count{font-size:.82rem;color:var(--muted);white-space:nowrap}.fl-count strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.fl-restart,.fl-fit,.fl-z100,.fl-zb{font:inherit;font-size:.76rem;font-weight:600;color:var(--ice);background:var(--glass);border:1px solid var(--stroke);border-radius:999px;padding:4px 11px;cursor:pointer;white-space:nowrap}
+.fl-restart:hover,.fl-fit:hover,.fl-z100:hover,.fl-zb:hover{border-color:var(--stroke-2);background:var(--glass-2)}
+.fl-zb{width:30px;height:30px;padding:0;font-size:1rem;line-height:1;display:inline-grid;place-items:center}
+.fl-zoom{max-width:1152px;margin:0 auto 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fl-zoom label{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.fl-zoom input[type=range]{flex:1;min-width:120px;max-width:320px;accent-color:#5b8dff;height:28px}
+.fl-zv{font-size:.82rem;font-weight:700;color:var(--ink);min-width:3.2em;font-variant-numeric:tabular-nums}
+.fl-bar{gap:10px}
+@media (max-width:560px){.fl-zoom input[type=range]{min-width:90px}.fl-z100{display:none}}
+@media (prefers-reduced-motion:reduce){.fl-legend li.rep{display:block}.fl-legend li:not(.rep){display:none}.fl-count,.fl-restart{display:none}.fl-lg-t .m-move{display:none}}

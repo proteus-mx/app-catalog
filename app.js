@@ -744,7 +744,7 @@
   });
 })();
 
-/* ===== Tech page: landscape process flow (interactive, animated, follow-the-ball) ===== */
+/* ===== Tech page: landscape process flow (zoom, ramping idea balls with easing, follow-the-ball) ===== */
 (function () {
   const fl = document.querySelector('[data-flow]');
   if (!fl) return;
@@ -758,24 +758,41 @@
   const legend = [...sec.querySelectorAll('.fl-lg')];
   const play = sec.querySelector('.fl-play'), playL = sec.querySelector('.fl-play-l');
   const chip = sec.querySelector('.fl-following'), chipName = sec.querySelector('.fl-fname'), stopBtn = sec.querySelector('.fl-stop');
+  const countEl = sec.querySelector('.fl-n'), restartBtn = sec.querySelector('.fl-restart');
+  const zr = sec.querySelector('#fl-zoom-r'), zv = sec.querySelector('.fl-zv');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const keyIdx = {}; nodes.forEach((n, i) => { keyIdx[n.dataset.k] = i; });
-  let scale = 1, cur = 0, visible = false, timer = null, follow = -1, expected = null, routeOn = -1;
+  let scale = 1, cur = 0, visible = false, timer = null, follow = -1, expected = null, routeOn = -1, userZoomed = false;
 
-  function fit() {
-    const avail = fl.clientWidth;
-    scale = avail / W >= 0.8 ? Math.min(1, avail / W) : 1;
-    canvas.style.transform = scale === 1 ? '' : 'scale(' + scale + ')';
-    sizer.style.width = (W * scale) + 'px'; sizer.style.height = (H * scale) + 'px';
-    const fits = sc.scrollWidth <= sc.clientWidth + 1;
-    fl.classList.toggle('fits', fits); sec.classList.toggle('fits', fits); edgesFade();
-  }
+  // ---- Zoom ----
+  function fitScale() { return Math.min(1.5, fl.clientWidth / W); }
+  function defaultZoom() { const f = fitScale(); return f >= 0.65 ? f : 1; }
   function edgesFade() {
     fl.classList.toggle('at-start', sc.scrollLeft <= 4);
     fl.classList.toggle('at-end', sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 4);
   }
-  window.addEventListener('resize', fit);
-  fit();
+  function setZoom(z, keepCentre) {
+    z = Math.max(0.4, Math.min(1.5, z));
+    const cx = (sc.scrollLeft + sc.clientWidth / 2) / scale;
+    scale = z;
+    canvas.style.transform = 'scale(' + z + ')';
+    canvas.style.setProperty('--iz', (1 / z).toFixed(4));
+    sizer.style.width = (W * z) + 'px'; sizer.style.height = (H * z) + 'px';
+    if (keepCentre !== false) sc.scrollLeft = Math.max(0, cx * z - sc.clientWidth / 2);
+    expected = sc.scrollLeft;
+    const pct = Math.round(z * 100);
+    zr.value = String(Math.max(40, Math.min(150, Math.round(pct / 5) * 5)));
+    zr.setAttribute('aria-valuetext', pct + '%'); zv.textContent = pct + '%';
+    const fits = sc.scrollWidth <= sc.clientWidth + 1;
+    fl.classList.toggle('fits', fits); sec.classList.toggle('fits', fits); edgesFade();
+    balls.forEach((b, bi) => { if (b._p) b.style.transform = tf(b._p); });
+  }
+  zr.addEventListener('input', () => { userZoomed = true; setZoom(+zr.value / 100); });
+  sec.querySelectorAll('.fl-zb').forEach(b => b.addEventListener('click', () => { userZoomed = true; setZoom(Math.round(scale * 20 + +b.dataset.z) / 20); }));
+  sec.querySelector('.fl-fit').addEventListener('click', () => { userZoomed = true; setZoom(fitScale()); });
+  sec.querySelector('.fl-z100').addEventListener('click', () => { userZoomed = true; setZoom(1); });
+  window.addEventListener('resize', () => setZoom(userZoomed ? scale : defaultZoom()));
+  setZoom(defaultZoom(), false);
 
   function reveal(i, smooth) {
     const n = nodes[i]; if (!n) return;
@@ -814,27 +831,49 @@
     });
   });
 
-  // Routes: precomputed points (every ~4px) with the step each point passes through
-  const routes = balls.map((b, bi) => {
-    const p = document.getElementById('fl-route-' + bi);
+  // ---- Routes: points every ~4px with an easing profile (slow in steps, slowest + a pause at HITL gates) ----
+  const SPEED = 0.2, STEP = 4, GATE_PAUSE = 650;      // canvas px per ms at full speed; ms pause at each gate
+  const geo = nodes.map(n => ({ x: parseFloat(n.style.left), y: parseFloat(n.style.top),
+    kind: n.classList.contains('fl-gate') ? 'gate' : n.classList.contains('fl-lp') ? 'loop' : 'box' }));
+  const smooth = (a, b, v) => { const t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
+  function factorAt(x, y) {
+    let f = 1, near = -1, best = 1e9, kind = 'open';
+    geo.forEach((g, ni) => {
+      const dx = x - g.x, dy = y - g.y, d2 = dx * dx + dy * dy;
+      if (d2 < best) { best = d2; near = ni; }
+      let k;
+      if (g.kind === 'gate') { const m = Math.sqrt(d2) / 26; k = 0.15 + 0.85 * smooth(0.8, 2.4, m); if (m < 1) kind = 'gate'; }
+      else if (g.kind === 'loop') { const m = Math.max(Math.abs(dx) / 58, Math.abs(dy) / 15); k = 0.45 + 0.55 * smooth(0.7, 1.5, m); if (m < 1 && kind !== 'gate') kind = 'loop'; }
+      else { const m = Math.max(Math.abs(dx) / 52, Math.abs(dy) / 48); k = 0.3 + 0.7 * smooth(0.55, 1.45, m); if (m < 1 && kind === 'open') kind = 'box'; }
+      if (k < f) f = k;
+    });
+    return { f, near: best < 32 * 32 ? near : -1, kind, gd: best };
+  }
+  const routes = [...fl.querySelectorAll('.fl-route')].map(p => {
     let len = 0; try { len = p.getTotalLength(); } catch (e) { len = 0; }
-    const n = Math.max(2, Math.round(len / 4)), pts = [];
+    const n = Math.max(2, Math.round(len / STEP)), xs = new Float32Array(n + 1), ys = new Float32Array(n + 1), ts = new Float64Array(n + 1), fs = new Float32Array(n + 1), nn = new Int16Array(n + 1), kinds = [];
+    let t = 0, prevF = 1, lastGate = -1;
     for (let k = 0; k <= n; k++) {
-      const q = p.getPointAtLength(len * k / n); let near = -1, best = 1e9;
-      nodes.forEach((nd, ni) => {
-        const dx = q.x - parseFloat(nd.style.left), dy = q.y - parseFloat(nd.style.top), d = dx * dx + dy * dy;
-        if (d < best) { best = d; near = ni; }
-      });
-      pts.push([q.x, q.y, best < 32 * 32 ? near : -1]);
+      const q = p.getPointAtLength(len * k / n), a = factorAt(q.x, q.y);
+      xs[k] = q.x; ys[k] = q.y; fs[k] = a.f; nn[k] = a.near; kinds.push(a.kind);
+      if (k > 0) t += (len / n) / (SPEED * (a.f + prevF) / 2);
+      // brief dwell at the centre of each human-in-the-loop gate
+      if (a.near >= 0 && geo[a.near].kind === 'gate' && a.gd < 9 && lastGate !== a.near) { t += GATE_PAUSE; lastGate = a.near; }
+      if (a.near < 0 || geo[a.near].kind !== 'gate') lastGate = -1;
+      ts[k] = t; prevF = a.f;
     }
-    return { pts, len, off: parseFloat(b.dataset.o) || 0, last: -2, edgeKeys: null };
+    return { xs, ys, ts, fs, nn, kinds, n, len, lap: t };
   });
-  // edges each ball's route uses (for route highlighting)
-  const routeSteps = balls.map((b, bi) => {
+  const routeSteps = balls.map(b => {
     const seq = (b.dataset.r || '').split(' ').map(k => keyIdx[k]);
     const set = new Set(); for (let k = 0; k + 1 < seq.length; k++) set.add(seq[k] + '>' + seq[k + 1]);
     return set;
   });
+  const CYCLE = routes[+balls[0].dataset.route].lap;
+  const spawnAt = balls.map((b, i) => i === 0 ? 0 : i === 1 ? CYCLE : i === 2 ? 1.5 * CYCLE : 1.5 * CYCLE + (i - 2) * 0.25 * CYCLE);
+  const st = balls.map(() => ({ idx: 0, last: -2, live: false }));
+  function tf(p) { return 'translate3d(' + p[0].toFixed(1) + 'px,' + p[1].toFixed(1) + 'px,0) scale(' + (1 / scale).toFixed(4) + ')'; }
+
   function highlightRoute(bi) {
     routeOn = bi;
     const set = bi >= 0 ? routeSteps[bi] : null, c = bi >= 0 ? getComputedStyle(balls[bi]).getPropertyValue('--c') : '';
@@ -844,31 +883,41 @@
     });
     legend.forEach((l, k) => l.setAttribute('aria-pressed', k === bi ? 'true' : 'false'));
   }
-  const SPEED = 0.13; // canvas px per ms
-  let raf = null, tPrev = null, clock = 0;
-  function place(bi, t) {
-    const r = routes[bi]; if (!r.len) return -1;
-    const dur = r.len / SPEED, f = ((t / dur) + r.off) % 1, idx = Math.min(r.pts.length - 1, Math.round(f * (r.pts.length - 1)));
-    const p = r.pts[idx];
-    balls[bi].style.transform = 'translate3d(' + p[0].toFixed(1) + 'px,' + p[1].toFixed(1) + 'px,0)';
-    balls[bi]._x = p[0];
-    return p[2];
+  let raf = null, tPrev = null, clock = 0, timeScale = 1, live = 0;
+  function setLive(bi, on) {
+    st[bi].live = on; balls[bi].classList.toggle('live', on);
+    legend[bi].closest('li').classList.toggle('live', on);
+  }
+  function updateCount() { live = st.filter(s => s.live).length; countEl.textContent = live; }
+  function place(bi) {
+    const s = st[bi], r = routes[+balls[bi].dataset.route];
+    const tl = (clock - spawnAt[bi]) % r.lap;
+    if (s.idx > 0 && r.ts[s.idx] > tl) s.idx = 0;                     // wrapped: back to the start of the route
+    while (s.idx < r.n && r.ts[s.idx + 1] <= tl) s.idx++;
+    const k = s.idx, k2 = Math.min(r.n, k + 1), span = r.ts[k2] - r.ts[k], u = span > 0 ? Math.max(0, Math.min(1, (tl - r.ts[k]) / span)) : 0;
+    const p = [r.xs[k] + (r.xs[k2] - r.xs[k]) * u, r.ys[k] + (r.ys[k2] - r.ys[k]) * u];
+    balls[bi]._p = p; balls[bi]._x = p[0]; balls[bi]._k = k;
+    balls[bi].style.transform = tf(p);
+    return r.nn[k];
   }
   function frame(ts) {
     raf = null;
     if (!visible || reduce.matches) { tPrev = null; return; }
-    if (tPrev !== null) clock += Math.min(64, ts - tPrev);
+    if (tPrev !== null) clock += Math.min(64, ts - tPrev) * timeScale;
     tPrev = ts;
+    let changed = false;
     balls.forEach((b, bi) => {
-      const n = place(bi, clock), r = routes[bi];
-      if (n !== r.last) {
+      if (!st[bi].live) { if (clock >= spawnAt[bi]) { setLive(bi, true); st[bi].idx = 0; changed = true; } else return; }
+      const n = place(bi), s = st[bi];
+      if (n !== s.last) {
         if (n >= 0) {
           const nd = nodes[n]; nd.classList.remove('ping'); void nd.offsetWidth; nd.classList.add('ping');
           if (bi === follow) select(n, { quiet: true });
         }
-        r.last = n;
+        s.last = n;
       }
     });
+    if (changed) updateCount();
     if (follow >= 0 && sc.scrollWidth > sc.clientWidth + 1) {
       const max = sc.scrollWidth - sc.clientWidth;
       const target = Math.max(0, Math.min(max, balls[follow]._x * scale - sc.clientWidth / 2));
@@ -879,10 +928,17 @@
   }
   function startAnim() { if (!raf && visible && !reduce.matches) { tPrev = null; raf = requestAnimationFrame(frame); } }
   function stopAnim() { if (raf) { cancelAnimationFrame(raf); raf = null; } tPrev = null; }
-  balls.forEach((b, bi) => place(bi, 0));
+  function restart() {
+    stopFollow(); clock = 0;
+    st.forEach((s, bi) => { s.idx = 0; s.last = -2; setLive(bi, bi === 0); });
+    place(0); updateCount();
+  }
+  restartBtn.addEventListener('click', restart);
+  restart();
 
-  // Follow mode
+  // ---- Follow mode ----
   function startFollow(bi) {
+    if (!st[bi].live) return;
     stopRun();
     follow = bi; expected = null;
     balls.forEach((b, k) => b.classList.toggle('on', k === bi));
@@ -890,7 +946,7 @@
     chip.style.setProperty('--fc', c); chipName.textContent = balls[bi].getAttribute('aria-label').match(/the (\w+) ball/)[1];
     chip.hidden = false; sec.classList.add('following');
     highlightRoute(bi);
-    const n = routes[bi].last; if (n >= 0) select(n, { quiet: true });
+    const n = st[bi].last; if (n >= 0) select(n, { quiet: true });
     startAnim();
   }
   function stopFollow() {
@@ -903,13 +959,12 @@
   balls.forEach((b, bi) => b.addEventListener('click', e => { e.stopPropagation(); follow === bi ? stopFollow() : startFollow(bi); }));
   legend.forEach((l, bi) => l.addEventListener('click', () => {
     if (reduce.matches) {           // static diagram: just show the route
-      stopFollow(); if (routeOn === bi) highlightRoute(-1); else { highlightRoute(bi); select(routes[bi].pts.find(p => p[2] >= 0)[2], { scroll: true }); }
+      stopFollow(); if (routeOn === bi) highlightRoute(-1); else { highlightRoute(bi); const r = routes[+balls[bi].dataset.route]; select(r.nn.find(v => v >= 0), { scroll: true }); }
       return;
     }
-    if (follow === bi) stopFollow(); else { startFollow(bi); if (fl.getBoundingClientRect().top < 0 || fl.getBoundingClientRect().top > innerHeight * 0.6) fl.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+    if (follow === bi) stopFollow(); else { startFollow(bi); const top = fl.getBoundingClientRect().top; if (top < 0 || top > innerHeight * 0.6) fl.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
   }));
   stopBtn.addEventListener('click', stopFollow);
-  // Manual scrolling or swiping exits follow mode
   sc.addEventListener('scroll', () => {
     edgesFade();
     if (follow >= 0 && expected !== null && Math.abs(sc.scrollLeft - expected) > 2) stopFollow();
@@ -919,7 +974,7 @@
   sc.addEventListener('touchstart', userInput, { passive: true });
   sc.addEventListener('keydown', e => { if (e.target === sc && /Arrow|Page|Home|End/.test(e.key)) userInput(e); });
 
-  // Run the flow: step through every node
+  // ---- Run the flow: step through every node ----
   function setPlay(on) { play.setAttribute('aria-pressed', on ? 'true' : 'false'); playL.textContent = on ? 'Pause' : 'Run the flow'; }
   function stopRun() { if (timer) { clearInterval(timer); timer = null; } setPlay(false); }
   function startRun() {
@@ -929,7 +984,7 @@
   }
   play.addEventListener('click', () => (timer ? stopRun() : startRun()));
 
-  // Entrance on scroll into view; pause everything offscreen
+  // ---- Visibility: entrance on scroll into view; pause offscreen / hidden tab ----
   function setVisible(v) {
     visible = v; fl.classList.toggle('paused', !v);
     if (v) { if (!fl.classList.contains('in')) { fl.classList.add('in'); setTimeout(() => fl.classList.add('settled'), 1600); } startAnim(); }
@@ -941,4 +996,13 @@
   document.addEventListener('visibilitychange', () => { if (document.hidden) stopAnim(); else startAnim(); });
   const onReduce = () => { if (reduce.matches) { stopFollow(); stopAnim(); } else startAnim(); };
   if (reduce.addEventListener) reduce.addEventListener('change', onReduce); else if (reduce.addListener) reduce.addListener(onReduce);
+
+  // Small read-only hook for automated tests (time acceleration + state); harmless for visitors
+  fl._api = {
+    setTimeScale: v => { timeScale = Math.max(0.1, Math.min(200, +v || 1)); },
+    state: () => ({ clock, live, cycle: CYCLE, spawnAt: spawnAt.slice(), scale, timeScale }),
+    profile: ri => { const r = routes[ri]; const out = { box: [], gate: [], loop: [], open: [] }; for (let k = 0; k <= r.n; k++) out[r.kinds[k]].push(r.fs[k]); return out; },
+    ballK: bi => balls[bi]._k, routeOf: bi => +balls[bi].dataset.route,
+    kindAt: (ri, k) => routes[ri].kinds[k], restart
+  };
 })();
