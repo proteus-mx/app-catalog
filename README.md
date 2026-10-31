@@ -2,7 +2,7 @@
 
 A static showcase of every Sapphire Studios app on the Apple App Store.
 
-**Live site:** https://proteus-mx.github.io/app-catalog/
+**Live site:** https://sapphirestudios.app/ (custom domain; until the domain is moved to this repo's Pages site the catalogue is served at https://sapphirestudios.app/app-catalog/; see *Custom domain* below)
 
 ## What's here
 
@@ -89,7 +89,11 @@ To add an idea, append an item to `experiments` with a `stage` (`ideation`, `poc
 
 ## Support & Privacy
 
-The contact address is `SUPPORT_EMAIL` in the generator. It appears only on `support.html` and `privacy.html`, HTML-entity-encoded (a light guard against scrapers that still works without JavaScript). Each app on the Support page has its own `mailto:` link with the subject "Sapphire Studios support: <App>" and a short body template. Update `POLICY_DATE` whenever the privacy policy text changes. Use `https://proteus-mx.github.io/app-catalog/support/` and `https://proteus-mx.github.io/app-catalog/privacy/` in App Store Connect.
+The contact address is `SUPPORT_EMAIL` in the generator. It appears only on `support.html` and `privacy.html`, HTML-entity-encoded (a light guard against scrapers that still works without JavaScript). Each app on the Support page has its own `mailto:` link with the subject "Sapphire Studios support: <App>" and a short body template. Update `POLICY_DATE` whenever the privacy policy text changes. Use `https://sapphirestudios.app/support/` and `https://sapphirestudios.app/privacy/` in App Store Connect once the custom domain is live on this repo (until then: `https://sapphirestudios.app/app-catalog/support/` and `…/privacy/`).
+
+## Custom domain
+
+All absolute URLs (`SITE_URL` in the generator, the business-card QR code in `assets/qr-app-catalog.svg`, redirect canonicals) use `https://sapphirestudios.app/`. Every page links assets and pages with relative paths, so the site works both under `/app-catalog/` and at a domain root. `sapphirestudios.app` is currently the custom domain of the `proteus-mx.github.io` user site (which also serves `app-ads.txt`, `.well-known/` and other project sites under `sapphirestudios.app/<repo>/`); moving it to this repo needs a `CNAME` file here and the Pages setting, done together with that migration.
 
 ## Business details
 

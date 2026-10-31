@@ -908,3 +908,12 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
   html:not(.js) .nav .nav-links::-webkit-scrollbar{display:none}
   html:not(.js) .nav .nav-links a{flex:none}
 }
+/* Business-card back: small profile photo, sapphire duotone */
+.bc-a{align-self:start}
+.bc-photo{position:relative;display:block;width:64px;height:64px;margin:0 0 16px;border-radius:30%;overflow:hidden;isolation:isolate;background:#0b2a8a;box-shadow:0 0 0 1px rgba(156,196,255,.45),0 0 0 4px rgba(47,107,255,.18),0 12px 28px -10px rgba(47,107,255,.8)}
+.bc-photo picture,.bc-photo img{display:block;width:100%;height:100%}
+.bc-photo img{object-fit:cover;-webkit-filter:grayscale(1) contrast(1.08) brightness(1.02);filter:grayscale(1) contrast(1.08) brightness(1.02)}
+.bc-photo::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(150deg,#5b8dff 0%,#2f6bff 45%,#0b2a8a 100%);mix-blend-mode:color;pointer-events:none}
+.bc-photo::after{content:"";position:absolute;inset:0;z-index:2;background:radial-gradient(120% 90% at 20% 0%,rgba(156,196,255,.35),transparent 55%),linear-gradient(180deg,transparent 55%,rgba(5,11,38,.35));mix-blend-mode:screen;pointer-events:none;border-radius:inherit}
+@media (max-width:640px){.bc-photo{width:52px;height:52px;margin-bottom:12px}}
+@media (max-width:360px){.bc-photo{width:46px;height:46px}}
