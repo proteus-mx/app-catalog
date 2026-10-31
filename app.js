@@ -743,3 +743,125 @@
     if (none) none.hidden = n > 0;
   });
 })();
+
+/* ===== Tech page: landscape process flow (interactive, animated) ===== */
+(function () {
+  const fl = document.querySelector('[data-flow]');
+  if (!fl) return;
+  const sec = fl.closest('.fl-sec');
+  const sc = fl.querySelector('.fl-scroll'), sizer = fl.querySelector('.fl-sizer'), canvas = fl.querySelector('.fl-canvas');
+  const W = parseFloat(canvas.style.width), H = parseFloat(canvas.style.height);
+  const nodes = [...fl.querySelectorAll('.fl-node')];
+  const edges = [...fl.querySelectorAll('.fl-edge')];
+  const details = [...document.querySelectorAll('.fl-detail')];
+  const play = sec.querySelector('.fl-play'), playL = sec.querySelector('.fl-play-l');
+  const route = fl.querySelector('.fl-route'), pulse = fl.querySelector('.fl-pulse'), halo = fl.querySelector('.fl-halo');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let scale = 1, cur = 0, visible = false, timer = null;
+
+  // Fit on wide screens; otherwise scroll sideways at full size
+  function fit() {
+    const avail = fl.clientWidth;
+    scale = avail / W >= 0.8 ? Math.min(1, avail / W) : 1;
+    canvas.style.transform = scale === 1 ? '' : 'scale(' + scale + ')';
+    sizer.style.width = (W * scale) + 'px'; sizer.style.height = (H * scale) + 'px';
+    const fits = sc.scrollWidth <= sc.clientWidth + 1;
+    fl.classList.toggle('fits', fits); sec.classList.toggle('fits', fits); edgesFade();
+  }
+  function edgesFade() {
+    fl.classList.toggle('at-start', sc.scrollLeft <= 4);
+    fl.classList.toggle('at-end', sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 4);
+  }
+  sc.addEventListener('scroll', edgesFade, { passive: true });
+  window.addEventListener('resize', fit);
+  fit();
+
+  function reveal(i, smooth) {
+    const n = nodes[i]; if (!n) return;
+    const x = parseFloat(n.style.left) * scale;
+    const target = Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, x - sc.clientWidth / 2));
+    if (Math.abs(target - sc.scrollLeft) < 2) return;
+    try { sc.scrollTo({ left: target, behavior: smooth && !reduce.matches ? 'smooth' : 'auto' }); } catch (e) { sc.scrollLeft = target; }
+  }
+  function select(i, opts) {
+    opts = opts || {};
+    cur = i;
+    nodes.forEach((n, k) => n.setAttribute('aria-pressed', k === i ? 'true' : 'false'));
+    fl.classList.add('has-sel');
+    const near = new Set([i]);
+    edges.forEach(e => {
+      const a = +e.dataset.a, b = +e.dataset.b, on = a === i || b === i;
+      e.classList.toggle('on', on); if (on) { near.add(a); near.add(b); }
+    });
+    nodes.forEach((n, k) => n.classList.toggle('near', near.has(k) && k !== i));
+    details.forEach(d => {
+      const on = +d.dataset.i === i; d.hidden = !on;
+      if (on && !reduce.matches) { d.classList.remove('show'); void d.offsetWidth; d.classList.add('show'); }
+    });
+    if (opts.scroll) reveal(i, true);
+  }
+  nodes.forEach((n, i) => {
+    n.addEventListener('click', () => { stopRun(); select(i); });
+    n.addEventListener('keydown', e => {
+      let j = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = Math.min(nodes.length - 1, i + 1);
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') j = Math.max(0, i - 1);
+      else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = nodes.length - 1;
+      if (j === null) return;
+      e.preventDefault(); nodes[j].focus({ preventScroll: true }); reveal(j, true);
+    });
+  });
+
+  // Run the flow: step through every node
+  function setPlay(on) { play.setAttribute('aria-pressed', on ? 'true' : 'false'); playL.textContent = on ? 'Pause' : 'Run the flow'; }
+  function stopRun() { if (timer) { clearInterval(timer); timer = null; } setPlay(false); }
+  function startRun() {
+    stopRun(); setPlay(true);
+    select(fl.classList.contains('has-sel') ? (cur + 1) % nodes.length : 0, { scroll: true });
+    timer = setInterval(() => { if (visible && !document.hidden) select((cur + 1) % nodes.length, { scroll: true }); }, 2600);
+  }
+  play.addEventListener('click', () => (timer ? stopRun() : startRun()));
+
+  // Pulse travelling the main route; nodes ping as it passes
+  let len = 0, marks = [], t0 = null, last = -1, raf = null;
+  try {
+    len = route.getTotalLength();
+    const N = 600, pts = [];
+    for (let k = 0; k <= N; k++) pts.push(route.getPointAtLength(len * k / N));
+    marks = nodes.map(n => {
+      const x = parseFloat(n.style.left), y = parseFloat(n.style.top); let best = 1e9, at = -1;
+      pts.forEach((p, k) => { const d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < best) { best = d; at = len * k / N; } });
+      return best < 400 ? at : -1;
+    });
+  } catch (e) { len = 0; }
+  const DUR = 16000;
+  function frame(ts) {
+    raf = null;
+    if (!visible || reduce.matches || !len) return;
+    if (t0 === null) t0 = ts - (last >= 0 ? last / len * DUR : 0);
+    const pos = ((ts - t0) % DUR) / DUR * len;
+    const p = route.getPointAtLength(pos);
+    pulse.setAttribute('cx', p.x); pulse.setAttribute('cy', p.y); halo.setAttribute('cx', p.x); halo.setAttribute('cy', p.y);
+    marks.forEach((m, k) => {
+      if (m < 0) return;
+      const passed = last >= 0 && ((last < m && pos >= m) || (pos < last && (m > last || m <= pos)));
+      if (passed) { const n = nodes[k]; n.classList.remove('ping'); void n.offsetWidth; n.classList.add('ping'); }
+    });
+    last = pos; raf = requestAnimationFrame(frame);
+  }
+  function startAnim() { if (!raf && visible && !reduce.matches && len) { t0 = null; raf = requestAnimationFrame(frame); } }
+  function stopAnim() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+
+  // Entrance on scroll into view; pause everything offscreen
+  function setVisible(v) {
+    visible = v; fl.classList.toggle('paused', !v);
+    if (v) { if (!fl.classList.contains('in')) { fl.classList.add('in'); setTimeout(() => fl.classList.add('settled'), 1400); } startAnim(); }
+    else stopAnim();
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => es.forEach(e => setVisible(e.isIntersecting)), { threshold: 0.05 }).observe(fl);
+  } else setVisible(true);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stopAnim(); else startAnim(); });
+  const onReduce = () => { if (reduce.matches) stopAnim(); else startAnim(); };
+  if (reduce.addEventListener) reduce.addEventListener('change', onReduce); else if (reduce.addListener) reduce.addListener(onReduce);
+})();
