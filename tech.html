@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Tech · Sapphire Studios</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="The architecture and toolchain behind Sapphire Studios apps: how an idea travels from prompt to App Store.">
+  <meta name="theme-color" content="#050b1f">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Tech · Sapphire Studios">
+  <meta property="og:description" content="The architecture and toolchain behind Sapphire Studios apps: how an idea travels from prompt to App Store.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M14 6h20l10 12-20 24L4 18z' fill='%232f6bff'/%3E%3Cpath d='M14 6l-10 12h40L34 6z' fill='%239cc4ff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="style.css?v=41f5a41998">
+  <script>document.documentElement.className+=' js'</script>
+</head>
+<body class="tech-page">
+  <a class="skip" href="#architecture">Skip to the architecture</a>
+  <div class="bg" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span><span class="grain"></span></div>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html" aria-label="Sapphire Studios home"><svg class="gem" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9cc4ff"/><stop offset=".5" stop-color="#2f6bff"/><stop offset="1" stop-color="#0b2a8a"/></linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f0ff"/><stop offset="1" stop-color="#5b8dff"/></linearGradient>
+  </defs>
+  <path d="M14 6h20l10 12-20 24L4 18z" fill="url(#g1)"/>
+  <path d="M14 6l-10 12h40L34 6z" fill="url(#g2)" opacity=".9"/>
+  <path d="M14 6l4 12h12l4-12M4 18l20 24 20-24M18 18l6 24 6-24" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.2" stroke-linejoin="round"/>
+</svg><span class="wordmark">Sapphire<span>Studios</span></span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-sec" href="index.html#collections">Collections</a>
+        <a class="nav-sec" href="index.html#latest">Latest</a>
+        <a href="index.html#catalogue">All apps</a>
+        <a class="nav-keep" href="labs.html">Labs</a>
+        <a class="nav-keep" href="workflow.html">Workflow</a>
+        <a class="nav-keep" href="about.html">About</a>
+        <a class="nav-keep" href="team.html">Team</a>
+        <a class="btn btn-glass btn-sm" href="https://apps.apple.com/us/developer/paul-thornton/id1203471660" target="_blank" rel="noopener">View on App Store</a>
+      </nav>
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span class="bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
+      <nav class="menu-panel" id="site-menu" aria-label="Menu">
+        <a class="menu-link" href="index.html"><span>Apps</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="menu-link" href="labs.html"><span>Labs</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="menu-link" href="workflow.html"><span>Workflow</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="menu-link" href="about.html"><span>About</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="menu-link" href="team.html"><span>Team</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-primary menu-cta" href="https://apps.apple.com/us/developer/paul-thornton/id1203471660" target="_blank" rel="noopener">View on App Store <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero about-hero tk-hero">
+      <div class="wrap">
+        <p class="pill"><span class="dot" aria-hidden="true"></span>Under the hood</p>
+        <h1>From idea to <span class="shine">App Store.</span></h1>
+        <p class="lede">The tools and architecture behind our 33 apps for iPhone, iPad and Apple Watch: AI to explore and build, Apple&rsquo;s tools to test and ship, and a human in the loop at every key step.</p>
+        <ul class="ingredients tk-legend" aria-label="The four layers"><li class="mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M18.5 15c.2 1.6.9 2.3 2.5 2.5-1.6.2-2.3.9-2.5 2.5-.2-1.6-.9-2.3-2.5-2.5 1.6-.2 2.3-.9 2.5-2.5z"/></svg>Ideate</li><li class="eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 3.5l6 6-2.6 2.6-6-6z"/><path d="M13.2 8.8L4 18l2 2 9.2-9.2"/></svg>Build</li><li class="qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="10" height="18" rx="2.5"/><path d="M7 18h2"/><rect x="15" y="9" width="6" height="7" rx="2"/><path d="M16.5 9V7h3v2M16.5 16v2h3v-2"/></svg>Test</li><li class="des"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8h14l-1.2 11.2a2 2 0 01-2 1.8H8.2a2 2 0 01-2-1.8z"/><path d="M9 10V7a3 3 0 016 0v3"/></svg>Ship</li><li class="ing-hitl"><svg class="hitl-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="8" r="3.2"/><path d="M4 19.5c.7-3.4 3-5.4 6-5.4 1.3 0 2.4.3 3.4.9"/><path d="M14.6 17.6l2.1 2.1 4.3-4.4"/></svg>Human-in-the-Loop</li></ul>
+      </div>
+    </section>
+
+    <section id="architecture" class="section wrap" aria-labelledby="arch-h">
+      <div class="section-head">
+        <p class="kicker">Architecture</p>
+        <h2 id="arch-h">Four layers, one loop</h2>
+        <p class="section-sub">Every app moves left to right through the same stack, then what we learn loops back to the start.</p>
+      </div>
+      <figure class="tk-arch" aria-labelledby="arch-cap" aria-describedby="arch-desc">
+        <div class="tk-steer"><span class="tk-steer-ppl"><span class="wf-people"><img class="mini" src="assets/team/paul-thornton.jpg" alt="" width="24" height="24" loading="lazy" decoding="async"><img class="mini" src="assets/team/sophie-thornton.jpg" alt="" width="24" height="24" loading="lazy" decoding="async"></span></span><p><strong>Paul and Sophie steer</strong> <span>set direction, review the work and approve every hand-off</span></p><span class="hitl-tag"><svg class="hitl-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="8" r="3.2"/><path d="M4 19.5c.7-3.4 3-5.4 6-5.4 1.3 0 2.4.3 3.4.9"/><path d="M14.6 17.6l2.1 2.1 4.3-4.4"/></svg>HITL</span></div>
+        <ol class="tk-layers">
+          <li class="tk-layer mkt rv" style="--d:0ms">
+            <div class="tk-layer-top"><span class="tk-node" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M18.5 15c.2 1.6.9 2.3 2.5 2.5-1.6.2-2.3.9-2.5 2.5-.2-1.6-.9-2.3-2.5-2.5 1.6-.2 2.3-.9 2.5-2.5z"/></svg></span><p class="stage-n"><span>01</span> Ideate</p></div>
+            <h3>Ideation &amp; prompting</h3>
+            <ul class="tk-chips"><li class="tk-chip mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H10l-4 3.5V16H4z"/><path d="M8 9l2 1.5L8 12M12 12h4"/></svg><span>Prompt engineering</span></li><li class="tk-chip mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H10l-4 3.5V16H4z"/><path d="M8 9h8M8 12h5"/></svg><span>ChatGPT chat mode</span></li><li class="tk-chip mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.6 2.6M15.4 15.4L18 18M18 6l-2.6 2.6M8.6 15.4L6 18"/></svg><span>Grok</span></li><li class="tk-chip mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M18.5 15c.2 1.6.9 2.3 2.5 2.5-1.6.2-2.3.9-2.5 2.5-.2-1.6-.9-2.3-2.5-2.5 1.6-.2 2.3-.9 2.5-2.5z"/></svg><span>Apple Intelligence</span></li></ul>
+            <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+          </li>
+          <li class="tk-layer eng rv" style="--d:90ms">
+            <div class="tk-layer-top"><span class="tk-node" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 3.5l6 6-2.6 2.6-6-6z"/><path d="M13.2 8.8L4 18l2 2 9.2-9.2"/></svg></span><p class="stage-n"><span>02</span> Build</p></div>
+            <h3>Agents, code &amp; source control</h3>
+            <ul class="tk-chips"><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M7.5 9.5l1.5 1.5 2.5-2.5M7.5 15l1.5 1.5 2.5-2.5M14 10h3M14 15.5h3"/></svg><span>ChatGPT work mode</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V5.5M9.5 12.5v1M14.5 12.5v1M9.5 16.2h5"/><circle cx="12" cy="4.3" r="1.2"/></svg><span>Grok Bot</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5M3 16.5l9 5 9-5"/></svg><span>Various GPT and Grok models</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 8.5h18M9.5 12l-2.5 2.5 2.5 2.5M14.5 12l2.5 2.5-2.5 2.5"/></svg><span>VS Code</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 3.5l6 6-2.6 2.6-6-6z"/><path d="M13.2 8.8L4 18l2 2 9.2-9.2"/></svg><span>Xcode</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="6.5" cy="5.5" r="2"/><circle cx="6.5" cy="18.5" r="2"/><circle cx="17.5" cy="8" r="2"/><path d="M6.5 7.5v9M17.5 10c0 4.2-6 3.4-10.2 6.8"/></svg><span>GitHub</span></li><li class="tk-agent-li"><span class="wf-agent eng"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5M13.5 5l-3 14"/></svg></span><span class="wf-an">Onyx</span><span class="wf-ar">Engineering Lead</span></span></li><li class="tk-agent-li"><span class="wf-agent mkt"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 10v4h3l7 4V6L7 10H4z"/><path d="M17.5 9.5a4 4 0 010 5M8 14l1.5 5h2.5l-1.2-4.4"/></svg></span><span class="wf-an">Topaz</span><span class="wf-ar">Marketing Lead</span></span></li><li class="tk-agent-li"><span class="wf-agent des"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l6 9-6 9-6-9 6-9z"/><path d="M12 12v9M12 12a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2z"/></svg></span><span class="wf-an">Opal</span><span class="wf-ar">Design Lead</span></span></li></ul>
+            <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+          </li>
+          <li class="tk-layer qa rv" style="--d:180ms">
+            <div class="tk-layer-top"><span class="tk-node" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="10" height="18" rx="2.5"/><path d="M7 18h2"/><rect x="15" y="9" width="6" height="7" rx="2"/><path d="M16.5 9V7h3v2M16.5 16v2h3v-2"/></svg></span><p class="stage-n"><span>03</span> Test</p></div>
+            <h3>Simulators, devices &amp; TestFlight</h3>
+            <ul class="tk-chips"><li class="tk-chip qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="6" width="8" height="14" rx="2"/><rect x="13" y="3" width="8" height="14" rx="2" stroke-dasharray="2.2 2"/><path d="M6 17.5h2"/></svg><span>iOS device simulators</span></li><li class="tk-chip qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="10" height="18" rx="2.5"/><path d="M7 18h2"/><rect x="15" y="9" width="6" height="7" rx="2"/><path d="M16.5 9V7h3v2M16.5 16v2h3v-2"/></svg><span>Alpha &amp; beta test devices</span></li><li class="tk-chip qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4 18-7z"/></svg><span>TestFlight</span></li><li class="tk-agent-li"><span class="wf-agent qa"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/></svg></span><span class="wf-an">Jasper</span><span class="wf-ar">Quality Assurance Lead</span></span></li><li class="tk-chip tk-cc"><span class="tk-dot" aria-hidden="true"></span><span>Kristen</span><span class="sr-only"> (community contributor)</span></li><li class="tk-chip tk-cc"><span class="tk-dot" aria-hidden="true"></span><span>Alice</span><span class="sr-only"> (community contributor)</span></li><li class="tk-chip tk-cc"><span class="tk-dot" aria-hidden="true"></span><span>Mary</span><span class="sr-only"> (community contributor)</span></li></ul>
+            <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+          </li>
+          <li class="tk-layer des rv" style="--d:270ms">
+            <div class="tk-layer-top"><span class="tk-node" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8h14l-1.2 11.2a2 2 0 01-2 1.8H8.2a2 2 0 01-2-1.8z"/><path d="M9 10V7a3 3 0 016 0v3"/></svg></span><p class="stage-n"><span>04</span> Ship</p></div>
+            <h3>App Store Connect &amp; release</h3>
+            <ul class="tk-chips"><li class="tk-chip des"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8.5 16.5l3.5-9 3.5 9M9.8 13.4h4.4"/></svg><span>App Store Connect</span></li><li class="tk-chip tk-store"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 8h14l-1.2 11.2a2 2 0 01-2 1.8H8.2a2 2 0 01-2-1.8z"/><path d="M9 10V7a3 3 0 016 0v3"/></svg><span>The App Store</span></li></ul>
+            
+          </li>
+        </ol>
+        <div class="tk-models"><span class="tk-node sm" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5M3 16.5l9 5 9-5"/></svg></span><p><strong>Various GPT and Grok models</strong> <span>power the AI tools in every layer</span></p></div>
+        <div class="tk-loop" aria-hidden="true"><div class="loop-u"><svg class="loop-arrow" viewBox="0 0 16 12" focusable="false"><path d="M2 10L8 3l6 7"/></svg></div></div>
+        <div class="loop-card tk-loop-card">
+          <span class="loop-ic"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 0113.7-5.6L20 8.7M20 4v4.7h-4.7M20 12a8 8 0 01-13.7 5.6L4 15.3M4 20v-4.7h4.7"/></svg></span>
+          <div>
+            <p class="loop-k">Feedback loop</p>
+            <p>App Store Connect insights, player reviews and TestFlight feedback flow back into the next idea.</p>
+          </div>
+        </div>
+        <figcaption id="arch-cap" class="tk-cap">Sapphire Studios architecture: Ideate, Build, Test and Ship, with a feedback loop back to Ideate.</figcaption>
+        <p id="arch-desc" class="sr-only">Architecture overview. Paul and Sophie steer the whole pipeline and approve every hand-off. Layer 1, Ideate: prompt engineering, ChatGPT chat mode, Grok and Apple Intelligence. Layer 2, Build: ChatGPT work mode, Grok Bot with the AI agents Onyx, Topaz and Opal, various GPT and Grok models, VS Code, Xcode and GitHub. Layer 3, Test: iOS device simulators, alpha and beta test devices and TestFlight, with Jasper and community contributors Kristen, Alice and Mary. Layer 4, Ship: App Store Connect, then the App Store. Various GPT and Grok models power the AI tools across every layer. A feedback loop carries App Store Connect insights, reviews and TestFlight feedback back to the next idea.</p>
+      </figure>
+    </section>
+
+    <section id="pipeline" class="section wrap" aria-labelledby="pipe-h">
+      <div class="section-head">
+        <p class="kicker">The pipeline</p>
+        <h2 id="pipe-h">Step by step, idea to release</h2>
+        <p class="section-sub">What happens at each step, and the tools that do the work.</p>
+      </div>
+      <ol class="tk-steps">
+          <li class="tk-step mkt rv">
+            <span class="tk-num" aria-hidden="true">01</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 1: </span>Spark an idea</h3>
+              <p>Ideas come from play, player feedback and our community contributors. We explore them in conversation with ChatGPT and Grok, and capture and tidy notes with Apple Intelligence.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H10l-4 3.5V16H4z"/><path d="M8 9h8M8 12h5"/></svg><span>ChatGPT chat mode</span></li><li class="tk-chip mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.6 2.6M15.4 15.4L18 18M18 6l-2.6 2.6M8.6 15.4L6 18"/></svg><span>Grok</span></li><li class="tk-chip mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M18.5 15c.2 1.6.9 2.3 2.5 2.5-1.6.2-2.3.9-2.5 2.5-.2-1.6-.9-2.3-2.5-2.5 1.6-.2 2.3-.9 2.5-2.5z"/></svg><span>Apple Intelligence</span></li></ul>
+              
+              <p class="hitl"><span class="hitl-tag"><svg class="hitl-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="8" r="3.2"/><path d="M4 19.5c.7-3.4 3-5.4 6-5.4 1.3 0 2.4.3 3.4.9"/><path d="M14.6 17.6l2.1 2.1 4.3-4.4"/></svg>HITL</span><span><strong>Idea approval</strong> Paul and Sophie decide which ideas go further.</span></p>
+            </div>
+          </li>
+          <li class="tk-step mkt rv">
+            <span class="tk-num" aria-hidden="true">02</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 2: </span>Engineer the prompt</h3>
+              <p>The idea becomes a clear brief: what we&rsquo;re making, who it&rsquo;s for, the constraints and how we&rsquo;ll know it works. Good prompts are reused and refined across various GPT and Grok models.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip mkt"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H10l-4 3.5V16H4z"/><path d="M8 9l2 1.5L8 12M12 12h4"/></svg><span>Prompt engineering</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5M3 16.5l9 5 9-5"/></svg><span>Various GPT and Grok models</span></li></ul>
+              
+              
+            </div>
+          </li>
+          <li class="tk-step eng rv">
+            <span class="tk-num" aria-hidden="true">03</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 3: </span>Plan &amp; build with agents</h3>
+              <p>ChatGPT work mode and our Grok Bot agents take the brief and work through it step by step: Onyx on features and fixes, Opal on icons and screens, Topaz on copy.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M7.5 9.5l1.5 1.5 2.5-2.5M7.5 15l1.5 1.5 2.5-2.5M14 10h3M14 15.5h3"/></svg><span>ChatGPT work mode</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V5.5M9.5 12.5v1M14.5 12.5v1M9.5 16.2h5"/><circle cx="12" cy="4.3" r="1.2"/></svg><span>Grok Bot</span></li></ul>
+              <div class="wf-agents"><span class="wf-agent eng"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5M13.5 5l-3 14"/></svg></span><span class="wf-an">Onyx</span><span class="wf-ar">Engineering Lead</span></span><span class="wf-agent des"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l6 9-6 9-6-9 6-9z"/><path d="M12 12v9M12 12a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2z"/></svg></span><span class="wf-an">Opal</span><span class="wf-ar">Design Lead</span></span><span class="wf-agent mkt"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 10v4h3l7 4V6L7 10H4z"/><path d="M17.5 9.5a4 4 0 010 5M8 14l1.5 5h2.5l-1.2-4.4"/></svg></span><span class="wf-an">Topaz</span><span class="wf-ar">Marketing Lead</span></span></div>
+              
+            </div>
+          </li>
+          <li class="tk-step eng rv">
+            <span class="tk-num" aria-hidden="true">04</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 4: </span>Code, build &amp; version</h3>
+              <p>Code is edited in VS Code and Xcode. Xcode compiles and signs each build, and every change is committed to GitHub so it can be reviewed and rolled back.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 8.5h18M9.5 12l-2.5 2.5 2.5 2.5M14.5 12l2.5 2.5-2.5 2.5"/></svg><span>VS Code</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 3.5l6 6-2.6 2.6-6-6z"/><path d="M13.2 8.8L4 18l2 2 9.2-9.2"/></svg><span>Xcode</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="6.5" cy="5.5" r="2"/><circle cx="6.5" cy="18.5" r="2"/><circle cx="17.5" cy="8" r="2"/><path d="M6.5 7.5v9M17.5 10c0 4.2-6 3.4-10.2 6.8"/></svg><span>GitHub</span></li></ul>
+              
+              <p class="hitl"><span class="hitl-tag"><svg class="hitl-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="8" r="3.2"/><path d="M4 19.5c.7-3.4 3-5.4 6-5.4 1.3 0 2.4.3 3.4.9"/><path d="M14.6 17.6l2.1 2.1 4.3-4.4"/></svg>HITL</span><span><strong>Code &amp; build review</strong> A human reviews the code and plays the build before testing.</span></p>
+            </div>
+          </li>
+          <li class="tk-step qa rv">
+            <span class="tk-num" aria-hidden="true">05</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 5: </span>Simulate</h3>
+              <p>Builds run first in iOS device simulators across different iPhone and iPad screen sizes, catching layout and logic issues early.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="6" width="8" height="14" rx="2"/><rect x="13" y="3" width="8" height="14" rx="2" stroke-dasharray="2.2 2"/><path d="M6 17.5h2"/></svg><span>iOS device simulators</span></li><li class="tk-chip eng"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 3.5l6 6-2.6 2.6-6-6z"/><path d="M13.2 8.8L4 18l2 2 9.2-9.2"/></svg><span>Xcode</span></li></ul>
+              <div class="wf-agents"><span class="wf-agent qa"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/></svg></span><span class="wf-an">Jasper</span><span class="wf-ar">Quality Assurance Lead</span></span></div>
+              
+            </div>
+          </li>
+          <li class="tk-step qa rv">
+            <span class="tk-num" aria-hidden="true">06</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 6: </span>Alpha on our own devices</h3>
+              <p>Alpha builds go onto our own test devices to check real-world feel, performance and hardware features.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="10" height="18" rx="2.5"/><path d="M7 18h2"/><rect x="15" y="9" width="6" height="7" rx="2"/><path d="M16.5 9V7h3v2M16.5 16v2h3v-2"/></svg><span>Alpha &amp; beta test devices</span></li></ul>
+              <div class="wf-agents"><span class="wf-agent qa"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/></svg></span><span class="wf-an">Jasper</span><span class="wf-ar">Quality Assurance Lead</span></span></div>
+              
+            </div>
+          </li>
+          <li class="tk-step qa rv">
+            <span class="tk-num" aria-hidden="true">07</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 7: </span>Beta with TestFlight</h3>
+              <p>Xcode uploads the build to App Store Connect and TestFlight delivers it to beta testers&rsquo; devices, including our community contributors Kristen, Alice and Mary. Their feedback shapes the final polish.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4 18-7z"/></svg><span>TestFlight</span></li><li class="tk-chip des"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8.5 16.5l3.5-9 3.5 9M9.8 13.4h4.4"/></svg><span>App Store Connect</span></li><li class="tk-chip qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="10" height="18" rx="2.5"/><path d="M7 18h2"/><rect x="15" y="9" width="6" height="7" rx="2"/><path d="M16.5 9V7h3v2M16.5 16v2h3v-2"/></svg><span>Alpha &amp; beta test devices</span></li></ul>
+              
+              
+            </div>
+          </li>
+          <li class="tk-step des rv">
+            <span class="tk-num" aria-hidden="true">08</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 8: </span>Ship with App Store Connect</h3>
+              <p>The store listing, screenshots and creative are set up in App Store Connect, the build is submitted for App Review, and once approved it&rsquo;s released on the App Store.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip des"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8.5 16.5l3.5-9 3.5 9M9.8 13.4h4.4"/></svg><span>App Store Connect</span></li></ul>
+              <div class="wf-agents"><span class="wf-agent mkt"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 10v4h3l7 4V6L7 10H4z"/><path d="M17.5 9.5a4 4 0 010 5M8 14l1.5 5h2.5l-1.2-4.4"/></svg></span><span class="wf-an">Topaz</span><span class="wf-ar">Marketing Lead</span></span><span class="wf-agent des"><span class="wf-ag" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l6 9-6 9-6-9 6-9z"/><path d="M12 12v9M12 12a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2z"/></svg></span><span class="wf-an">Opal</span><span class="wf-ar">Design Lead</span></span></div>
+              <p class="hitl"><span class="hitl-tag"><svg class="hitl-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="8" r="3.2"/><path d="M4 19.5c.7-3.4 3-5.4 6-5.4 1.3 0 2.4.3 3.4.9"/><path d="M14.6 17.6l2.1 2.1 4.3-4.4"/></svg>HITL</span><span><strong>Release go/no-go</strong> Only a human can press go on a release.</span></p>
+            </div>
+          </li>
+          <li class="tk-step qa rv is-loop">
+            <span class="tk-num" aria-hidden="true">09</span>
+            <div class="tk-step-body">
+              <h3><span class="sr-only">Step 9: </span>Learn &amp; loop back</h3>
+              <p>App Store Connect analytics, player reviews and tester feedback show what&rsquo;s working, and feed straight into the next idea.</p>
+              <ul class="tk-chips" aria-label="Tools"><li class="tk-chip des"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8.5 16.5l3.5-9 3.5 9M9.8 13.4h4.4"/></svg><span>App Store Connect</span></li><li class="tk-chip qa"><svg class="tk-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4 18-7z"/></svg><span>TestFlight</span></li></ul>
+              
+              
+            </div>
+          </li>
+      </ol>
+    </section>
+
+    <section id="toolchain" class="section wrap" aria-labelledby="tools-h">
+      <div class="section-head">
+        <p class="kicker">The toolchain</p>
+        <h2 id="tools-h">What each tool does</h2>
+        <p class="section-sub">14 tools across four layers, each with one clear job.</p>
+      </div>
+      <div class="tk-groups">
+        <div class="tk-group mkt">
+          <p class="stage-n"><span>01</span> Ideate</p>
+          <ul class="tk-tools">
+          <li class="tk-tool mkt"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H10l-4 3.5V16H4z"/><path d="M8 9l2 1.5L8 12M12 12h4"/></svg></span><div><h3>Prompt engineering</h3><p>Turning a rough idea into a clear, reusable brief, with goals, audience, constraints and checks, so AI tools give focused, consistent results.</p></div></li>
+          <li class="tk-tool mkt"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H10l-4 3.5V16H4z"/><path d="M8 9h8M8 12h5"/></svg></span><div><h3>ChatGPT chat mode</h3><p>Conversational brainstorming, research and problem-solving, from first concepts to tricky bugs.</p></div></li>
+          <li class="tk-tool mkt"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.6 2.6M15.4 15.4L18 18M18 6l-2.6 2.6M8.6 15.4L6 18"/></svg></span><div><h3>Grok</h3><p>A second conversational partner for ideas, research and fresh perspectives on a problem.</p></div></li>
+          <li class="tk-tool mkt"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M18.5 15c.2 1.6.9 2.3 2.5 2.5-1.6.2-2.3.9-2.5 2.5-.2-1.6-.9-2.3-2.5-2.5 1.6-.2 2.3-.9 2.5-2.5z"/></svg></span><div><h3>Apple Intelligence</h3><p>Apple&rsquo;s built-in tools on our own devices for capturing, summarising and polishing notes and text.</p></div></li>
+          </ul>
+        </div>
+        <div class="tk-group eng">
+          <p class="stage-n"><span>02</span> Build</p>
+          <ul class="tk-tools">
+          <li class="tk-tool eng"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M7.5 9.5l1.5 1.5 2.5-2.5M7.5 15l1.5 1.5 2.5-2.5M14 10h3M14 15.5h3"/></svg></span><div><h3>ChatGPT work mode</h3><p>Agent mode that takes a brief and works through multi-step tasks, then reports back for review.</p></div></li>
+          <li class="tk-tool eng"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V5.5M9.5 12.5v1M14.5 12.5v1M9.5 16.2h5"/><circle cx="12" cy="4.3" r="1.2"/></svg></span><div><h3>Grok Bot</h3><p>Home of our AI agents, Onyx, Topaz, Opal and Jasper, who carry out engineering, marketing, design and QA tasks.</p></div></li>
+          <li class="tk-tool eng"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5M3 16.5l9 5 9-5"/></svg></span><div><h3>Various GPT and Grok models</h3><p>Different models for different jobs, chosen per task, from quick drafts to deeper reasoning.</p></div></li>
+          <li class="tk-tool eng"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 8.5h18M9.5 12l-2.5 2.5 2.5 2.5M14.5 12l2.5 2.5-2.5 2.5"/></svg></span><div><h3>VS Code</h3><p>A lightweight editor for code, scripts, web pages and config.</p></div></li>
+          <li class="tk-tool eng"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 3.5l6 6-2.6 2.6-6-6z"/><path d="M13.2 8.8L4 18l2 2 9.2-9.2"/></svg></span><div><h3>Xcode</h3><p>Apple&rsquo;s developer tool: builds, signs and archives our apps, runs the simulators and uploads builds.</p></div></li>
+          <li class="tk-tool eng"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="6.5" cy="5.5" r="2"/><circle cx="6.5" cy="18.5" r="2"/><circle cx="17.5" cy="8" r="2"/><path d="M6.5 7.5v9M17.5 10c0 4.2-6 3.4-10.2 6.8"/></svg></span><div><h3>GitHub</h3><p>Source control for every change: versioned, reviewed and backed up. It also hosts this website.</p></div></li>
+          </ul>
+        </div>
+        <div class="tk-group qa">
+          <p class="stage-n"><span>03</span> Test</p>
+          <ul class="tk-tools">
+          <li class="tk-tool qa"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="6" width="8" height="14" rx="2"/><rect x="13" y="3" width="8" height="14" rx="2" stroke-dasharray="2.2 2"/><path d="M6 17.5h2"/></svg></span><div><h3>iOS device simulators</h3><p>Run each build in Xcode on virtual iPhones and iPads of different sizes before it touches a real device.</p></div></li>
+          <li class="tk-tool qa"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="10" height="18" rx="2.5"/><path d="M7 18h2"/><rect x="15" y="9" width="6" height="7" rx="2"/><path d="M16.5 9V7h3v2M16.5 16v2h3v-2"/></svg></span><div><h3>Alpha &amp; beta test devices</h3><p>Real hardware for testing: alpha builds on our own devices first, then beta builds on testers&rsquo; devices.</p></div></li>
+          <li class="tk-tool qa"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4 18-7z"/></svg></span><div><h3>TestFlight</h3><p>Apple&rsquo;s beta service: installs pre-release builds on testers&rsquo; devices and collects their feedback.</p></div></li>
+          </ul>
+        </div>
+        <div class="tk-group des">
+          <p class="stage-n"><span>04</span> Ship</p>
+          <ul class="tk-tools">
+          <li class="tk-tool des"><span class="tk-tool-ic" aria-hidden="true"><svg class="" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8.5 16.5l3.5-9 3.5 9M9.8 13.4h4.4"/></svg></span><div><h3>App Store Connect</h3><p>Where each app is managed: builds, store listing, screenshots, pricing, App Review, release and analytics.</p></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap">
+      <div class="cta-band">
+        <div>
+          <h2>See what it ships</h2>
+          <p>Browse all 33 apps, or see how the team works together.</p>
+        </div>
+        <div class="cta">
+          <a class="btn btn-primary" href="index.html#catalogue">Browse the apps</a>
+          <a class="btn btn-glass" href="workflow.html">Our workflow</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="index.html" aria-label="Sapphire Studios home"><svg class="gem" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9cc4ff"/><stop offset=".5" stop-color="#2f6bff"/><stop offset="1" stop-color="#0b2a8a"/></linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f0ff"/><stop offset="1" stop-color="#5b8dff"/></linearGradient>
+  </defs>
+  <path d="M14 6h20l10 12-20 24L4 18z" fill="url(#g1)"/>
+  <path d="M14 6l-10 12h40L34 6z" fill="url(#g2)" opacity=".9"/>
+  <path d="M14 6l4 12h12l4-12M4 18l20 24 20-24M18 18l6 24 6-24" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.2" stroke-linejoin="round"/>
+</svg><span class="wordmark">Sapphire<span>Studios</span></span></a>
+        <p>Games, puzzles, learning tools and utilities for iPhone, iPad and Apple Watch.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="index.html#collections">Collections</a>
+        <a href="index.html#latest">Latest</a>
+        <a href="index.html#catalogue">All apps</a>
+        <a href="labs.html">Labs</a>
+        <a href="workflow.html">Workflow</a>
+        <a href="about.html">About</a>
+        <a href="team.html">Team</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://apps.apple.com/us/developer/paul-thornton/id1203471660" target="_blank" rel="noopener">View on App Store ↗</a>
+      </nav>
+    </div>
+    <div class="wrap legal">
+      <p>© 2026 Sapphire Studios <span class="abn">· ABN 66 481 618 329</span>. App details from the App Store (US), retrieved 2026-10-28. Apple, iPhone, iPad, Apple Watch and App Store are trademarks of Apple Inc.</p>
+    </div>
+  </footer>
+  <script src="app.js?v=d6e9d16c27"></script>
+</body>
+</html>
