@@ -10,7 +10,7 @@ A static showcase of every Sapphire Studios app on the Apple App Store.
 | --- | --- |
 | `index.html` | The catalogue: hero, a carousel of featured collections, recently updated apps, and a searchable, filterable grid of every app |
 | `about.html` | About: the studio's story and mission, numbers (same count-up as the catalogue), what we make, featured collections, what's coming next and our approach |
-| `team.html` | Team: Paul Thornton (Founder & Chief Technology Officer) and Sophie Thornton (Junior Brand, Digital Marketing & AI Coordinator), plus the AI team (Engineering, Marketing, Design and QA Lead agents; `AI_TEAM` in the generator) |
+| `team.html` | Team: Paul Thornton (Founder & Chief Technology Officer) and Sophie Thornton (Junior Brand, Digital Marketing & AI Coordinator), plus the AI team (Onyx, Engineering Lead; Topaz, Marketing Lead; Opal, Design Lead; Jasper, QA Lead; gemstone-named agents in `AI_TEAM` in the generator) |
 | `support.html` | Support: contact email, per-app email links with the subject prefilled, troubleshooting tips and FAQ |
 | `privacy.html` | Privacy Policy (ads via Google AdMob, purchases via Apple, children's privacy, Australian Privacy Act) |
 | `support/`, `privacy/` | Clean URLs for App Store Connect (`…/app-catalog/support/`, `…/app-catalog/privacy/`) that redirect to the pages above |
@@ -67,7 +67,7 @@ Every page shares one header and footer from the generator. At 860px and below t
 
 ## Workflow page
 
-Stage owners follow the Team page's AI agents and reporting lines: Marketing and Design Leads (Sophie) lead Discover and Design, the Engineering Lead (Paul) leads Develop, and the QA and Marketing Leads lead Deliver. The journey gem follows the wavy path on desktop and a vertical rail on phones as you scroll; with reduced motion everything is shown complete and static. Keep the copy factual: no invented metrics, percentages or timelines.
+Stage owners follow the Team page's AI agents and reporting lines: Topaz (Marketing Lead) and Opal (Design Lead), who report to Sophie, lead Discover and Design, Onyx (Engineering Lead, reports to Paul) leads Develop, and Jasper (QA Lead) and Topaz lead Deliver. Chips show name then role. The journey gem follows the wavy path on desktop and a vertical rail on phones as you scroll; with reduced motion everything is shown complete and static. Keep the copy factual: no invented metrics, percentages or timelines.
 
 ## Labs board
 
