@@ -540,11 +540,13 @@
       } else kick();
     }
     const flip = dir => settle((Math.round(target / 180) + (dir || 1)) * 180);
+    card._flip = flip;
     function setRM() { card.classList.toggle('rm', reduce.matches); angle = target; vel = 0; tX = tY = tiltX = tiltY = 0; paint(); }
     setRM(); sync();
     if (reduce.addEventListener) reduce.addEventListener('change', setRM); else if (reduce.addListener) reduce.addListener(setRM);
 
     card.addEventListener('pointerdown', e => {
+      card._touched = true;
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       drag = { id: e.pointerId, x: e.clientX, y: e.clientY, base: angle, on: false, w: card.offsetWidth, samples: [[performance.now(), e.clientX]] };
     });
@@ -593,6 +595,7 @@
     card.addEventListener('pointerup', e => end(e, false));
     card.addEventListener('pointercancel', e => end(e, true));
     card.addEventListener('click', e => {
+      if (e.isTrusted) card._touched = true;
       if (suppressClick) { suppressClick = false; e.preventDefault(); return; }
       flip(1);
     });
@@ -745,9 +748,39 @@
 })();
 
 /* ===== Tech page: landscape process flow (zoom, ramping idea balls with easing, follow-the-ball) ===== */
+/* Simple / Detailed tabs (ARIA tabs, automatic activation). The detailed flow initialises on first show. */
 (function () {
+  const tabs = [...document.querySelectorAll('.fl-tabs [role=tab]')];
   const fl = document.querySelector('[data-flow]');
   if (!fl) return;
+  const pv = fl.closest('[role=tabpanel]');
+  if (!tabs.length || !pv || !pv.hidden) { initFlow(fl); }
+  let inited = !pv || !pv.hidden;
+  function select(t, focus) {
+    tabs.forEach(x => {
+      const on = x === t, p = document.getElementById(x.getAttribute('aria-controls'));
+      x.setAttribute('aria-selected', on ? 'true' : 'false'); x.tabIndex = on ? 0 : -1;
+      if (p) p.hidden = !on;
+    });
+    if (focus) t.focus();
+    if (!pv.hidden) {
+      if (!inited) { inited = true; initFlow(fl); }
+      else fl.dispatchEvent(new CustomEvent('fl:show'));
+    }
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t, false));
+    t.addEventListener('keydown', e => {
+      let j = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') j = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = tabs.length - 1;
+      if (j === null) return;
+      e.preventDefault(); select(tabs[j], true);
+    });
+  });
+})();
+function initFlow(fl) {
   const sec = fl.closest('.fl-sec');
   const sc = fl.querySelector('.fl-scroll'), sizer = fl.querySelector('.fl-sizer'), canvas = fl.querySelector('.fl-canvas');
   const W = parseFloat(canvas.style.width), H = parseFloat(canvas.style.height);
@@ -791,7 +824,8 @@
   sec.querySelectorAll('.fl-zb').forEach(b => b.addEventListener('click', () => { userZoomed = true; setZoom(Math.round(scale * 20 + +b.dataset.z) / 20); }));
   sec.querySelector('.fl-fit').addEventListener('click', () => { userZoomed = true; setZoom(fitScale()); });
   sec.querySelector('.fl-z100').addEventListener('click', () => { userZoomed = true; setZoom(1); });
-  window.addEventListener('resize', () => setZoom(userZoomed ? scale : defaultZoom()));
+  window.addEventListener('resize', () => { if (fl.clientWidth) setZoom(userZoomed ? scale : defaultZoom()); });
+  fl.addEventListener('fl:show', () => { if (fl.clientWidth) setZoom(userZoomed ? scale : defaultZoom(), false); });
   setZoom(defaultZoom(), false);
 
   function reveal(i, smooth) {
@@ -1005,4 +1039,35 @@
     ballK: bi => balls[bi]._k, routeOf: bi => +balls[bi].dataset.route,
     kindAt: (ri, k) => routes[ri].kinds[k], restart
   };
+}
+
+/* Team: show the back of Paul's and Sophie's cards once each as they scroll into view (Paul first, then Sophie),
+   then return to the front. Once per page load; skipped for reduced motion or once the visitor touches the card. */
+(() => {
+  const ids = ['paul-thornton', 'sophie-thornton'];
+  const cards = ids.map(id => document.getElementById(id)).filter(c => c && c.classList.contains('flip'));
+  if (!cards.length || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { cards.forEach(c => { c.dataset.autoflip = 'skipped'; }); return; }
+  const HOLD = 1700, GAP = 1100;
+  let nextAt = 0;
+  function run(card) {
+    if (card._touched || !card._flip) { card.dataset.autoflip = 'skipped'; return; }
+    card.dataset.autoflip = 'back'; card._flip(1);
+    setTimeout(() => {
+      if (!card._touched && card.classList.contains('is-flipped')) card._flip(1);
+      card.dataset.autoflip = 'done';
+    }, HOLD);
+  }
+  const io = new IntersectionObserver(es => {
+    es.filter(e => e.isIntersecting).map(e => e.target)
+      .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+      .forEach(card => {
+        io.unobserve(card);
+        const now = performance.now(), at = Math.max(now + 450, nextAt);
+        nextAt = at + GAP;
+        card.dataset.autoflip = 'queued';
+        setTimeout(() => (document.hidden ? document.addEventListener('visibilitychange', function v() { if (!document.hidden) { document.removeEventListener('visibilitychange', v); run(card); } }) : run(card)), at - now);
+      });
+  }, { threshold: 0.6 });
+  cards.forEach(c => io.observe(c));
 })();
