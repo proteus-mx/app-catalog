@@ -5,7 +5,7 @@
     "appStoreId": 1203471660
   },
   "source": "iTunes Lookup API (US storefront)",
-  "fetched": "2026-11-03",
+  "fetched": "2026-11-04",
   "apps": [
     {
       "id": 6806432874,
@@ -27,10 +27,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.24",
+      "version": "1.26",
       "releaseDate": "2026-09-08T07:00:00Z",
-      "currentVersionReleaseDate": "2026-11-01T22:30:39Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/c8/ab/9c/c8ab9c63-3e64-ddbb-8b99-ec7d4c043fa5/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-11-03T20:02:47Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/59/50/0a/59500aec-8baa-e699-ebb5-7d604c038f15/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746059198,
@@ -146,10 +146,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.14",
+      "version": "1.16",
       "releaseDate": "2025-11-20T08:00:00Z",
-      "currentVersionReleaseDate": "2026-11-01T22:34:23Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f8/63/a4/f863a469-df44-5a0a-228d-746e4fde2378/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-11-03T19:55:50Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ee/12/3c/ee123c75-5b41-277d-d332-5a86b262d312/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746311515,
@@ -171,10 +171,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.92",
+      "version": "1.94",
       "releaseDate": "2025-05-27T07:00:00Z",
-      "currentVersionReleaseDate": "2026-11-01T21:55:03Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/5a/8a/9c5a8aec-385c-87eb-d8e5-f6761d542fd1/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-11-03T19:53:16Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/e6/19/05/e6190502-680a-6d15-7868-9e589b1c7725/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746024891,
