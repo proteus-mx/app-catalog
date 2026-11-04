@@ -1224,3 +1224,10 @@ h3{margin:0;font-size:1.12rem;font-weight:650;font-weight:600;letter-spacing:-.0
   .sf-cap{margin-top:16px;text-align:left}
 }
 .idea-band .kicker{margin-bottom:6px}
+/* ---- upcoming apps (generator UPCOMING list) ---- */
+.lab-next+.lab-next{margin-top:16px}
+.card.is-soon{border-color:rgba(251,191,36,.35);background:linear-gradient(160deg,rgba(120,80,10,.16),rgba(255,255,255,.035))}
+.card.is-soon .tags .soon-badge{font-size:.7rem;padding:.2em .6em}
+.card .soon-link{color:#fde68a;cursor:default}
+.card .soon-link:hover{text-decoration:none}
+picture{display:contents}

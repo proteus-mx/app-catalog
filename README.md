@@ -113,6 +113,8 @@ The ABN (66 481 618 329) is set once as `ABN` in the generator and appears in ev
 
 ## Manual figures
 
+Upcoming apps that aren't on the App Store yet (for example Gym Assist) are kept in the generator's `UPCOMING` list as well as `apps.json` `comingSoon`, so the daily sync can't drop them. They show with a "Coming soon" badge (no App Store link, price or downloads). As soon as an app with the same name appears in the App Store data, the live entry is shown and the coming-soon one is dropped automatically; remove it from `UPCOMING` at your leisure.
+
 Download numbers (the hero "Downloads" stat and the per-app download badges) don't come from Apple. They're set by hand in the site generator (`MANUAL_STATS` and `DOWNLOADS`), so the daily App Store sync keeps them.
 
 ## Generator

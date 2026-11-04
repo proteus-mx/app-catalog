@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="style.css?v=c0c551775b">
+  <link rel="stylesheet" href="style.css?v=e053202fa2">
   <script>document.documentElement.className+=' js'</script>
 </head>
 <body>
@@ -517,11 +517,11 @@
         <label class="search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
           <span class="sr-only">Search apps</span>
-          <input id="q" type="search" placeholder="Search 33 apps…" autocomplete="off">
+          <input id="q" type="search" placeholder="Search 34 apps…" autocomplete="off">
           <kbd aria-hidden="true">/</kbd>
         </label>
         <div class="chips" role="group" aria-label="Filter by category">
-          <button type="button" class="chip active" data-genre="all" aria-pressed="true">All <span class="n">33</span></button>
+          <button type="button" class="chip active" data-genre="all" aria-pressed="true">All <span class="n">34</span></button>
           <button type="button" class="chip" data-genre="Games" aria-pressed="false">Games <span class="n">22</span></button>
           <button type="button" class="chip" data-genre="Education" aria-pressed="false">Education <span class="n">3</span></button>
           <button type="button" class="chip" data-genre="Entertainment" aria-pressed="false">Entertainment <span class="n">2</span></button>
@@ -531,10 +531,25 @@
           <button type="button" class="chip" data-genre="Music" aria-pressed="false">Music <span class="n">1</span></button>
           <button type="button" class="chip" data-genre="Productivity" aria-pressed="false">Productivity <span class="n">1</span></button>
           <button type="button" class="chip" data-genre="Utilities" aria-pressed="false">Utilities <span class="n">1</span></button>
+          <button type="button" class="chip" data-genre="Health &amp; Fitness" aria-pressed="false">Health &amp; Fitness <span class="n">1</span></button>
         </div>
       </div>
-      <p id="count" class="count" aria-live="polite">Showing 33 of 33 apps</p>
+      <p id="count" class="count" aria-live="polite">Showing 34 of 34 apps</p>
       <div class="grid" id="grid">
+      <article class="card is-soon" id="app-gym-assist" tabindex="-1" data-genre="Health &amp; Fitness" data-search="gym assist health &amp; fitness coming soon train with purpose, coach with clarity and score with confidence. build routines, track progress and plan sessions—all in one offline gymnastics companion.">
+        <div class="card-top">
+          <picture><source srcset="assets/icons/gym-assist.webp" type="image/webp"><img class="icon" src="assets/icons/gym-assist.png" alt="" width="76" height="76" loading="lazy" decoding="async"></picture>
+          <div class="meta">
+            <h3>Gym Assist</h3>
+            <p class="tags"><span class="genre">Health &amp; Fitness</span><span class="soon-badge"><span class="pulse" aria-hidden="true"></span>Coming soon</span></p>
+          </div>
+        </div>
+        <p class="desc">Train with purpose, coach with clarity and score with confidence. Build routines, track progress and plan sessions—all in one offline gymnastics companion.</p>
+        <div class="card-foot">
+          <span class="plat">In development</span>
+          <span class="store-link soon-link" role="note">Coming soon to the App Store</span>
+        </div>
+      </article>
       <article class="card" id="app-word-bloom" tabindex="-1" data-genre="Games" data-search="word bloom + games wordbloom is a relaxing daily word puzzle where every word you solve helps your garden grow.">
         <div class="card-top">
           <img class="icon" src="assets/icons/word-bloom.jpg" alt="" width="76" height="76" loading="lazy" decoding="async">
