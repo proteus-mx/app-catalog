@@ -5,7 +5,7 @@
     "appStoreId": 1203471660
   },
   "source": "iTunes Lookup API (US storefront)",
-  "fetched": "2026-11-06",
+  "fetched": "2026-11-09",
   "apps": [
     {
       "id": 6806432874,
@@ -811,6 +811,29 @@
       "releaseDate": "2025-05-21T07:00:00Z",
       "currentVersionReleaseDate": "2025-05-21T21:26:18Z",
       "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/cb/52/8d/cb528d5f-83a3-76e8-4dfc-47be36536ca0/AppIcon-0-0-1x_U007ewatch-0-1-85-220.png/512x512bb.jpg"
+    },
+    {
+      "id": 6829166394,
+      "name": "Gym Assist",
+      "url": "https://apps.apple.com/us/app/gym-assist/id6829166394",
+      "icon": "assets/icons/gym-assist-live.jpg",
+      "description": "Gym Assist brings gymnastics training, coaching and practice scoring together in one easy-to-use app.",
+      "genre": "Sports",
+      "genres": [
+        "Sports",
+        "Utilities"
+      ],
+      "price": 0.0,
+      "formattedPrice": "Free",
+      "kind": "software",
+      "platforms": [
+        "iPhone",
+        "iPad"
+      ],
+      "version": "1.0",
+      "releaseDate": "2026-11-06T08:00:00Z",
+      "currentVersionReleaseDate": "2026-11-06T23:02:57Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/49/41/fa/4941faf8-c20e-fbba-ca8d-070765e75f70/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
     }
   ],
   "comingSoon": [
