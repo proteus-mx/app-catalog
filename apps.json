@@ -5,7 +5,7 @@
     "appStoreId": 1203471660
   },
   "source": "iTunes Lookup API (US storefront)",
-  "fetched": "2026-11-09",
+  "fetched": "2026-11-11",
   "apps": [
     {
       "id": 6806432874,
@@ -27,10 +27,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.27",
+      "version": "1.29",
       "releaseDate": "2026-09-08T07:00:00Z",
-      "currentVersionReleaseDate": "2026-11-04T21:47:25Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5c/c5/d1/5cc5d120-12a4-0b12-9291-5e5602d52497/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-11-09T17:14:58Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a2/68/ef/a268ef24-c659-d490-5a6a-0a6c0293cefc/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"
     },
     {
       "id": 6746059198,
@@ -830,10 +830,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.0",
+      "version": "1.1",
       "releaseDate": "2026-11-06T08:00:00Z",
-      "currentVersionReleaseDate": "2026-11-06T23:02:57Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/49/41/fa/4941faf8-c20e-fbba-ca8d-070765e75f70/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-11-08T22:40:53Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/c2/d4/d8/c2d4d825-a16e-eeab-e527-f9c56872fae2/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
     }
   ],
   "comingSoon": [
