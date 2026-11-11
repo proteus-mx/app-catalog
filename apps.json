@@ -5,7 +5,7 @@
     "appStoreId": 1203471660
   },
   "source": "iTunes Lookup API (US storefront)",
-  "fetched": "2026-11-11",
+  "fetched": "2026-11-12",
   "apps": [
     {
       "id": 6806432874,
@@ -830,10 +830,10 @@
         "iPhone",
         "iPad"
       ],
-      "version": "1.1",
+      "version": "1.2",
       "releaseDate": "2026-11-06T08:00:00Z",
-      "currentVersionReleaseDate": "2026-11-08T22:40:53Z",
-      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/c2/d4/d8/c2d4d825-a16e-eeab-e527-f9c56872fae2/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
+      "currentVersionReleaseDate": "2026-11-11T01:19:12Z",
+      "iconRemote": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fe/43/75/fe4375cd-c256-b97d-f106-dc7bce16060d/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg"
     }
   ],
   "comingSoon": [
