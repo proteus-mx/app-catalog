@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="512" height="512"><title>Sapphire Studios</title><defs>
+ <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9cc4ff"/><stop offset=".5" stop-color="#2f6bff"/><stop offset="1" stop-color="#0b2a8a"/></linearGradient>
+ <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f0ff"/><stop offset="1" stop-color="#5b8dff"/></linearGradient>
+</defs>
+<path d="M14 6h20l10 12-20 24L4 18z" fill="url(#g1)"/>
+<path d="M14 6l-10 12h40L34 6z" fill="url(#g2)" opacity=".9"/>
+<path d="M14 6l4 12h12l4-12M4 18l20 24 20-24M18 18l6 24 6-24" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.2" stroke-linejoin="round"/></svg>

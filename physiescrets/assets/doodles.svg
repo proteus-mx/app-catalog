@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844" fill="none">
+  <g opacity="0.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 70c6-10 20-10 24 0 4-10 18-10 24 0 0 0-12 16-24 28C54 86 42 70 42 70z" stroke="#FF1568" stroke-width="2" fill="none"/>
+    <path d="M310 120c5-9 17-9 20 0 3-9 16-9 20 0 0 0-10 14-20 24-10-10-20-24-20-24z" stroke="#5B27B8" stroke-width="2"/>
+    <path d="M80 260c5-8 16-8 19 0 3-8 15-8 19 0 0 0-10 13-19 22-9-9-19-22-19-22z" stroke="#10B6B2" stroke-width="2"/>
+    <path d="M330 400c6-10 20-10 24 0 4-10 18-10 24 0 0 0-12 16-24 28-12-12-24-28-24-28z" stroke="#FF1568" stroke-width="2"/>
+    <path d="M40 520c5-8 16-8 19 0 3-8 15-8 19 0 0 0-10 13-19 22-9-9-19-22-19-22z" stroke="#5B27B8" stroke-width="2"/>
+    <path d="M300 680c6-10 19-10 23 0 4-10 18-10 23 0 0 0-11 16-23 28-12-12-23-28-23-28z" stroke="#10B6B2" stroke-width="2"/>
+    <path d="M200 40c5-8 16-8 19 0 3-8 15-8 19 0 0 0-10 13-19 22-9-9-19-22-19-22z" stroke="#FF1568" stroke-width="2"/>
+    <path d="M50 780c5-8 16-8 19 0 3-8 15-8 19 0 0 0-10 13-19 22-9-9-19-22-19-22z" stroke="#FF1568" stroke-width="2"/>
+
+    <path d="M120 90l4 9 10 1-8 6 3 10-9-5-9 5 3-10-8-6 10-1 4-9z" fill="#10B6B2"/>
+    <path d="M350 230l4 9 10 1-8 6 3 10-9-5-9 5 3-10-8-6 10-1 4-9z" fill="#FF1568"/>
+    <path d="M30 330l3 8 9 1-7 5 2 8-7-4-7 4 2-8-7-5 9-1 3-8z" fill="#5B27B8"/>
+    <path d="M250 500l4 9 10 1-8 6 3 10-9-5-9 5 3-10-8-6 10-1 4-9z" fill="#10B6B2"/>
+    <path d="M140 640l3 8 9 1-7 5 2 8-7-4-7 4 2-8-7-5 9-1 3-8z" fill="#FF1568"/>
+    <path d="M360 780l4 9 10 1-8 6 3 10-9-5-9 5 3-10-8-6 10-1 4-9z" fill="#5B27B8"/>
+    <path d="M210 280l3 8 9 1-7 5 2 8-7-4-7 4 2-8-7-5 9-1 3-8z" fill="#FF9AB8"/>
+
+    <path d="M60 180c20-20 50 8 30 28-16 16-40-8-30-28z" stroke="#5B27B8" stroke-width="1.8"/>
+    <path d="M280 320c22-16 46 14 24 30-18 14-40-12-24-30z" stroke="#FF1568" stroke-width="1.8"/>
+    <path d="M150 430c24-18 50 10 28 30-18 16-44-10-28-30z" stroke="#10B6B2" stroke-width="1.8"/>
+    <path d="M80 700c20-16 44 10 26 28-16 14-40-10-26-28z" stroke="#FF1568" stroke-width="1.8"/>
+    <path d="M300 560c20-16 44 10 26 28-16 14-40-10-26-28z" stroke="#5B27B8" stroke-width="1.8"/>
+
+    <circle cx="180" cy="160" r="3" fill="#FF1568"/>
+    <circle cx="260" cy="200" r="2.5" fill="#10B6B2"/>
+    <circle cx="90" cy="400" r="3" fill="#5B27B8"/>
+    <circle cx="350" cy="500" r="2.5" fill="#FF1568"/>
+    <circle cx="200" cy="760" r="3" fill="#10B6B2"/>
+    <circle cx="40" cy="600" r="2.5" fill="#FF9AB8"/>
+    <circle cx="320" cy="80" r="2.5" fill="#5B27B8"/>
+  </g>
+</svg>

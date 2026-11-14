@@ -1,0 +1,9 @@
+These font files were subset from the Google Fonts versions of
+Nunito, Fredoka, Caveat, Caveat Brush, and Patrick Hand.
+
+Each family is licensed under the SIL Open Font License, Version 1.1.
+https://scripts.sil.org/OFL
+
+Copyright of each family belongs to its respective typographers /
+copyright holders as stated in the official Google Fonts repository:
+https://github.com/google/fonts
