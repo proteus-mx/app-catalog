@@ -327,3 +327,11 @@ section h2.section {
     padding: 22px 18px;
   }
 }
+
+.author-bio p {
+  margin: 0 0 0.85em;
+  color: var(--ink, #3a1578);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+.author-bio p:last-child { margin-bottom: 0; }
