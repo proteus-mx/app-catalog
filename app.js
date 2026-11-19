@@ -1041,11 +1041,10 @@ function initFlow(fl) {
   };
 }
 
-/* Team: show the back of Paul's and Sophie's cards once each as they scroll into view (Paul first, then Sophie),
+/* Team flip cards: show the back once each as they scroll into view (in data-autoflip-seq order),
    then return to the front. Once per page load; skipped for reduced motion or once the visitor touches the card. */
 (() => {
-  const ids = ['paul-thornton', 'sophie-thornton'];
-  const cards = ids.map(id => document.getElementById(id)).filter(c => c && c.classList.contains('flip'));
+  const cards = [...document.querySelectorAll('.flip[data-autoflip-seq]')].sort((a, b) => (+a.dataset.autoflipSeq) - (+b.dataset.autoflipSeq));
   if (!cards.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { cards.forEach(c => { c.dataset.autoflip = 'skipped'; }); return; }
   const HOLD = 1700, GAP = 1100;
@@ -1060,7 +1059,7 @@ function initFlow(fl) {
   }
   const io = new IntersectionObserver(es => {
     es.filter(e => e.isIntersecting).map(e => e.target)
-      .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+      .sort((a, b) => (+a.dataset.autoflipSeq) - (+b.dataset.autoflipSeq))
       .forEach(card => {
         io.unobserve(card);
         const now = performance.now(), at = Math.max(now + 450, nextAt);

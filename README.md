@@ -10,14 +10,14 @@ A static showcase of every Sapphire Studios app on the Apple App Store.
 | --- | --- |
 | `index.html` | The catalogue: hero, a carousel of featured collections, recently updated apps, and a searchable, filterable grid of every app |
 | `about.html` | About: the studio's story and mission, numbers (same count-up as the catalogue), what we make, featured collections, what's coming next and our approach |
-| `team.html` | Team: Paul Thornton (Founder & Chief Technology Officer) and Sophie Thornton (Junior Brand, Digital Marketing & AI Coordinator), plus the AI team (Onyx, Engineering Lead; Topaz, Marketing Lead; Opal, Design Lead; Jasper, QA Lead; gemstone-named agents in `AI_TEAM` in the generator) |
+| `team.html` | Unlisted Team page (kept in the repo, noindex, not linked from the nav, menu or footer). Profiles and the AI team (Onyx, Engineering Lead; Topaz, Marketing Lead; Opal, Design Lead; Jasper, QA Lead; gemstone-named agents in `AI_TEAM` in the generator) |
 | `support.html` | Support: contact email, per-app email links with the subject prefilled, troubleshooting tips and FAQ |
 | `privacy.html` | Privacy Policy (ads via Google AdMob, purchases via Apple, children's privacy, Australian Privacy Act) |
 | `support/`, `privacy/` | Clean URLs for App Store Connect (`…/app-catalog/support/`, `…/app-catalog/privacy/`) that redirect to the pages above |
 | `labs.html` | Sapphire Labs: the idea funnel (Ideation → Proof of concept → Prototype, with HITL keep-or-kill gates) that feeds the Workflow, the Lab's principles and four-facet scoring lens, the filterable experiments board (from `labs.json`), graduates and Melt It up next |
 | `labs.json` | Data for the Labs experiments board and stage counters (see *Labs board* below) |
 | `workflow.html` | Workflow: how ideas become apps (Discover, Design, Develop, Deliver), with the AI agent leading each stage, the Human-in-the-Loop (HITL) checkpoints, the feedback loop and a "Who does what?" stage slider (`STAGES` in the generator) |
-| `assets/team/` | Team photos (`<slug>.jpg` plus `<slug>.webp`; 800×800, sRGB, metadata stripped). Paul and Sophie both have photos; a member without one gets a monogram tile |
+| `assets/team/` | Team photos (`<slug>.jpg` plus `<slug>.webp`; 800×800, sRGB, metadata stripped). A member without one gets a monogram tile |
 | `style.css` | Sapphire design system: deliberate dark theme, glass surfaces, responsive layout, reduced-motion support |
 | `app.js` | Search and category filter (press `/` to jump to search), the collections carousel, floating icons (tap to jump to an app, or drag and fling them) and the hero stats count-up |
 | `apps.json` | App data: name, App Store URL, icon, category, price, platforms, version and release dates. Upcoming titles live under `comingSoon` and collections under `collections` |
@@ -54,11 +54,11 @@ The carousel rotates every 6.5 seconds. It pauses on hover, on keyboard focus an
 
 ## Team flip cards
 
-On the Team page, Paul's and Sophie's panels are 3D flip cards: the front is the profile, the back is a Sapphire Studios business card (name and title, gem wordmark, tagline, four real App Store categories and a QR code to the catalogue, `assets/qr-app-catalog.svg`). Drag or swipe sideways to turn them, or tap/click, or press Enter/Space. Vertical page scrolling still works over them, and with reduced motion they cross-fade instead of rotating.
+On the unlisted Team page, profile panels are 3D flip cards: the front is the profile, the back is a Sapphire Studios business card (name and title, gem wordmark, tagline, four real App Store categories and a QR code to the catalogue, `assets/qr-app-catalog.svg`). Drag or swipe sideways to turn them, or tap/click, or press Enter/Space. Vertical page scrolling still works over them, and with reduced motion they cross-fade instead of rotating.
 
 ## Navigation
 
-Every page shares one header and footer from the generator. At 860px and below the header shows the logo plus a menu button that opens a panel (Apps, Labs, Workflow, About, Team, View on App Store); it closes on a link tap, an outside tap, Esc or scrolling. Between 860px and 1000px the in-page Collections and Latest links are hidden so nothing collides. Without JavaScript, phones show the page links as a scrollable second header row. The footer also links Support and Privacy.
+Every page shares one header and footer from the generator. At 860px and below the header shows the logo plus a menu button that opens a panel (Apps, Labs, Workflow, About, Tech, View on App Store); it closes on a link tap, an outside tap, Esc or scrolling. Between 860px and 1000px the in-page Collections and Latest links are hidden so nothing collides. Without JavaScript, phones show the page links as a scrollable second header row. The footer also links Support and Privacy.
 
 ## Browser notes
 
@@ -67,7 +67,7 @@ Every page shares one header and footer from the generator. At 860px and below t
 
 ## Workflow page
 
-Stage owners follow the Team page's AI agents and reporting lines: Topaz (Marketing Lead) and Opal (Design Lead), who report to Sophie, lead Discover and Design, Onyx (Engineering Lead, reports to Paul) leads Develop, and Jasper (QA Lead) and Topaz lead Deliver. Chips show name then role. The journey gem follows the wavy path on desktop and a vertical rail on phones as you scroll; with reduced motion everything is shown complete and static. Keep the copy factual: no invented metrics, percentages or timelines.
+Stage owners follow the studio's AI agents: Topaz (Marketing Lead) and Opal (Design Lead) lead Discover and Design, Onyx (Engineering Lead) leads Develop, and Jasper (QA Lead) and Topaz lead Deliver. Chips show name then role. The journey gem follows the wavy path on desktop and a vertical rail on phones as you scroll; with reduced motion everything is shown complete and static. Keep the copy factual: no invented metrics, percentages or timelines.
 
 ## Labs board
 
@@ -119,4 +119,4 @@ Download numbers (the hero "Downloads" stat and the per-app download badges) don
 
 ## Generator
 
-`index.html`, `labs.html`, `workflow.html`, `about.html`, `team.html`, `support.html` and `privacy.html` (plus the `support/` and `privacy/` redirects) are all written by the site generator (`build_catalog.py`, run by the daily App Store sync), from shared nav and footer templates, so the Labs, Workflow, About, Team, Support and Privacy links and pages survive rebuilds. Team details live in its `TEAM` list; to swap a monogram for a photo, add `assets/team/<slug>.jpg` and rebuild.
+`index.html`, `labs.html`, `workflow.html`, `about.html`, `team.html`, `support.html` and `privacy.html` (plus the `support/` and `privacy/` redirects) are all written by the site generator (`build_catalog.py`, run by the daily App Store sync), from shared nav and footer templates, so the Labs, Workflow, About, Tech, Support and Privacy links and pages survive rebuilds. The Team page is still generated but kept unlisted (noindex, not linked). Team details live in the generator's `TEAM` list; to swap a monogram for a photo, add `assets/team/<slug>.jpg` and rebuild.
